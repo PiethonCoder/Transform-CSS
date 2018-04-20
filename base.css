@@ -1,0 +1,63 @@
+html,body{
+  height:100%;
+}
+
+.four{
+  grid-template-columns:1fr 1fr 1fr 1fr;
+  grid-template-rows: 25% 25% 25% 25%;
+}
+
+.grid{
+  display:grid;
+  height:100%;
+}
+
+.flex{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+.flex-col{
+  display:flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction:column;
+}
+
+.top{
+  grid-column:span 4;
+  height:200px;
+}
+
+.middle{
+  grid-column:2/4;
+  grid-row: span 2;
+}
+
+#codeBox{
+  background-color:#000e1b;
+  border:3px solid black;
+  color:#698198;
+}
+
+.button{
+  background-color:#000e1b;
+  height:50px;
+  width:140px;
+  border:2px solid black;
+  color:#698198;
+}
+
+.space-s{
+  margin:20px;
+}
+
+.space-m{
+  margin:40px;
+}
+
+input{
+  background-color:#000e1b;
+  border:2px solid black;
+  color:#698198;
+}
