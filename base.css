@@ -2,6 +2,10 @@ html,body{
   height:100%;
 }
 
+h2{
+	color:#698198;
+}
+
 .four{
   grid-template-columns:1fr 1fr 1fr 1fr;
   grid-template-rows: 25% 25% 25% 25%;
@@ -31,7 +35,8 @@ html,body{
 
 .middle{
   grid-column:2/4;
-  grid-row: span 2;
+  grid-row: span 3;
+  margin-top:30px;
 }
 
 #codeBox{
