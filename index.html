@@ -8,44 +8,80 @@
   <link rel="stylesheet" href="./base.css">
   <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/qtcreator_dark.css">
   <title>CSS Transformer</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
 </head>
 
 <body>
 
   <div class="grid four" id="container" style="background-color:#052645;">
 
-    <div class="top flex">
-		
+
+
+    <div id="leftTop" class="flex">
+
       <div class="flex-col space-m">
         <h2>HTML</h2>
-		<button @click="loadHTML()" class="button " type="button" name="button" style="height:auto">save HTML</button>
+        <button @click="loadHTML()" class="button off" type="button" name="button" style="height:auto">save HTML</button>
         <input type="file" class="space-s" id="html">
-        <!-- <button class="button space-m" type="button" name="button">Import HTML</button> -->
-        <input v-model="htmlLink" placeholder="HTML url link"></input>
       </div>
+
+    </div>
+
+    <div id = "rightTop" class="flex">
 
       <div class="flex-col space-m">
         <h2>CSS</h2>
-		<button @click="loadCSS()" class="button" type="button" name="button" style="height:auto">save CSS</button>
+        <button @click="loadCSS()" class="button off" type="button" name="button" style="height:auto">save CSS</button>
         <input type="file" class="space-s" id="css">
-        <!-- <button class="button space-m" type="button" name="button">Import CSS</button> -->
-        <input v-model="cssLink" placeholder="CSS url link"></input>
       </div>
 
     </div>
 
+
+
+
     <div class="middle flex-col">
-	  <div id="codeBox" style="height:100%;width:100%;"><pre><code>{{code}}</code></pre></div>
-      <!-- <textarea id="codeBox" style="height:100%;width:100%;"></textarea> -->
-      <button @click="convert(css,html)" class="button space-m" type="button" name="button">Convert</button>
+
+
+      <div class="flex left" style="height:10%;width:100%;">
+        <button id="defaultOpen" class="tablinks off" onclick="openTab(event,'htmlTab')">HTML</button>
+        <button class="tablinks off" onclick="openTab(event,'cssTab')">CSS</button>
+        <button class="tablinks off" onclick="openTab(event,'inlineTab')">Output</button>
+      </div>
+
+      <!-- <div id="cssTab" class="tabcontent codeBox" contenteditable="true" style="height:100%;width:100%;"><pre><code v-model="cssCode"></code></pre></div> -->
+
+      <!-- <textarea id="htmlTab" class="tabcontent codeBox html" style="height:100%;width:100%;" v-model="htmlCode"></textarea> -->
+      <!-- <textarea id="cssTab" class="tabcontent codeBox css" style="height:100%;width:100%;" v-model="cssCode"></textarea>
+      <textarea id="inlineTab" class="tabcontent codeBox" style="height:100%;width:100%;">{{code}}</textarea> -->
+      <div @keyup.enter="updateHTML()" id="htmlTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">{{htmlC}}</div>
+      <div id="cssTab" class="tabcontent codeBox css" contenteditable="true" style="height:100%;width:100%;">{{cssCode}}</div>
+      <div id="inlineTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">{{code}}</div>
+
+      <button @click="convert(css,html)" class="button space-m off" type="button" name="button">Convert</button>
+
     </div>
+
+
+    <!-- <div class="codeBox css" id="test" contenteditable="true" style="height:100%;width:100%;">{{cssCode}}</div> -->
 
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>	
-  <script>hljs.initHighlightingOnLoad();</script>
-  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+  <!-- <script>
+    hljs.highlightBlock(document.getElementById("test"));
+  </script> -->
+
   <script src="./master.js"></script>
+  <script type="text/javascript">
+    document.getElementById("defaultOpen").click();
+  </script>
+
 
 </body>
 
