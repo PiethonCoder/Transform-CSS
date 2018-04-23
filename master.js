@@ -4,60 +4,41 @@ var xmlhttp = new XMLHttpRequest();
 var wrapper = new Vue({
   el: "#container",
   data: {
-    htmlCode: "<p>Hello World</p>",
+    htmlCode: "",
     cssCode: "<p>Hello World</p>",
     htmlLink: "",
     cssLink: ""
   },
   methods: {
-    updateHTML: function() {
-      clearBox("htmlTab");
-      this.html = this.thml;
-      hljs.highlightBlock(document.getElementById("htmlTab"));
+    paint: function(id) {
+      hljs.highlightBlock(document.getElementById(id));
     },
 
-    loadHTML: function() {
-      openTab(event, 'htmlTab');
+    load: function(tab,data,fileType) {
+      openTab(event,tab);
       var _this = this;
       reader.onload = function(e) {
-        _this.htmlCode = reader.result;
-        console.log(reader.result)
+        _this.data = reader.result;
+        console.log(reader.result);
+		update(tab,_.escape(_this.data));
+		hljs.highlightBlock(document.getElementById(tab));
       }
-      try {
-        reader.readAsText(document.getElementById("html").files[0]);
-      } catch (error) {
-        xmlhttp.open("GET", _this.htmlLink, true);
-        xmlhttp.send();
-      }
-    },
-
-    loadCSS: function() {
-      openTab(event, 'cssTab');
-      var _this = this;
-      reader.onload = function(e) {
-        _this.cssCode = reader.result;
-        console.log(reader.result)
-      }
-
-      reader.readAsText(document.getElementById("css").files[0]);
+  
+      reader.readAsText(document.getElementById(fileType).files[0]);
+   
     }
+	
   },
   computed: {
     code: function() {
       // return "<p>Hello World</p>"
       return this.cssCode + this.htmlCode;
-    },
-    htmlC: function() {
-
-
-      return this.htmlCode;
     }
   }
-
 })
 
-function clearBox(elementID,code) {
-  document.getElementById(elementID).innerHTML = "";
+function update(elementID,code) {
+  document.getElementById(elementID).innerHTML = code;
 }
 
 function openTab(evt, Name) {

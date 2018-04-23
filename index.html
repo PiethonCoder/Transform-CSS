@@ -22,7 +22,7 @@
 
       <div class="flex-col space-m">
         <h2>HTML</h2>
-        <button @click="loadHTML()" class="button off" type="button" name="button" style="height:auto">save HTML</button>
+        <button @click="load('htmlTab','htmlCode','html')" class="button off" type="button" name="button" style="height:auto">save HTML</button>
         <input type="file" class="space-s" id="html">
       </div>
 
@@ -32,7 +32,7 @@
 
       <div class="flex-col space-m">
         <h2>CSS</h2>
-        <button @click="loadCSS()" class="button off" type="button" name="button" style="height:auto">save CSS</button>
+        <button @click="load('cssTab','cssCode','css')" class="button off" type="button" name="button" style="height:auto">save CSS</button>
         <input type="file" class="space-s" id="css">
       </div>
 
@@ -55,9 +55,9 @@
       <!-- <textarea id="htmlTab" class="tabcontent codeBox html" style="height:100%;width:100%;" v-model="htmlCode"></textarea> -->
       <!-- <textarea id="cssTab" class="tabcontent codeBox css" style="height:100%;width:100%;" v-model="cssCode"></textarea>
       <textarea id="inlineTab" class="tabcontent codeBox" style="height:100%;width:100%;">{{code}}</textarea> -->
-      <div @keyup.enter="updateHTML()" id="htmlTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">{{htmlC}}</div>
-      <div id="cssTab" class="tabcontent codeBox css" contenteditable="true" style="height:100%;width:100%;">{{cssCode}}</div>
-      <div id="inlineTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">{{code}}</div>
+      <div @focus="paint('htmlTab')" id="htmlTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">&#x3C;p&#x3E;Hello World&#x3C;/p&#x3E;</div>
+      <div @focus="paint('cssTab')" id="cssTab" class="tabcontent codeBox css" contenteditable="true" style="height:100%;width:100%;">.world{message:hello;}</div>
+      <div @focus="paint('inlineTab')" id="inlineTab" class="tabcontent codeBox html" contenteditable="true" style="height:100%;width:100%;">{{code}}</div>
 
       <button @click="convert(css,html)" class="button space-m off" type="button" name="button">Convert</button>
 
@@ -76,7 +76,7 @@
   <!-- <script>
     hljs.highlightBlock(document.getElementById("test"));
   </script> -->
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
   <script src="./master.js"></script>
   <script type="text/javascript">
     document.getElementById("defaultOpen").click();

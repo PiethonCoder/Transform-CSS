@@ -118,12 +118,20 @@ input {
   color: #698198;
 }
 
-@media(max-width: 600px){
+@media(max-width: 770px){
   #leftTop{
     grid-column:span 4;
   }
   #rightTop{
     grid-column:span 4;
+  }
+  .middle{
+	grid-column: span 4;  
+	margin-left:15%;
+	margin-right:15%;
+  }
+  .four{
+	  grid-template-rows: 15% 15% 23% 23% 23%;
   }
   *{
     font-size: .88em;
