@@ -14,8 +14,8 @@ var wrapper = new Vue({
       hljs.highlightBlock(document.getElementById(id));
     },
 
-    load: function(tab,data,fileType) {
-      openTab(event,tab);
+    load: function(tab,data,fileType,tabBtn) {
+      openTab(event,tab,tabBtn);
       var _this = this;
       reader.onload = function(e) {
         _this.data = reader.result;
@@ -26,13 +26,20 @@ var wrapper = new Vue({
   
       reader.readAsText(document.getElementById(fileType).files[0]);
    
-    }
+    },
+	convert:function(){
+		openTab(event,'inlineTab','inlineOpen');
+		let html = document.getElementById('htmlTab').innerHTML;
+		let css = document.getElementById('cssTab').innerHTML;
+		update('inlineTab',css + html);
+	}
 	
   },
   computed: {
     code: function() {
-      // return "<p>Hello World</p>"
-      return this.cssCode + this.htmlCode;
+	  let html = document.getElementById('htmlTab').innerHTML;
+	  let css = document.getElementById('cssTab').innerHTML;
+      return _.unescape(css + "\n\n" + html);
     }
   }
 })
@@ -41,7 +48,7 @@ function update(elementID,code) {
   document.getElementById(elementID).innerHTML = code;
 }
 
-function openTab(evt, Name) {
+function openTab(evt, name, btn) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {
@@ -51,6 +58,11 @@ function openTab(evt, Name) {
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" on", " off");
   }
-  document.getElementById(Name).style.display = "block";
+  document.getElementById(name).style.display = "block";
+  
+  if(btn){
+	  document.getElementById(btn).className = document.getElementById(btn).className.replace(" off", " on");
+  }else{
   evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
+  }
 }
