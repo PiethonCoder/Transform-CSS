@@ -1,0 +1,82 @@
+.full{
+	height:100%;
+	width:100%;
+}
+
+#editor{
+	font-family: 'East Sea Dokdo', cursive;
+	font-family: 'Bad Script', cursive;	
+	font-size:1.2em;
+	
+	padding-left:25%;
+	padding-right:25%;
+	padding-top:5%;
+	padding-bottom:5%;
+	
+	overflow-y:scroll;
+	
+	z-index:1;
+		
+}
+
+#editor:focus{
+	outline:none;
+}
+
+.customBar::-webkit-scrollbar {
+  width: 10px;
+  background-color: #000e1b;
+}
+
+.customBar::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.customBar::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent)
+}
+
+#menuBar{
+	background-color:white;
+	
+	width:100%;
+	height:50px;
+	
+	border-bottom:1px solid rgba(1,1,1,.2);
+	
+	display:flex;
+	flex-direction:row;
+	
+	position:fixed;
+	top:0px;
+	z-index:2;
+}
+
+.tab{
+	border-right:1px solid rgba(1,1,1,.1);
+	text-align:center;
+	color:silver;
+	
+	width:7%;
+	min-width:fit-content;
+	height:100%;
+	
+	display:flex;
+	justify-content:center;
+	align-items:center;
+}
+
+#icons{
+	color:silver;
+	
+	align-self:right;
+	
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	
+	height:100%;
+	width:auto;
+}
+
