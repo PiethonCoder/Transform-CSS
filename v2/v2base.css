@@ -1,3 +1,9 @@
+.flex{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
 .full{
 	height:100%;
 	width:100%;
@@ -43,13 +49,14 @@
 	width:100%;
 	height:50px;
 	
-	border-bottom:1px solid rgba(1,1,1,.2);
+	/* border-bottom:1px solid rgba(1,1,1,.2); */
 	
 	display:flex;
 	flex-direction:row;
 	
 	position:fixed;
 	top:0px;
+	left:0px;
 	z-index:2;
 }
 
@@ -67,16 +74,22 @@
 	align-items:center;
 }
 
-#icons{
-	color:silver;
-	
-	align-self:right;
-	
-	display:flex;
-	justify-content:center;
-	align-items:center;
-	
-	height:100%;
-	width:auto;
+
+#options{
+	height:80px;
+	width:80px;
+	position:fixed;
+	top:3%;
+	right:2%;
+	z-index:3;
 }
 
+#popUpWindow{
+	height:70%;
+	width:80%;
+	
+	background-color:gray;
+	color:black;
+	
+	display:grid;
+}
