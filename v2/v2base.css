@@ -9,6 +9,21 @@
 	width:100%;
 }
 
+.grid-6{
+	display:grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+	
+}
+
+.grid-7{
+		display:grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.spanTwo{
+	grid-column:span 2;
+}
+
 #editor{
 	font-family: 'East Sea Dokdo', cursive;
 	font-family: 'Bad Script', cursive;	
@@ -61,17 +76,14 @@
 }
 
 .tab{
-	border-right:1px solid rgba(1,1,1,.1);
+	border-bottom:1px solid rgba(1,1,1,.1);
 	text-align:center;
 	color:silver;
 	
-	width:7%;
-	min-width:fit-content;
-	height:100%;
+	/* width:7%; */
+	/* min-width:fit-content; */
+	/* height:100%; */
 	
-	display:flex;
-	justify-content:center;
-	align-items:center;
 }
 
 
@@ -92,4 +104,8 @@
 	color:black;
 	
 	display:grid;
+}
+
+#svgBody:hover{
+	stroke:green;
 }

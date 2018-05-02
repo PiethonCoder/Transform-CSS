@@ -12,71 +12,67 @@
 	
 	<body class="full customBar">
 	
-		<!-- hidden popup section -->
-				
-		<section class="full" style="z-index:3;display: none;">
-		
-			<div class="full flex" style="background-color:rgba(192, 192, 192,.4)">
-					
-				<div id="popUpWindow">
-						
-				</div>
-					
-			</div>
-			
-		</section>
+
 		
 	
-		<main class="w3-container full">
+		<main class="full grid-6">
 		
-			<section>
-				<div id="options">
-				
-					<a>
-					
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795">
-							<polygon points="407,3 731.348792,159.198146 811.456329,510.172194 587,791.631528 227,791.631528 2.543671,510.172194 82.651208,159.198146" fill="red" stroke="black" stroke-width="4"/>
-						</svg>
-						
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795">
-							
-							
-							<polygon id="redLine" points="407,3 731.348792,159.198146" stroke="black" stroke-width="12"/>
-
-							<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194" stroke="black" stroke-width="12"/>
-
-							<polygon id="greenLine" points="811.456329,510.172194 587,791.631528" stroke="black" stroke-width="12"/>
-
-							<polygon id="purpleLine" points="587,791.631528 227,791.631528" stroke="black" stroke-width="12"/>
-
-							<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194" stroke="black" stroke-width="12"/>
-
-							<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146" stroke="black" stroke-width="12"/>
-
-							<polygon id="pinkLine" points="82.651208,159.198146 407,3" stroke="black" stroke-width="12"/>
-					
-					</svg>	
-				</a>
-				
-				</div>	
-			</section>
+			<section style="grid-column:span 6" class="grid-7">
 			
-		
-			<section>
-				<div id="menuBar">
-					<div class="tab">html</div>
-					<div class="tab">css</div>
-					<div class="tab">javascript</div>
+				<br>
+				<div class="tab flex"><h2>html</h2></div>
+				<br>
 				
+				<div class="tab flex "><h2>css</h2></div>
+				<br>
+				
+				<div class="tab flex"><h2>javascript</h2></div>
+				
+				<div id="options">
+						
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="svgBody" stroke="black">
+						
+							
+								<polygon id="redLine" points="407,3 731.348792,159.198146" stroke-width="12"/>
+
+								<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194"  stroke-width="12"/>
+
+								<polygon id="greenLine" points="811.456329,510.172194 587,791.631528"  stroke-width="12"/>
+
+								<polygon id="purpleLine" points="587,791.631528 227,791.631528"  stroke-width="12"/>
+
+								<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194"  stroke-width="12"/>
+
+								<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146"  stroke-width="12"/>
+
+								<polygon id="pinkLine" points="82.651208,159.198146 407,3"  stroke-width="12"/>
+							
+				
+						</svg>	
+			
+				</div>	
+				
+				
+				<!-- <div class="full customBar" id="editor" contenteditable="true"> </div> -->
+					
+				
+			</section>		
+		
+			<!-- hidden popup section -->
+					
+			<section class="full" style="z-index:3;display: none;">
+			
+				<div class="full flex" style="background-color:rgba(192, 192, 192,.4)">
+						
+					<div id="popUpWindow">
+							
+					</div>
+						
 				</div>
 				
 			</section>
 			
-			<section>
-				<div class="full customBar" id="editor" contenteditable="true"> </div>
-					
-				
-			</section>
+
 		</main>
 	
 	</body>
