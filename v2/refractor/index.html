@@ -1,42 +1,65 @@
 <html>
 
 	<head>
-	
+		<script src="../plugins/compress/compress.js">
+		</script>
+		
+		<link href="https://fonts.googleapis.com/css?family=Bad+Script|East+Sea+Dokdo" rel="stylesheet">
+		<link rel="icon" href="https://png.icons8.com/metro/1600/source-code.png" type="image/x-icon">
+		<link href="./base.css" rel="stylesheet">
+		
 	</head>
 	
 	<body>
 	
-	<section style="width:100%;height:120px;display:grid;grid-template-columns:repeat(9,1fr);">
-
-		<div style="grid-column:3/4;height:100%;width:100%;display:flex;align-items:center;justify-content:center;"><h2>html</h2></div>
-
-		<div style="grid-column:5/6;height:100%;width:100%;display:flex;align-items:center;justify-content:center;"><h2>css</h2></div>
-
-		<div style="grid-column:7/8;height:100%;width:100%;display:flex;align-items:center;justify-content:center;"><h2>javascript</h2></div>
-		
-
-		<div style="grid-column:9/10;">
-		
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" style="stroke:black;">
+	<section id="section1">
+	
+		<div id="options">
+	
+			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="glowBall">
 			
 				
-					<polygon id="redLine" points="407,3 731.348792,159.198146" stroke-width="12"/>
+					<polygon id="redLine" points="407,3 731.348792,159.198146" />
 
-					<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194"  stroke-width="12"/>
+					<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194"  />
 
-					<polygon id="greenLine" points="811.456329,510.172194 587,791.631528"  stroke-width="12"/>
+					<polygon id="greenLine" points="811.456329,510.172194 587,791.631528" />
 
-					<polygon id="purpleLine" points="587,791.631528 227,791.631528"  stroke-width="12"/>
+					<polygon id="purpleLine" points="587,791.631528 227,791.631528"/>
 
-					<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194"  stroke-width="12"/>
+					<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194"/>
 
-					<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146"  stroke-width="12"/>
+					<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146"/>
 
-					<polygon id="pinkLine" points="82.651208,159.198146 407,3"  stroke-width="12"/>
+					<polygon id="pinkLine" points="82.651208,159.198146 407,3"/>
 				
-
 			</svg>	
 
+		</div>
+	
+	</section>
+	
+	<section id="section2">
+
+		<div style="grid-column:3/4;" class="languageTab"><h2>html</h2></div>
+
+		<div style="grid-column:5/6;" class="languageTab"><h2>css</h2></div>
+
+		<div style="grid-column:7/8;" class="languageTab"><h2>javascript</h2></div>
+		
+	</section>
+	
+	<section id="section3">
+		<!-- commands -->
+		<div>
+			<ul style="list-style-type:none;">
+				<h3>Command Shortcuts:</h3>
+				<li>convert css to inline: ctrl+i</li>
+			</ul>
+		</div>
+		<!-- text area -->
+		<div id="codeArea" contenteditable="true" class="customBar">
+		
 		</div>
 	
 	</section>
