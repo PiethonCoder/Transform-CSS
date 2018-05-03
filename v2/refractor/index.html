@@ -1,69 +1,79 @@
 <html>
 
 	<head>
-		<script src="../plugins/compress/compress.js">
-		</script>
-		
+	
 		<link href="https://fonts.googleapis.com/css?family=Bad+Script|East+Sea+Dokdo" rel="stylesheet">
 		<link rel="icon" href="https://png.icons8.com/metro/1600/source-code.png" type="image/x-icon">
+		<link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/paraiso-dark.css">
 		<link href="./base.css" rel="stylesheet">
 		
 	</head>
 	
 	<body>
-	
-	<section id="section1">
-	
-		<div id="options">
-	
-			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="glowBall">
+		<main id="container">
+			<section id="section1">
 			
+				<div id="options">
+			
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="glowBall">
+					
+						
+							<polygon id="redLine" points="407,3 731.348792,159.198146" />
+
+							<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194"  />
+
+							<polygon id="greenLine" points="811.456329,510.172194 587,791.631528" />
+
+							<polygon id="purpleLine" points="587,791.631528 227,791.631528"/>
+
+							<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194"/>
+
+							<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146"/>
+
+							<polygon id="pinkLine" points="82.651208,159.198146 407,3"/>
+						
+					</svg>	
+
+				</div>
+			
+			</section>
+			
+			<section id="section2">
+
+				<div id="defaultOpen" style="grid-column:3/4;" class="languageTab off" onclick="openTab(event,'htmlTab',null)"><h2>html</h2></div>
+
+				<div id="styleOpen" style="grid-column:5/6;" class="languageTab off" onclick="openTab(event,'cssTab',null)"><h2>css</h2></div>
+
+				<div id="scriptOpen" style="grid-column:7/8;" class="languageTab off" onclick="openTab(event,'javascriptTab',null)"><h2>javascript</h2></div>
 				
-					<polygon id="redLine" points="407,3 731.348792,159.198146" />
-
-					<polygon id="blueLine" points="731.348792,159.198146 811.456329,510.172194"  />
-
-					<polygon id="greenLine" points="811.456329,510.172194 587,791.631528" />
-
-					<polygon id="purpleLine" points="587,791.631528 227,791.631528"/>
-
-					<polygon id="yellowLine" points="227,791.631528 2.543671,510.172194"/>
-
-					<polygon id="orangeLine" points="2.543671,510.172194 82.651208,159.198146"/>
-
-					<polygon id="pinkLine" points="82.651208,159.198146 407,3"/>
-				
-			</svg>	
-
-		</div>
+			</section>
+			
+			<section id="section3">
+				<!-- commands -->
+				<div>
+					<ul style="list-style-type:none;font-size:.9em;text-align:center;display:flex;flex-direction:column;align-items:center;padding-left:0px;">
+						<h4>Command Shortcuts:</h4>
+						<li>convert css to inline: ctrl+i</li>
+					</ul>
+				</div>
+				<!-- text area -->
+				<div @focus="paint('htmlTab')" id="htmlTab" class="tabcontent codeArea customBar" contenteditable="true">&#x3C;p&#x3E;Hello World&#x3C;/p&#x3E; s</div>
+				<div @focus="paint('javascriptTab')" id="javascriptTab" class="tabcontent codeArea customBar" contenteditable="true" >function Hello(){return "world"}</div>
+				<div @focus="paint('cssTab')" id="cssTab" class="tabcontent codeArea customBar" contenteditable="true">.world{message:hello;}</div>
+			
+			</section>
+		</main>
 	
-	</section>
-	
-	<section id="section2">
-
-		<div style="grid-column:3/4;" class="languageTab"><h2>html</h2></div>
-
-		<div style="grid-column:5/6;" class="languageTab"><h2>css</h2></div>
-
-		<div style="grid-column:7/8;" class="languageTab"><h2>javascript</h2></div>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.0/underscore-min.js"></script>
+		<script src="./master.js"></script>
 		
-	</section>
-	
-	<section id="section3">
-		<!-- commands -->
-		<div>
-			<ul style="list-style-type:none;">
-				<h3>Command Shortcuts:</h3>
-				<li>convert css to inline: ctrl+i</li>
-			</ul>
-		</div>
-		<!-- text area -->
-		<div id="codeArea" contenteditable="true" class="customBar">
+		<script>document.getElementById("defaultOpen").click();</script>
 		
-		</div>
-	
-	</section>
-	
 	</body>
 	
+	
+
+		
 </html>
