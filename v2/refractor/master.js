@@ -24,9 +24,33 @@ var wrapper = new Vue({
       reader.readAsText(document.getElementById(fileType).files[0]);
    
     },
-	convert:function(){
-
+	activate:function(event,tab,textArea){
+		
+		
+		if(event.shiftKey) {
+			function x(tab){
+				
+				var textAreas = document.getElementsByClassName('codeArea');
+				document.getElementById('commands').className = "spanAll";
+		
+				for(i=0; i < textAreas.length; i++){
+					textAreas[i].className = textAreas[i].className.replace(" spanFour"," spanTwo");
+				}	
+			}
+			x(tab);
+			openMultiTab(event,textArea);
+			
+		}
+		else{
+			openTab(event,textArea);
+		}
+		
+		
+	},
+	tab:function(box){
+		document.getElementById(box).innerHTML = document.getElementById(box).innerHTML + "    ";
 	}
+	
 	
   },
   computed: {
@@ -38,23 +62,30 @@ function update(elementID,code) {
   document.getElementById(elementID).innerHTML = code;
 }
 
-function openTab(evt, name, btn) {
-  var i, tabcontent, tablinks;
-  tabcontent = document.getElementsByClassName("tabcontent");
-  for (i = 0; i < tabcontent.length; i++) {
+function openMultiTab(evt,name){
+	document.getElementById(name).style.display = "block";
+	evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
+}
+
+function openTab(evt, name) {
+	
+  document.getElementById('commands').className = "";
+  var tabcontent = document.getElementsByClassName("tabcontent");
+  
+  for (var i = 0; i < tabcontent.length; i++) {
+	tabcontent[i].className = tabcontent[i].className.replace(" spanTwo"," spanFour");
     tabcontent[i].style.display = "none";
   }
-  tablinks = document.getElementsByClassName("languageTab");
+  var tablinks = document.getElementsByClassName("languageTab");
+  
   for (i = 0; i < tablinks.length; i++) {
     tablinks[i].className = tablinks[i].className.replace(" on", " off");
   }
+  
   document.getElementById(name).style.display = "block";
   
-  if(btn){
-	  document.getElementById(btn).className = document.getElementById(btn).className.replace(" off", " on");
-  }else{
   evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
-  }
+  
 }
 
 

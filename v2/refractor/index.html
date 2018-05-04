@@ -4,7 +4,7 @@
 	
 		<link href="https://fonts.googleapis.com/css?family=Bad+Script|East+Sea+Dokdo" rel="stylesheet">
 		<link rel="icon" href="https://png.icons8.com/metro/1600/source-code.png" type="image/x-icon">
-		<link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/paraiso-dark.css">
+		<link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/kimbie.light.css">
 		<link href="./base.css" rel="stylesheet">
 		
 	</head>
@@ -40,26 +40,28 @@
 			
 			<section id="section2">
 
-				<div id="defaultOpen" style="grid-column:3/4;" class="languageTab off" onclick="openTab(event,'htmlTab',null)"><h2>html</h2></div>
+				<div @click="activate($event,'defaultOpen','htmlTab')" id="defaultOpen" style="grid-column:3/4;" class="languageTab off"><h2>html</h2></div>
 
-				<div id="styleOpen" style="grid-column:5/6;" class="languageTab off" onclick="openTab(event,'cssTab',null)"><h2>css</h2></div>
+				<div @click="activate($event,'styleOpen','cssTab')" id="styleOpen" style="grid-column:5/6;" class="languageTab off"><h2>css</h2></div>
 
-				<div id="scriptOpen" style="grid-column:7/8;" class="languageTab off" onclick="openTab(event,'javascriptTab',null)"><h2>javascript</h2></div>
+				<div @click="activate($event,'scriptOpen','javascriptTab')" id="scriptOpen" style="grid-column:7/8;" class="languageTab off" ><h2>javascript</h2></div>
 				
 			</section>
 			
 			<section id="section3">
 				<!-- commands -->
-				<div>
-					<ul style="list-style-type:none;font-size:.9em;text-align:center;display:flex;flex-direction:column;align-items:center;padding-left:0px;">
+				<div id="commands" class="">
+					<ul>
 						<h4>Command Shortcuts:</h4>
 						<li>convert css to inline: ctrl+i</li>
+						<li>open multi tabs: shift click</li>
 					</ul>
 				</div>
 				<!-- text area -->
-				<div @focus="paint('htmlTab')" id="htmlTab" class="tabcontent codeArea customBar" contenteditable="true">&#x3C;p&#x3E;Hello World&#x3C;/p&#x3E; s</div>
-				<div @focus="paint('javascriptTab')" id="javascriptTab" class="tabcontent codeArea customBar" contenteditable="true" >function Hello(){return "world"}</div>
-				<div @focus="paint('cssTab')" id="cssTab" class="tabcontent codeArea customBar" contenteditable="true">.world{message:hello;}</div>
+				<div @focus="paint('htmlTab')" @keydown.tab="tab('htmlTab')" id="htmlTab" class="tabcontent codeArea spanFour customBar" contenteditable="true">&#x3C;p&#x3E;Hello World&#x3C;/p&#x3E;</div>
+				<div @focus="paint('cssTab')" @keydown.tab="tab('cssTab')" id="cssTab" class="tabcontent codeArea spanFour customBar" contenteditable="true">.world{message:hello;}</div>
+				<div @focus="paint('javascriptTab')" @keydown.tab="tab('javascriptTab')" id="javascriptTab" class="tabcontent codeArea spanFour customBar" contenteditable="true" >function Hello(){return "world"}</div>
+				
 			
 			</section>
 		</main>

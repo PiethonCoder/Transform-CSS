@@ -20,7 +20,7 @@
 	height:auto;
 	width:100%;
 	display:grid;
-	grid-template-columns:repeat(4,1fr);
+	grid-template-columns:repeat(6,1fr);
 }
 
 #options{
@@ -35,6 +35,16 @@
 	stroke:black;
 	height:60px;
 	stroke-width:30;
+}
+
+#commands{
+	list-style-type:none;
+	font-size:.9em;
+	text-align:center;
+	display:flex;
+	flex-direction:column;
+	align-items:center;
+	padding-left:0px;
 }
 
 /* class selectors  */
@@ -60,7 +70,7 @@
 }
 
 .codeArea{
-	grid-column:span 2;
+	
 	max-height:470px;
 	
 	padding-left:15%;
@@ -74,6 +84,22 @@
 	overflow-y:scroll;
 }
 
+.spanFour{
+	grid-column:span 4;
+}
+
+.spanTwo{
+	grid-column:span 2;
+}
+
+
+
+.spanAll{
+	grid-column:span 6;
+	flex-direction:row;
+	margin-top:-40px;
+}
+
 /* psuedo selectors */
 
 #glowBall:hover{
@@ -82,6 +108,10 @@
 
 .codeArea:focus{
 	outline:none;
+}
+
+::selection {
+  background: rgba(251, 235, 212, 1); 
 }
 
 /* scrollbar design */
