@@ -37,11 +37,20 @@ var wrapper = new Vue({
 				document.getElementById('commands').className = "slimMenu";
 		
 				for(i=0; i < textAreas.length; i++){
-					textAreas[i].className = textAreas[i].className.replace(" spanFour"," spanTwo");
+					if (document.querySelectorAll('.on').length == 3){
+						textAreas[i].className = textAreas[i].className.replace(" spanFour"," spanTwo");
+						textAreas[i].className = textAreas[i].className.replace(" spanThree"," spanTwo");
+
+					}
+					else if(document.querySelectorAll('.on').length == 2){
+						textAreas[i].className = textAreas[i].className.replace(" spanFour"," spanThree");
+
+					}
 				}	
 			}
-			x(tab);
 			openMultiTab(event,textArea);
+			x(tab);
+			
 			
 		}
 		else{
@@ -72,12 +81,13 @@ function openMultiTab(evt,name){
 
 function openTab(evt, name) {
 
-  document.getElementById('commands').className = "nomalMenu";
-  document.getElementById('commands').className = "";
+  document.getElementById('commands').className = "normalMenu";
+
   var tabcontent = document.getElementsByClassName("tabcontent");
   
   for (var i = 0; i < tabcontent.length; i++) {
 	tabcontent[i].className = tabcontent[i].className.replace(" spanTwo"," spanFour");
+	tabcontent[i].className = tabcontent[i].className.replace(" spanThree"," spanFour");
     tabcontent[i].style.display = "none";
   }
   var tablinks = document.getElementsByClassName("languageTab");

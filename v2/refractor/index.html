@@ -9,13 +9,24 @@
 		
 	</head>
 	
-	<body onload="()=>{document.getElementById("commands").className = "normalMenu"}">
+	<body>
 		<main id="container">
+		
+			<section id="popup">
+				
+				<div id="outer">
+					<div id="inner">
+						<a href="#" ><div id="save">Save</div></a>
+					</div>
+				</div>
+			
+			</section>
+		
 			<section id="section1">
 			
 				<div id="options">
-			
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="glowBall">
+					<a href="#popup">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 795" id="glowBall">
 					
 						
 							<polygon id="redLine" points="407,3 731.348792,159.198146" />
@@ -33,7 +44,7 @@
 							<polygon id="pinkLine" points="82.651208,159.198146 407,3"/>
 						
 					</svg>	
-
+					</a>
 				</div>
 			
 			</section>
@@ -50,7 +61,7 @@
 			
 			<section id="section3">
 				<!-- commands -->
-				<div id="commands" class="22">
+				<div id="commands" class="normalMenu">
 				
 					<h4>Command Shortcuts:</h4>
 					<p>convert css to inline: ctrl+i</p>
