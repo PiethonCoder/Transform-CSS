@@ -1,3 +1,6 @@
+// force insert of class because the browser doesint do it for some reason 
+
+
 var reader = new FileReader();
 var xmlhttp = new XMLHttpRequest();
 
@@ -31,7 +34,7 @@ var wrapper = new Vue({
 			function x(tab){
 				
 				var textAreas = document.getElementsByClassName('codeArea');
-				document.getElementById('commands').className = "spanAll";
+				document.getElementById('commands').className = "slimMenu";
 		
 				for(i=0; i < textAreas.length; i++){
 					textAreas[i].className = textAreas[i].className.replace(" spanFour"," spanTwo");
@@ -68,7 +71,8 @@ function openMultiTab(evt,name){
 }
 
 function openTab(evt, name) {
-	
+
+  document.getElementById('commands').className = "nomalMenu";
   document.getElementById('commands').className = "";
   var tabcontent = document.getElementsByClassName("tabcontent");
   

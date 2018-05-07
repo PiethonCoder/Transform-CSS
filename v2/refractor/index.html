@@ -9,7 +9,7 @@
 		
 	</head>
 	
-	<body>
+	<body onload="()=>{document.getElementById("commands").className = "normalMenu"}">
 		<main id="container">
 			<section id="section1">
 			
@@ -50,12 +50,12 @@
 			
 			<section id="section3">
 				<!-- commands -->
-				<div id="commands" class="">
-					<ul>
-						<h4>Command Shortcuts:</h4>
-						<li>convert css to inline: ctrl+i</li>
-						<li>open multi tabs: shift click</li>
-					</ul>
+				<div id="commands" class="22">
+				
+					<h4>Command Shortcuts:</h4>
+					<p>convert css to inline: ctrl+i</p>
+					<p>open multi tabs: shift click</p>
+				
 				</div>
 				<!-- text area -->
 				<div @focus="paint('htmlTab')" @keydown.tab="tab('htmlTab')" id="htmlTab" class="tabcontent codeArea spanFour customBar" contenteditable="true">&#x3C;p&#x3E;Hello World&#x3C;/p&#x3E;</div>
