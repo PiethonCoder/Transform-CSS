@@ -1,6 +1,9 @@
 // force insert of class because the browser doesint do it for some reason 
 
+var myTextarea = document.getElementById("htmlTab");
 
+var myCodeMirror = CodeMirror.fromTextArea(myTextarea,{theme:"elegant",mode:'text/html'});
+	
 var reader = new FileReader();
 var xmlhttp = new XMLHttpRequest();
 
@@ -10,23 +13,23 @@ var wrapper = new Vue({
   
   },
   methods: {
-    paint: function(id) {
-      hljs.highlightBlock(document.getElementById(id));
-    },
+    // paint: function(id) {
+      // hljs.highlightBlock(document.getElementById(id));
+    // },
 
-    load: function(tab,data,fileType,tabBtn) {
-      openTab(event,tab,tabBtn);
-      var _this = this;
-      reader.onload = function(e) {
-        _this.data = reader.result;
-        console.log(reader.result);
-		update(tab,_.escape(_this.data));
-		hljs.highlightBlock(document.getElementById(tab));
-      }
+    // load: function(tab,data,fileType,tabBtn) {
+      // openTab(event,tab,tabBtn);
+      // var _this = this;
+      // reader.onload = function(e) {
+        // _this.data = reader.result;
+        // console.log(reader.result);
+		// update(tab,_.escape(_this.data));
+		// hljs.highlightBlock(document.getElementById(tab));
+      // }
   
-      reader.readAsText(document.getElementById(fileType).files[0]);
+      // reader.readAsText(document.getElementById(fileType).files[0]);
    
-    },
+    // },
 	activate:function(event,tab,textArea){
 		
 		
