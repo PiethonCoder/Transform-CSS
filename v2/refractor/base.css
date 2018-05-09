@@ -90,6 +90,7 @@
 #popup:target{
 	visibility: visible;
     opacity: 1;
+	z-index:10;
 }
 
 #save{

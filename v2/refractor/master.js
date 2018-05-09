@@ -1,9 +1,6 @@
 // force insert of class because the browser doesint do it for some reason 
 
-var myTextarea = document.getElementById("htmlTab");
 
-var myCodeMirror = CodeMirror.fromTextArea(myTextarea,{theme:"elegant",mode:'text/html'});
-	
 var reader = new FileReader();
 var xmlhttp = new XMLHttpRequest();
 
