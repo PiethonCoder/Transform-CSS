@@ -102,4 +102,23 @@ function openTab(evt, name) {
   
 }
 
+var myWindow
+
+function liveCode() {
+	var html = document.getElementById("HTMLeditor").innerText;
+	var css = document.getElementById("CSSeditor").innerText;
+	var js = document.getElementById("JSeditor").innerText;
+	
+	try{myWindow.close();}catch(e){
+		
+	}
+	
+    myWindow = window.open("", "MsgWindow", "width=1100,height=600");
+	
+    myWindow.document.write(
+		"<style>" + css + "</style> \n" + 
+		html + 
+		"<script>" + js + "</script>"
+	);
+}
 
