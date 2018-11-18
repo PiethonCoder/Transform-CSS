@@ -1,3 +1,0 @@
-call doInline(html) with a html document with <style> elements; as the parameter, 
-to convert the <style> into inline style. 
-
