@@ -4,9 +4,9 @@
 
     <link href="https://fonts.googleapis.com/css?family=Bad+Script|East+Sea+Dokdo" rel="stylesheet">
     <link rel="icon" href="https://png.icons8.com/metro/1600/source-code.png" type="image/x-icon">
-    <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/paraiso-dark.css">
+    <!-- <link rel="stylesheet" href="https://highlightjs.org/static/demo/styles/paraiso-dark.css"> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
-    <link href="styles/quill.snow.css" rel="stylesheet">
+    <!-- <link href="styles/quill.snow.css" rel="stylesheet"> -->
 
     <link href="styles/base.css" rel="stylesheet">
 
@@ -115,11 +115,12 @@
             <!-- commands -->
             <div id="commands" class="normalMenu">
 
-                <a onclick="liveCode()">
-                    <h4>Command Shortcuts:</h4>
-                </a>
+               
+                <h4>Command Shortcuts:</h4>
                 <p>convert css to inline: ctrl+i</p>
                 <p>open multi tabs: shift click</p>
+				<p>open live preview: crtl+l</p>
+				<p>emmet is active</p>
 
             </div>
             <!-- text area -->
@@ -127,21 +128,15 @@
 
 
             <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
-                <div id="HTMLeditor" class="hljs">
-                    <p>Hello World</p>
-                </div>
+                <textarea id="HTMLeditor" class="hljs spanFour customBar">!</textarea>
             </div>
 
             <div class="tabcontent spanFour customBar codeArea" id="cssTab">
-                <textarea id="CSSeditor" class="hljs">
-                    <p>.body{message:hello world}</p>
-                </textarea>
+                <textarea id="CSSeditor" class="hljs spanFour customBar">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
             </div>
 
             <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
-                <textarea id="JSeditor" class="hljs">
-                    <p>function Hello(){return "world"}</p>
-                </textarea>
+                <textarea id="JSeditor" class="hljs spanFour customBar">$("")</textarea>
             </div>
 
 
@@ -152,9 +147,9 @@
     </main>
 
     <!-- syntax highlighting  -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script> -->
     <!-- code editor -->
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <!-- <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- vue-->
@@ -164,43 +159,43 @@
     <!--mine-->
     <script src="./scripts/master.js"></script>
 
-    <script>
-        hljs.configure({ // optionally configure hljs
-            languages: ['javascript', 'html', 'css']
-        });
+    <!-- <script> -->
+        <!-- hljs.configure({ // optionally configure hljs -->
+            <!-- languages: ['javascript', 'html', 'css'] -->
+        <!-- }); -->
 
 
-        var quill = new Quill('#HTMLeditor', {
-            theme: 'snow',
-            modules: {
-                syntax: true, // Include syntax module
-                toolbar: [
-                    ['code-block']
-                ] // Include button in toolbar
-            }
-        });
+        <!-- var quill = new Quill('#HTMLeditor', { -->
+            <!-- theme: 'snow', -->
+            <!-- modules: { -->
+                <!-- syntax: true, // Include syntax module -->
+                <!-- toolbar: [ -->
+                    <!-- ['code-block'] -->
+                <!-- ] // Include button in toolbar -->
+            <!-- } -->
+        <!-- }); -->
 
-        var quill = new Quill('#CSSeditor', {
-            theme: 'snow',
-            modules: {
-                syntax: true, // Include syntax module
-                toolbar: [
-                    ['code-block']
-                ] // Include button in toolbar
-            }
-        });
+        <!-- var quill = new Quill('#CSSeditor', { -->
+            <!-- theme: 'snow', -->
+            <!-- modules: { -->
+                <!-- syntax: true, // Include syntax module -->
+                <!-- toolbar: [ -->
+                    <!-- ['code-block'] -->
+                <!-- ] // Include button in toolbar -->
+            <!-- } -->
+        <!-- }); -->
 
-        var quill = new Quill('#JSeditor', {
-            theme: 'snow',
-            modules: {
-                syntax: true, // Include syntax module
-                toolbar: [
-                    ['code-block']
-                ] // Include button in toolbar
-            }
-        });
+        <!-- var quill = new Quill('#JSeditor', { -->
+            <!-- theme: 'snow', -->
+            <!-- modules: { -->
+                <!-- syntax: true, // Include syntax module -->
+                <!-- toolbar: [ -->
+                    <!-- ['code-block'] -->
+                <!-- ] // Include button in toolbar -->
+            <!-- } -->
+        <!-- }); -->
 
-    </script>
+    <!-- </script> -->
 
     <script>
         //emmet start

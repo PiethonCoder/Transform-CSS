@@ -104,10 +104,12 @@ function openTab(evt, name) {
 
 var myWindow
 
+var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>'
+
 function liveCode() {
-	var html = document.getElementById("HTMLeditor").innerText;
-	var css = document.getElementById("CSSeditor").innerText;
-	var js = document.getElementById("JSeditor").innerText;
+	var html = $("#HTMLeditor").val();
+	var css = $("#CSSeditor").val();
+	var js = $("#JSeditor").val();
 	
 	try{myWindow.close();}catch(e){
 		
@@ -115,10 +117,21 @@ function liveCode() {
 	
     myWindow = window.open("", "MsgWindow", "width=1100,height=600");
 	
-    myWindow.document.write(
-		"<style>" + css + "</style> \n" + 
-		html + 
-		"<script>" + js + "</script>"
-	);
+    myWindow.document.write(`${jquery} \n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`);
 }
+
+//keyboard shortcuts 
+$(function(){
+	
+	$("body").keydown(function(event){
+		//live preview
+		if(event.ctrlKey && event.which == 76){
+			liveCode();
+		}
+		
+	})
+	
+})
+
+
 
