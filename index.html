@@ -132,6 +132,7 @@
             </div>
         </section>
     </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.10.11/sass.js"></script>
     <script src="./plugins/encode.js"></script>
     <script src="./plugins/htmlminifier.min.js"></script>
     <script src="./plugins/beautify.js"></script>
@@ -142,6 +143,15 @@
     <script src="./plugins/vue.js"></script>
     <script src="./plugins/emmet.min.js"></script>
     <script src="./scripts/master.js"></script>
+
+    <script>
+        var sass = new Sass();
+        var scss = '$someVar: 123px; .some-selector { width: $someVar; }';
+        sass.compile(scss, function(result) {
+            console.log(result);
+        });
+
+    </script>
 </body>
 
 </html>

@@ -7,8 +7,7 @@ emmet.require('textarea').setup({
 
 //emmet end
 
-//open html tab
-$("#defaultOpen").click();
+
 
 //on page load 
 $(function () {
@@ -23,6 +22,9 @@ $(function () {
     if (localStorage["style_source"]) {
         $("#CSSeditor").val(localStorage["style_source"])
     }
+
+    //open html tab
+    $("#defaultOpen").click();
 
 })
 
@@ -86,10 +88,15 @@ function update(elementID, code) {
 function openMultiTab(evt, name) {
     document.getElementById(name).style.display = "block";
     evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
+    //hide globes
+    $("#globeBox").css("display", "none");
 }
 
 //changing active langugae 
 function openTab(evt, name) {
+    
+    //show globes
+    $("#globeBox").css("display", "block");
 
     document.getElementById('commands').className = "normalMenu";
 
@@ -155,7 +162,7 @@ function prepLine() {
 
 var minify = require('html-minifier').minify;
 
-//emmet options 
+//minify options 
 var options = {
     collapseWhitespace: true,
     collapseInlineTagWhitespace: true,
@@ -338,7 +345,7 @@ $("#icon").hover(function () {
     $("#icon_ball").css("fill", "orange");
     $("#icon_tail").css("fill", "#ff5353");
 
-}, function() {
+}, function () {
     $("#icon_ball").css("fill", "black");
     $("#icon_tail").css("fill", "black");
 })
@@ -451,7 +458,8 @@ $("#theme_dayNight").click(function () {
     $("textarea").css("background", "black");
     $(".commandItem").css("background", "black")
     $("textarea").css("color", "white");
-    $("body").css("background-color", "#7a7b7a")
+    $("body").css("background-color", "#151718")
+    
 })
 
 $("#theme_hacker").click(function () {
