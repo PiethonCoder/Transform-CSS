@@ -108,18 +108,18 @@ a {
     justify-content: center;
 }
 
-#icon{
-    height:80px;
-    width:80px;
-    margin:20px;
+#icon {
+    height: 80px;
+    width: 80px;
+    margin: 20px;
 }
 
-#icon_ball{
-    fill:black;
+#icon_ball {
+    fill: black;
 }
 
-#icon_tail{
-    fill:black;
+#icon_tail {
+    fill: black;
 }
 
 #commands {
@@ -132,56 +132,23 @@ a {
     padding-left: 0px;
 }
 
-#outer {
-    height: 100%;
-    width: 100%;
-    background-color: rgba(1, 1, 1, .3);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-#inner {
-    position: relative;
-    height: 50%;
-    width: 50%;
-    background-color: white;
-    border-radius: 3%;
-}
-
-#popup {
-    position: fixed;
-    left: 0px;
-    right: 0px;
-    top: 0px;
-    bottom: 0px;
-    transition: opacity 500ms;
-    visibility: hidden;
-    opacity: 0;
-}
-
-#popup:target {
-    visibility: visible;
-    opacity: 1;
-    z-index: 10;
-}
 
 #save {
     line-height: 40px;
-    color: green;
+    color: #2196F3;
     text-align: center;
     left: calc(50% - 60px);
     font-size: 1.3em;
     position: absolute;
     bottom: 20px;
-    border: 1px solid green;
+    border: 1px solid #2196F3;
     height: 40px;
     width: 120px;
 }
 
 #save:hover {
     color: white;
-    background: green;
+    background: #2196F3;
 }
 
 #optionContainer1 {
@@ -206,6 +173,44 @@ a {
 }
 
 /* class selectors */
+
+.infoCube{
+    height:15%;
+    text-align: center;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.outer {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(1, 1, 1, .3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.inner {
+    position: relative;
+    height: 50%;
+    width: 50%;
+    background-color: white;
+    border-radius: 3%;
+}
+
+.popup {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
 .pretty {
     margin: 10px;
 }
@@ -291,11 +296,17 @@ a {
 
 /* psuedo selectors */
 
+.popup:target {
+    visibility: visible;
+    opacity: 1;
+    z-index: 10;
+}
+
 .codeArea:focus {
     outline: none;
 }
 
-::selection{
+::selection {
     background: transparent;
 }
 

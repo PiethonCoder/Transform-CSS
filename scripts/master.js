@@ -94,7 +94,7 @@ function openMultiTab(evt, name) {
 
 //changing active langugae 
 function openTab(evt, name) {
-    
+
     //show globes
     $("#globeBox").css("display", "block");
 
@@ -123,12 +123,16 @@ function openTab(evt, name) {
 }
 
 var myWindow
+var live = false
 
 //built in libraries 
 var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>'
 
 //live code view function
 function liveCode() {
+
+    live = true;
+
     var html = $("#HTMLeditor").val();
     var css = $("#CSSeditor").val();
     var js = $("#JSeditor").val();
@@ -139,13 +143,34 @@ function liveCode() {
 
     }
 
-    myWindow = window.open("", "MsgWindow", "width=1100,height=600");
+    myWindow = window.open("", "_blank", "", true);
 
     var doc = `${jquery}\n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`
 
     myWindow.document.write(doc);
 
+    //when the page closes
+    myWindow.onunload = function () {
+        live = false;
+    }
+
     return doc;
+}
+
+function liveUpdate() {
+
+    while (myWindow.document.firstChild) {
+        myWindow.document.removeChild(myWindow.document.firstChild);
+        console.log("done")
+    }
+
+    var html = $("#HTMLeditor").val();
+    var css = $("#CSSeditor").val();
+    var js = $("#JSeditor").val();
+
+    var doc = `${jquery}\n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`
+
+    myWindow.document.write(doc)
 }
 
 //prep inline css call 
@@ -192,8 +217,52 @@ function getSelectionText() {
     } else if (window.getSelection) {
         text = window.getSelection().toString();
     }
-    console.log(text)
     return text;
+}
+
+//change cursor position
+$.fn.selectRange = function (start, end) {
+    if (end === undefined) {
+        end = start;
+    }
+    return this.each(function () {
+        if ('selectionStart' in this) {
+            this.selectionStart = start;
+            this.selectionEnd = end;
+        } else if (this.setSelectionRange) {
+            this.setSelectionRange(start, end);
+        } else if (this.createTextRange) {
+            var range = this.createTextRange();
+            range.collapse(true);
+            range.moveEnd('character', end);
+            range.moveStart('character', start);
+            range.select();
+        }
+    });
+};
+
+function quickEdit() {
+    var selection = getSelectionText()
+    var class_ = selection.includes("class=")
+    var id_ = selection.includes("id=")
+    var jump;
+
+    //change elm value based on how much is selected 
+    elm = (selection.match(/"(.+)"/g)) ? selection.match(/"(.+)"/g)[0].slice(1, selection.match(/"(.+)"/g)[0].length - 1) : selection
+
+    var css = $("#CSSeditor").val();
+
+    if (class_) {
+        jump = css.indexOf("." + elm)
+    } else if (id_) {
+        jump = css.indexOf("#" + elm)
+    } else {
+        jump = css.indexOf(elm)
+    }
+
+    $("#styleOpen").click();
+    $("#CSSeditor").focus();
+    $("#CSSeditor").selectRange(jump)
 }
 
 //caching
@@ -204,17 +273,67 @@ function cache() {
 }
 
 
+//insert text at cursor
+function insertAtCaret(areaId, text) {
+  var txtarea = areaId;
+  if (!txtarea) {
+    return;
+  }
+
+  var scrollPos = txtarea.scrollTop;
+  var strPos = 0;
+  var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+    "ff" : (document.selection ? "ie" : false));
+  if (br == "ie") {
+    txtarea.focus();
+    var range = document.selection.createRange();
+    range.moveStart('character', -txtarea.value.length);
+    strPos = range.text.length;
+  } else if (br == "ff") {
+    strPos = txtarea.selectionStart;
+  }
+
+  var front = (txtarea.value).substring(0, strPos);
+  var back = (txtarea.value).substring(strPos, txtarea.value.length);
+  txtarea.value = front + text + back;
+  strPos = strPos + text.length;
+  if (br == "ie") {
+    txtarea.focus();
+    var ieRange = document.selection.createRange();
+    ieRange.moveStart('character', -txtarea.value.length);
+    ieRange.moveStart('character', strPos);
+    ieRange.moveEnd('character', 0);
+    ieRange.select();
+  } else if (br == "ff") {
+    txtarea.selectionStart = strPos;
+    txtarea.selectionEnd = strPos;
+    txtarea.focus();
+  }
+
+  txtarea.scrollTop = scrollPos;
+}
+
 var priorCopy = ""
 var copy = ""
 
 //keyboard shortcuts 
 $(function () {
-
+    //keypress event 
     $("body").keydown(function (event) {
         //        console.log(event.which)
 
         //cache the code when it is modified
         cache();
+
+        //live code update 
+        //        if (live) {
+        //            liveUpdate()
+        //        }
+
+        //quick edit
+        if (event.ctrlKey && event.which == 81) {
+            quickEdit()
+        }
         //copy
         if (event.ctrlKey && event.which == 67) {
             priorCopy = copy
@@ -222,7 +341,7 @@ $(function () {
         }
         //paste prior copy
         if (event.ctrlKey && event.altKey && event.which == 86) {
-
+            insertAtCaret(document.activeElement,priorCopy)
         }
         //live preview
         if (event.ctrlKey && event.which == 76) {
@@ -459,7 +578,7 @@ $("#theme_dayNight").click(function () {
     $(".commandItem").css("background", "black")
     $("textarea").css("color", "white");
     $("body").css("background-color", "#151718")
-    
+
 })
 
 $("#theme_hacker").click(function () {
