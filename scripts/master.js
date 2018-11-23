@@ -1,3 +1,15 @@
+//emmet start
+emmet.require('textarea').setup({
+    pretty_break: true, // enable formatted line breaks (when inserting
+    // between opening and closing tag)
+    use_tab: true // expand abbreviations by Tab key
+});
+
+//emmet end
+
+//open html tab
+$("#defaultOpen").click();
+
 //on page load 
 $(function () {
     //if there is prior code that was made, import it 
@@ -143,6 +155,7 @@ function prepLine() {
 
 var minify = require('html-minifier').minify;
 
+//emmet options 
 var options = {
     collapseWhitespace: true,
     collapseInlineTagWhitespace: true,
@@ -150,7 +163,7 @@ var options = {
     html5: true,
     minifyCSS: true,
     minifyJS: true,
-    removeComments: true,
+    removeComments: false,
     removeEmptyElements: true,
     removeEmptyAttributes: true,
     removeRedundantAttributes: true,
@@ -191,7 +204,7 @@ var copy = ""
 $(function () {
 
     $("body").keydown(function (event) {
-        console.log(event.which)
+        //        console.log(event.which)
 
         //cache the code when it is modified
         cache();
@@ -202,7 +215,7 @@ $(function () {
         }
         //paste prior copy
         if (event.ctrlKey && event.altKey && event.which == 86) {
-            
+
         }
         //live preview
         if (event.ctrlKey && event.which == 76) {
@@ -317,6 +330,18 @@ function remove_(library, type) {
 
     $("#HTMLeditor").val($("#HTMLeditor").val().replace(link + "\n", ""))
 }
+
+
+//icon hover effect 
+
+$("#icon").hover(function () {
+    $("#icon_ball").css("fill", "orange");
+    $("#icon_tail").css("fill", "#ff5353");
+
+}, function() {
+    $("#icon_ball").css("fill", "black");
+    $("#icon_tail").css("fill", "black");
+})
 
 
 //library switches
