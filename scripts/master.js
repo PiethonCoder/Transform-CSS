@@ -1,3 +1,49 @@
+
+//file upload feature  
+
+
+// html file   
+$("#htmlFile").change(function(event) {
+	console.log(1)
+	var input = event.target;
+
+    var reader = new FileReader();
+    
+    reader.onload = function(event) {
+        $("#HTMLeditor").val(event.target.result)
+		console.log(event.target.result)
+    };
+    reader.readAsText(input.files[0])
+})
+
+
+//css file    
+$("#cssFile").change(function(event) {
+    var input = event.target;
+
+    var reader = new FileReader();
+    
+    reader.onload = function(event) {
+        $("#CSSeditor").val(event.target.result)
+    };
+    reader.readAsText(input.files[0])
+})
+
+
+
+//js file    
+$("#jsFile").change(function(event) {
+	var input = event.target;
+
+    var reader = new FileReader();
+    
+    reader.onload = function(event) {
+        $("#JSeditor").val(event.target.result)
+    };
+    reader.readAsText(input.files[0])
+})
+
+
 //emmet start
 emmet.require('textarea').setup({
     pretty_break: true, // enable formatted line breaks (when inserting

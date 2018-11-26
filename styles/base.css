@@ -100,6 +100,13 @@ a {
     grid-template-columns: repeat(6, 1fr);
 }
 
+#section5{
+	position:fixed;
+	top:0px;
+	left:0px;
+	
+}
+
 #options {
     height: 50px;
     width: 50px;
@@ -173,6 +180,18 @@ a {
 }
 
 /* class selectors */
+
+.upload{
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    height:40px;
+    width:77px;
+	border-radius:25px;
+	border:2px solid skyblue;
+	text-align:center;
+	background-color:#eaeaea;
+}
 
 .infoCube{
     height:15%;
@@ -350,4 +369,8 @@ textarea::selection {
     textarea {
         height: 450px;
     }
+}
+
+input[type="file"] {
+    display: none;
 }
