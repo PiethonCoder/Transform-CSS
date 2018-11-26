@@ -272,6 +272,10 @@ a {
     font-size: 1.2em;
 }
 
+.spanSix{
+    grid-column: span 6;
+}
+
 .spanFour {
     grid-column: span 4;
 }

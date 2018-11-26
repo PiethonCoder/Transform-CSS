@@ -2,7 +2,8 @@
 emmet.require('textarea').setup({
     pretty_break: true, // enable formatted line breaks (when inserting
     // between opening and closing tag)
-    use_tab: true // expand abbreviations by Tab key
+    use_tab: true, // expand abbreviations by Tab key
+    syntax: "html"
 });
 
 //emmet end
@@ -53,9 +54,13 @@ var wrapper = new Vue({
                         if (document.querySelectorAll('.on').length == 3) {
                             textAreas[i].className = textAreas[i].className.replace(" spanFour", " spanTwo");
                             textAreas[i].className = textAreas[i].className.replace(" spanThree", " spanTwo");
+                            //full screen
+                            textAreas[i].className = textAreas[i].className.replace(" spanSix", " spanTwo");
 
                         } else if (document.querySelectorAll('.on').length == 2) {
                             textAreas[i].className = textAreas[i].className.replace(" spanFour", " spanThree");
+                            //full screen
+                            textAreas[i].className = textAreas[i].className.replace(" spanSix", " spanThree");
 
                         }
                     }
@@ -102,12 +107,23 @@ function openTab(evt, name) {
 
     var tabcontent = document.getElementsByClassName("tabcontent");
 
-    //pull the 3 textarea's, make the width full, since only one is selected, then hide all
-    for (var i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].className = tabcontent[i].className.replace(" spanTwo", " spanFour");
-        tabcontent[i].className = tabcontent[i].className.replace(" spanThree", " spanFour");
-        tabcontent[i].style.display = "none";
+    //if in fullscreen mode     
+    if (toggleMode) {
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].className = tabcontent[i].className.replace(" spanTwo", " spanSix");
+            tabcontent[i].className = tabcontent[i].className.replace(" spanThree", " spanSix");
+            tabcontent[i].style.display = "none";
+        }
+    } else if (!toggleMode) {
+        //pull the 3 textarea's, make the width full, since only one is selected, then hide all
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].className = tabcontent[i].className.replace(" spanTwo", " spanFour");
+            tabcontent[i].className = tabcontent[i].className.replace(" spanThree", " spanFour");
+            tabcontent[i].style.display = "none";
+        }
     }
+
+
     //pull the tab objects
     var tablinks = document.getElementsByClassName("languageTab");
     //turn them all off
@@ -122,11 +138,45 @@ function openTab(evt, name) {
 
 }
 
+
+
 var myWindow
 var live = false
+var toggleMode = 0
 
 //built in libraries 
 var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>'
+
+function fullToggle() {
+    if (!toggleMode) {
+        $("#commands").css("display", "none");
+
+        var tabcontent = document.getElementsByClassName("tabcontent");
+        //pull the 3 textarea's, make the width full, since only one is selected, then hide all
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].className = tabcontent[i].className.replace(" spanFour", " spanSix");
+        }
+
+        $("#globeBox").css("display", "none")
+        $("#section2").css("height", "40px")
+        $("textarea").css("height", parseInt($("textarea").css("height")) + 100)
+        toggleMode = 1
+    } else if (toggleMode) {
+        $("#commands").css("display", "flex");
+
+        var tabcontent = document.getElementsByClassName("tabcontent");
+        //pull the 3 textarea's, make the width full, since only one is selected, then hide all
+        for (var i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].className = tabcontent[i].className.replace(" spanSix", " spanFour");
+        }
+
+        $("#globeBox").css("display", "block")
+        $("#section2").css("height", "120px")
+        $("textarea").css("height", parseInt($("textarea").css("height")) - 100)
+        toggleMode = 0
+    }
+
+}
 
 //live code view function
 function liveCode() {
@@ -275,42 +325,42 @@ function cache() {
 
 //insert text at cursor
 function insertAtCaret(areaId, text) {
-  var txtarea = areaId;
-  if (!txtarea) {
-    return;
-  }
+    var txtarea = areaId;
+    if (!txtarea) {
+        return;
+    }
 
-  var scrollPos = txtarea.scrollTop;
-  var strPos = 0;
-  var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
-    "ff" : (document.selection ? "ie" : false));
-  if (br == "ie") {
-    txtarea.focus();
-    var range = document.selection.createRange();
-    range.moveStart('character', -txtarea.value.length);
-    strPos = range.text.length;
-  } else if (br == "ff") {
-    strPos = txtarea.selectionStart;
-  }
+    var scrollPos = txtarea.scrollTop;
+    var strPos = 0;
+    var br = ((txtarea.selectionStart || txtarea.selectionStart == '0') ?
+        "ff" : (document.selection ? "ie" : false));
+    if (br == "ie") {
+        txtarea.focus();
+        var range = document.selection.createRange();
+        range.moveStart('character', -txtarea.value.length);
+        strPos = range.text.length;
+    } else if (br == "ff") {
+        strPos = txtarea.selectionStart;
+    }
 
-  var front = (txtarea.value).substring(0, strPos);
-  var back = (txtarea.value).substring(strPos, txtarea.value.length);
-  txtarea.value = front + text + back;
-  strPos = strPos + text.length;
-  if (br == "ie") {
-    txtarea.focus();
-    var ieRange = document.selection.createRange();
-    ieRange.moveStart('character', -txtarea.value.length);
-    ieRange.moveStart('character', strPos);
-    ieRange.moveEnd('character', 0);
-    ieRange.select();
-  } else if (br == "ff") {
-    txtarea.selectionStart = strPos;
-    txtarea.selectionEnd = strPos;
-    txtarea.focus();
-  }
+    var front = (txtarea.value).substring(0, strPos);
+    var back = (txtarea.value).substring(strPos, txtarea.value.length);
+    txtarea.value = front + text + back;
+    strPos = strPos + text.length;
+    if (br == "ie") {
+        txtarea.focus();
+        var ieRange = document.selection.createRange();
+        ieRange.moveStart('character', -txtarea.value.length);
+        ieRange.moveStart('character', strPos);
+        ieRange.moveEnd('character', 0);
+        ieRange.select();
+    } else if (br == "ff") {
+        txtarea.selectionStart = strPos;
+        txtarea.selectionEnd = strPos;
+        txtarea.focus();
+    }
 
-  txtarea.scrollTop = scrollPos;
+    txtarea.scrollTop = scrollPos;
 }
 
 var priorCopy = ""
@@ -320,7 +370,7 @@ var copy = ""
 $(function () {
     //keypress event 
     $("body").keydown(function (event) {
-        //        console.log(event.which)
+        //console.log(event.which)
 
         //cache the code when it is modified
         cache();
@@ -341,11 +391,15 @@ $(function () {
         }
         //paste prior copy
         if (event.ctrlKey && event.altKey && event.which == 86) {
-            insertAtCaret(document.activeElement,priorCopy)
+            insertAtCaret(document.activeElement, priorCopy)
         }
         //live preview
         if (event.ctrlKey && event.which == 76) {
             liveCode();
+        }
+        //full screen toggle
+        if (event.ctrlKey && event.shiftKey && event.which == 70) {
+            fullToggle();
         }
         //inline css
         if (event.ctrlKey && event.which == 73) {
@@ -583,7 +637,6 @@ $("#theme_dayNight").click(function () {
 
 $("#theme_hacker").click(function () {
     $("textarea").css("background", "black");
-    //    $("textarea").css("font-family", "'Press Start 2P'");
     $(".commandItem").css("background", "black")
     $("textarea").css("color", "#4dff4a");
     $("body").css("background-color", "black")

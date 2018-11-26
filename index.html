@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
     <link rel="stylesheet" href="styles/tooltip.css">
     <link href="styles/base.css" rel="stylesheet">
-    
+
     <title>comet text editor</title>
 </head>
 
@@ -17,13 +17,13 @@
             <div class="w3-row outer">
 
                 <div class="inner">
-<!--                    <span class="hint--top" aria-label="paste the item copied prior to your current copy">-->
-                        <div class="w3-col l3 w3-red infoCube">
-                            <p>prior copy: ctrl+alt+v</p>
-                        </div>
-<!--                    </span>-->
+                    <!--                    <span class="hint--top" aria-label="paste the item copied prior to your current copy">-->
+                    <div class="w3-col l3 w3-red infoCube">
+                        <p>prior copy: ctrl+alt+v</p>
+                    </div>
+                    <!--                    </span>-->
                     <div class="w3-col l3 w3-pink infoCube">
-                        <p>-</p>
+                        <p>fullscreen toggle: ctrl+shift+f</p>
                     </div>
                     <div class="w3-col l3 w3-green infoCube">
                         <p>-</p>
@@ -142,15 +142,42 @@
         <section id="section3">
             <div id="commands" class="normalMenu">
                 <h4 class="commandItem w3-text-blue">Command Shortcuts:</h4>
-                <p class="commandItem w3-text-purple">convert css to inline: ctrl+i</p>
-                <p class="commandItem w3-text-orange">open multi tabs: shift click</p>
-                <p class="commandItem w3-text-teal">open live preview: crtl+l</p>
-                <p class="commandItem w3-text-cyan">code beautifier: ctrl+b</p>
-                <p class="commandItem w3-text-light-blue">minify code: ctrl+m</p>
-                <p class="commandItem w3-text-green">encrypt code: ctrl+e</p>
-                <p class="commandItem w3-text-yellow">decrypt code: ctrl+shift+e</p>
-                <p class="commandItem w3-text-pink">mega encrypt: ctrl+alt+shift+e</p>
-                <p class="commandItem w3-text-light-green">quick edit: ctrl+q</p>
+
+                <span class="hint--right" aria-label="takes the code in the css tab, and converts it to inline styles in your html tab">
+                    <p class="commandItem w3-text-purple">convert css to inline: ctrl+i</p>
+                </span>
+
+                <span class="hint--top" aria-label="opens html/css/js tabs at the same time">
+                    <p class="commandItem w3-text-orange">open multi tabs: shift click</p>
+                </span>
+
+                <span class="hint--top" aria-label="opens your current page design in a new tab">
+                    <p class="commandItem w3-text-teal">open live preview: crtl+l</p>
+                </span>
+
+                <span class="hint--top" aria-label="uniformly indents code">
+                    <p class="commandItem w3-text-cyan">code beautifier: ctrl+b</p>
+                </span>
+
+                <span class="hint--right" aria-label="compress code for smaller file size, code will still work in browser">
+                    <p class="commandItem w3-text-light-blue">minify code: ctrl+m</p>
+                </span>
+
+                <span class="hint--right" aria-label="convert most characters to hex code, 10% chance of not being readable by browsers">
+                    <p class="commandItem w3-text-green">encrypt code: ctrl+e</p>
+                </span>
+
+                <span class="hint--right" aria-label="change both normal encrypt and mega encrypt back to normal">
+                    <p class="commandItem w3-text-yellow">decrypt code: ctrl+shift+e</p>
+                </span>
+
+                <span class="hint--right" aria-label="convert all characters to hex code, 20% chance of not being readable by browsers">
+                    <p class="commandItem w3-text-pink">mega encrypt: ctrl+alt+shift+e</p>
+                </span>
+
+                <span class="hint--right" aria-label="finds any css element, highlight tag/class/id and press shortcut">
+                    <p class="commandItem w3-text-light-green">quick edit: ctrl+q</p>
+                </span>
 
                 <span class="hint--top" aria-label="press tab after a tag name and it will auto complete">
                     <p class="commandItem w3-text-deep-orange">emmet is active</p>
@@ -162,10 +189,10 @@
 
             </div>
             <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
-                <textarea id="HTMLeditor" class="spanFour customBar" spellcheck="false">!</textarea>
+                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html" spellcheck="false">!</textarea>
             </div>
             <div class="tabcontent spanFour customBar codeArea" id="cssTab">
-                <textarea id="CSSeditor" class="spanFour customBar" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
+                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
             </div>
             <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
                 <textarea id="JSeditor" class="spanFour customBar" spellcheck="false">$("")</textarea>
