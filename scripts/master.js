@@ -190,6 +190,24 @@ function fullToggle() {
 
 }
 
+//download 
+function download(){
+	
+	// data_uri = `data:text/text,${code}`
+
+	var zip = new JSZip();
+	zip.file("index.html", $("#HTMLeditor").val());
+	zip.file("style.css",$("#CSSeditor").val())
+	zip.file("script.js",$("#JSeditor").val())
+	zip.generateAsync({type:"blob"})
+	.then(function(content) {
+    // see FileSaver.js
+    saveAs(content, "code.zip");
+});
+	
+	
+}
+
 //live code view function
 function liveCode() {
 
