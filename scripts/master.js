@@ -1,47 +1,6 @@
 
 //file upload feature  
-
-
-// html file   
-$("#htmlFile").change(function(event) {
-	console.log(1)
-	var input = event.target;
-
-    var reader = new FileReader();
-    
-    reader.onload = function(event) {
-        $("#HTMLeditor").val(event.target.result)
-		console.log(event.target.result)
-    };
-    reader.readAsText(input.files[0])
-})
-
-
-//css file    
-$("#cssFile").change(function(event) {
-    var input = event.target;
-
-    var reader = new FileReader();
-    
-    reader.onload = function(event) {
-        $("#CSSeditor").val(event.target.result)
-    };
-    reader.readAsText(input.files[0])
-})
-
-
-
-//js file    
-$("#jsFile").change(function(event) {
-	var input = event.target;
-
-    var reader = new FileReader();
-    
-    reader.onload = function(event) {
-        $("#JSeditor").val(event.target.result)
-    };
-    reader.readAsText(input.files[0])
-})
+var reader = new FileReader();
 
 
 //emmet start
@@ -72,6 +31,13 @@ $(function () {
 
     //open html tab
     $("#defaultOpen").click();
+	
+	//when html file is uploaded
+	$("#htmlFile").change(function(event){reader.onload = function(event){$("#HTMLeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
+	//when css file is uploaded
+	$("#cssFile").change(function(event){reader.onload = function(event){$("#CSSeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
+	//when js file is uploaded
+	$("#jsFile").change(function(event){reader.onload = function(event){$("#JSeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
 
 })
 

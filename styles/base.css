@@ -102,8 +102,8 @@ a {
 
 #section5{
 	position:fixed;
-	top:0px;
-	left:0px;
+	top:30px;
+	left:50px;
 	
 }
 
@@ -179,18 +179,33 @@ a {
     width: 25%;
 }
 
+#uCSS{
+	background:url(https://image.flaticon.com/icons/svg/337/337928.svg);
+	background-size:contain;
+	background-repeat:no-repeat;
+}
+
+#uHTMl{
+	background:url(https://image.flaticon.com/icons/svg/337/337937.svg);
+	background-size:contain;
+	background-repeat:no-repeat;
+}
+
+#uJS{
+	background:url(https://image.flaticon.com/icons/svg/337/337941.svg);
+	background-size:contain;
+	background-repeat:no-repeat;
+}
+
 /* class selectors */
 
 .upload{
     display: inline-block;
-    padding: 6px 12px;
     cursor: pointer;
-    height:40px;
-    width:77px;
-	border-radius:25px;
-	border:2px solid skyblue;
-	text-align:center;
-	background-color:#eaeaea;
+	height:50px;
+	width:40px;
+	margin:5px;
+
 }
 
 .infoCube{
