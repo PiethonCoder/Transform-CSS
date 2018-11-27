@@ -193,12 +193,15 @@ function fullToggle() {
 //download 
 function download(){
 	
-	// data_uri = `data:text/text,${code}`
-
+	var html = $("#htmlName").val()
+	var css = $("#cssName").val()
+	var js = $("#jsName").val()
+	
 	var zip = new JSZip();
-	zip.file("index.html", $("#HTMLeditor").val());
-	zip.file("style.css",$("#CSSeditor").val())
-	zip.file("script.js",$("#JSeditor").val())
+	var site = zip.folder("site");
+	site.file(html + ".html", $("#HTMLeditor").val());
+	site.file(css + ".css",$("#CSSeditor").val())
+	site.file(js + ".js",$("#JSeditor").val())
 	zip.generateAsync({type:"blob"})
 	.then(function(content) {
     // see FileSaver.js
@@ -400,7 +403,7 @@ var copy = ""
 $(function () {
     //keypress event 
     $("body").keydown(function (event) {
-        //console.log(event.which)
+        // console.log(event.which)
 
         //cache the code when it is modified
         cache();
@@ -409,7 +412,11 @@ $(function () {
         //        if (live) {
         //            liveUpdate()
         //        }
-
+		
+		//download 
+		if(event.ctrlKey && event.altKey && event.which == 68){
+			download()
+		}
         //quick edit
         if (event.ctrlKey && event.which == 81) {
             quickEdit()

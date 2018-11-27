@@ -332,6 +332,27 @@ a {
     margin-top: -40px;
 }
 
+.fileName{
+	display:block;
+	border:none;
+	outline:none;
+	width:55%;
+	font-size:2em;
+	text-align:right;
+	background:transparent;
+}
+
+.fileType{
+	display:block;
+	height:13px;
+}
+
+.m{
+	display:flex;
+	align-items:center;
+	justify-content:center;
+}
+
 /* psuedo selectors */
 
 .popup:target {

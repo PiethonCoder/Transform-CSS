@@ -12,8 +12,6 @@
 
 <body>
     <main id="container">
-	
-	<!-- <a id="download" href="" style="display:;">d</a> -->
 
         <section id="popup1" class="popup">
             <div class="w3-row outer">
@@ -28,7 +26,7 @@
                         <p>fullscreen toggle: ctrl+shift+f</p>
                     </div>
                     <div class="w3-col l3 w3-green infoCube">
-                        <p>-</p>
+                        <p>download code: ctrl+alt+d</p>
                     </div>
                     <div class="w3-col l3 w3-blue infoCube">
                         <p>-</p>
@@ -132,13 +130,13 @@
         </section>
         <section id="section2">
             <div @click="activate($event,'defaultOpen','htmlTab')" id="defaultOpen" style="grid-column:3/4" class="languageTab off">
-                <h2>html</h2>
+				<div class="m"><input id="htmlName" class="fileName" type="text" value="index"><span class="fileType">.html</span></div>
             </div>
             <div @click="activate($event,'styleOpen','cssTab')" id="styleOpen" style="grid-column:5/6" class="languageTab off">
-                <h2>css</h2>
+                <div class="m"><input id="cssName" class="fileName" type="text" value="style"><span class="fileType">.css</span></div>
             </div>
             <div @click="activate($event,'scriptOpen','javascriptTab')" id="scriptOpen" style="grid-column:7/8" class="languageTab off">
-                <h2>javascript</h2>
+                <div class="m"><input id="jsName" class="fileName" type="text" value="script"><span class="fileType">.js</span></div>
             </div>
         </section>
         <section id="section3">
