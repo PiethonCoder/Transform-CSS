@@ -342,11 +342,16 @@ function quickEdit() {
     } else {
         jump = css.indexOf(elm)
     }
-
+	
+	$("#CSSeditor").blur();
     $("#styleOpen").click();
     $("#CSSeditor").focus();
     $("#CSSeditor").selectRange(jump)
+	
+
 }
+
+
 
 //caching
 function cache() {
