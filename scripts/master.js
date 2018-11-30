@@ -401,14 +401,38 @@ function insertAtCaret(areaId, text) {
     txtarea.scrollTop = scrollPos;
 }
 
+function history(){
+	keyCount = 0
+	
+	codeHistory["html"] = $("#HTMLeditor").val();
+	codeHistory["css"] = $("#CSSeditor").val();
+	// codeHistory["js"] = $("#JSeditor").val();
+}
+
+function getHistory(){
+	$("#HTMLeditor").val(codeHistory["html"])  
+	$("#CSSeditor").val(codeHistory["css"])  
+	// $("#JSeditor").val(codeHistory["js"])  
+}
+
+var codeHistory = {}
+
 var priorCopy = ""
 var copy = ""
+var keyCount = 0
 
 //keyboard shortcuts 
 $(function () {
     //keypress event 
     $("body").keydown(function (event) {
         // console.log(event.which)
+		
+		//save a copy every 60 keys
+		keyCount += 1 
+		
+		if(keyCount >= 60){
+			history();
+		}
 
         //cache the code when it is modified
         cache();
@@ -416,7 +440,12 @@ $(function () {
         //live code update 
         //        if (live) {
         //            liveUpdate()
-        //        }
+        // 		}
+		
+		//code history
+		if(event.ctrlKey && event.shiftKey && event.which == 72){
+			getHistory();
+		}
 		
 		//download 
 		if(event.ctrlKey && event.altKey && event.which == 68){
