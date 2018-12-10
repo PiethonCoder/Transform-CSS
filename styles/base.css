@@ -60,6 +60,11 @@ a {
     color: red;
 }
 
+#theme_default{
+	background-color: white;
+    color: black;
+}
+
 #globeBox {
     position: fixed;
     right: 0px;

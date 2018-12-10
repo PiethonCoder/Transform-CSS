@@ -747,3 +747,10 @@ $("#theme_ribbon").click(function () {
     $("textarea").css("color", "red");
     $("body").css("background-color", "black")
 })
+
+$("#theme_default").click(function () {
+    $("textarea").css("background", "white");
+    $(".commandItem").css("background", "#eaeaea")
+    $("textarea").css("color", "black");
+    $("body").css("background-color", "white")
+})
