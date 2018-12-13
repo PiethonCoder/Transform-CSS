@@ -1,6 +1,6 @@
 
 //file upload feature  
-var reader = new FileReader();
+//var reader = new FileReader();
 
 
 //emmet start
@@ -32,13 +32,6 @@ $(function () {
     //open html tab
     $("#defaultOpen").click();
 	
-	//when html file is uploaded
-	$("#htmlFile").change(function(event){reader.onload = function(event){$("#HTMLeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
-	//when css file is uploaded
-	$("#cssFile").change(function(event){reader.onload = function(event){$("#CSSeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
-	//when js file is uploaded
-	$("#jsFile").change(function(event){reader.onload = function(event){$("#JSeditor").val(event.target.result)};reader.readAsText(event.target.files[0])})
-
 })
 
 
@@ -754,3 +747,99 @@ $("#theme_default").click(function () {
     $("textarea").css("color", "black");
     $("body").css("background-color", "white")
 })
+
+
+var allFiles = {}
+
+//file upload 
+function dragOverHandler(ev) {
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+}
+
+function dropHandler(ev) {
+
+  // Prevent default behavior (Prevent file from being opened)
+  ev.preventDefault();
+
+  if (ev.dataTransfer.items) {
+    // Use DataTransferItemList interface to access the file(s)
+    for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+		
+      // If dropped items aren't files, reject them
+      if (ev.dataTransfer.items[i].kind === 'file') {
+		  
+		var reader = new FileReader();  
+		var file = ev.dataTransfer.items[i].getAsFile(); 
+		  
+		if(file.name.endsWith(".html")){
+			console.log("html")
+			reader.onload = function(event){
+				$("#HTMLeditor").val(event.target.result)
+				$("#htmlName").val(file.name)
+			}
+			reader.readAsText(file)
+		}
+		else if(file.name.endsWith(".css")){
+			console.log("css")
+			reader.onload = function(event){
+				$("#CSSeditor").val(event.target.result)
+				$("#cssName").val(file.name)
+			}
+			reader.readAsText(file)
+		}
+		else if(file.name.endsWith(".js")){
+			console.log("js")
+			reader.onload = function(event){
+				$("#JSeditor").val(event.target.result)
+				$("#jsName").val(file.name)
+			}
+			reader.readAsText(file)
+		}
+		
+		allFiles[file.name] = file
+		  
+      }
+    }
+  } else {
+    // Use DataTransfer interface to access the file(s)
+    for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+		if (ev.dataTransfer.items[i].kind === 'file') {
+		  
+			var reader = new FileReader();  
+			var file = ev.dataTransfer.items[i].getAsFile(); 
+			  
+			if(file.name.endsWith(".html")){
+				console.log("html")
+				reader.onload = function(event){
+					$("#HTMLeditor").val(event.target.result)
+					$("#htmlName").val(file.name)
+				}
+				reader.readAsText(file)
+			}
+			else if(file.name.endsWith(".css")){
+				console.log("css")
+				reader.onload = function(event){
+					$("#CSSeditor").val(event.target.result)
+					$("#cssName").val(file.name)
+				}
+				reader.readAsText(file)
+			}
+			else if(file.name.endsWith(".js")){
+				console.log("js")
+				reader.onload = function(event){
+					$("#JSeditor").val(event.target.result)
+					$("#jsName").val(file.name)
+				}
+				reader.readAsText(file)
+			}
+			
+			allFiles[file.name] = file
+		  
+      }
+      
+    }
+  }
+}
+
