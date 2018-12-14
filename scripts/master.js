@@ -53,7 +53,8 @@ var wrapper = new Vue({
                 function x(tab) {
 
                     var textAreas = document.getElementsByClassName('codeArea');
-                    document.getElementById('commands').className = "slimMenu";
+                    $("#commands").css("display", "none");
+					$("#files").css("display", "none");
 
                     for (i = 0; i < textAreas.length; i++) {
                         if (document.querySelectorAll('.on').length == 3) {
@@ -106,9 +107,11 @@ function openMultiTab(evt, name) {
 function openTab(evt, name) {
 
     //show globes
-    $("#globeBox").css("display", "block");
+    $("#globeBox").css("display", "flex");
 
-    document.getElementById('commands').className = "normalMenu";
+
+
+    document.getElementById('commands').className = "normalMenu customBar";
 
     var tabcontent = document.getElementsByClassName("tabcontent");
 
@@ -126,6 +129,9 @@ function openTab(evt, name) {
             tabcontent[i].className = tabcontent[i].className.replace(" spanThree", " spanFour");
             tabcontent[i].style.display = "none";
         }
+		
+		$("#commands").css("display", "flex");
+		$("#files").css("display", "flex");
     }
 
 
@@ -155,6 +161,7 @@ var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jq
 function fullToggle() {
     if (!toggleMode) {
         $("#commands").css("display", "none");
+		$("#files").css("display", "none");
 
         var tabcontent = document.getElementsByClassName("tabcontent");
         //pull the 3 textarea's, make the width full, since only one is selected, then hide all
@@ -168,6 +175,7 @@ function fullToggle() {
         toggleMode = 1
     } else if (toggleMode) {
         $("#commands").css("display", "flex");
+		$("#files").css("display", "flex");
 
         var tabcontent = document.getElementsByClassName("tabcontent");
         //pull the 3 textarea's, make the width full, since only one is selected, then hide all
@@ -175,7 +183,7 @@ function fullToggle() {
             tabcontent[i].className = tabcontent[i].className.replace(" spanSix", " spanFour");
         }
 
-        $("#globeBox").css("display", "block")
+        $("#globeBox").css("display", "flex")
         $("#section2").css("height", "120px")
         $("textarea").css("height", parseInt($("textarea").css("height")) - 100)
         toggleMode = 0
@@ -751,6 +759,16 @@ $("#theme_default").click(function () {
 
 var allFiles = {}
 
+function displayFiles(){
+	for(var file in allFiles){
+		$("#files").append(`<div class='file' id='${file}' onclick="display('${file}')">${file}</div>`)
+	}
+}
+
+function display(filename){
+	alert(filename.toString())
+}
+
 //file upload 
 function dragOverHandler(ev) {
 
@@ -774,26 +792,29 @@ function dropHandler(ev) {
 		var file = ev.dataTransfer.items[i].getAsFile(); 
 		  
 		if(file.name.endsWith(".html")){
+			let name = file.name.split(".")[0]
 			console.log("html")
 			reader.onload = function(event){
 				$("#HTMLeditor").val(event.target.result)
-				$("#htmlName").val(file.name)
+				$("#htmlName").val(name)
 			}
 			reader.readAsText(file)
 		}
 		else if(file.name.endsWith(".css")){
+			let name = file.name.split(".")[0]
 			console.log("css")
 			reader.onload = function(event){
 				$("#CSSeditor").val(event.target.result)
-				$("#cssName").val(file.name)
+				$("#cssName").val(name)
 			}
 			reader.readAsText(file)
 		}
 		else if(file.name.endsWith(".js")){
+			let name = file.name.split(".")[0]
 			console.log("js")
 			reader.onload = function(event){
 				$("#JSeditor").val(event.target.result)
-				$("#jsName").val(file.name)
+				$("#jsName").val(name)
 			}
 			reader.readAsText(file)
 		}
@@ -841,5 +862,8 @@ function dropHandler(ev) {
       
     }
   }
+  
+  displayFiles()
+  
 }
 

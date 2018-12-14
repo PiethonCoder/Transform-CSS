@@ -147,10 +147,25 @@
             </div>
         </section>
         <section id="section3">
-            <div id="commands" class="normalMenu">
+		
+			<div id="files" class="customBar">
+				<h4 style="text-align:center;border-bottom:1px solid silver;">Files</h4>
+			</div>
+            
+            <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
+                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html" spellcheck="false">!</textarea>
+            </div>
+            <div class="tabcontent spanFour customBar codeArea" id="cssTab">
+                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
+            </div>
+            <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
+                <textarea id="JSeditor" class="spanFour customBar" spellcheck="false">$("")</textarea>
+            </div>
+			
+			<div id="commands" class="normalMenu customBar">
                 <h4 class="commandItem w3-text-blue">Command Shortcuts:</h4>
 
-                <span class="hint--right" aria-label="takes the code in the css tab, and converts it to inline styles in your html tab">
+                <span class="hint--left" aria-label="takes the code in the css tab, and converts it to inline styles in your html tab">
                     <p class="commandItem w3-text-purple">convert css to inline: ctrl+i</p>
                 </span>
 
@@ -166,23 +181,23 @@
                     <p class="commandItem w3-text-cyan">code beautifier: ctrl+b</p>
                 </span>
 
-                <span class="hint--right" aria-label="compress code for smaller file size, code will still work in browser">
+                <span class="hint--left" aria-label="compress code for smaller file size, code will still work in browser">
                     <p class="commandItem w3-text-light-blue">minify code: ctrl+m</p>
                 </span>
 
-                <span class="hint--right" aria-label="convert most characters to hex code, 10% chance of not being readable by browsers">
+                <span class="hint--left" aria-label="convert most characters to hex code, 10% chance of not being readable by browsers">
                     <p class="commandItem w3-text-green">encrypt code: ctrl+e</p>
                 </span>
 
-                <span class="hint--right" aria-label="change both normal encrypt and mega encrypt back to normal">
+                <span class="hint--left" aria-label="change both normal encrypt and mega encrypt back to normal">
                     <p class="commandItem w3-text-yellow">decrypt code: ctrl+shift+e</p>
                 </span>
 
-                <span class="hint--right" aria-label="convert all characters to hex code, 20% chance of not being readable by browsers">
+                <span class="hint--left" aria-label="convert all characters to hex code, 20% chance of not being readable by browsers">
                     <p class="commandItem w3-text-pink">mega encrypt: ctrl+alt+shift+e</p>
                 </span>
 
-                <span class="hint--right" aria-label="finds any css element, highlight tag/class/id and press shortcut">
+                <span class="hint--left" aria-label="finds any css element, highlight tag/class/id and press shortcut">
                     <p class="commandItem w3-text-light-green">quick edit: ctrl+q</p>
                 </span>
 
@@ -194,15 +209,6 @@
                     <p class="commandItem w3-text-blue">+ more</p>
                 </a>
 
-            </div>
-            <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
-                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html" spellcheck="false">!</textarea>
-            </div>
-            <div class="tabcontent spanFour customBar codeArea" id="cssTab">
-                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
-            </div>
-            <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
-                <textarea id="JSeditor" class="spanFour customBar" spellcheck="false">$("")</textarea>
             </div>
         </section>
         <section id="section4">
