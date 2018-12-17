@@ -1,8 +1,4 @@
 
-//file upload feature  
-//var reader = new FileReader();
-
-
 //emmet start
 emmet.require('textarea').setup({
     pretty_break: true, // enable formatted line breaks (when inserting
@@ -16,7 +12,7 @@ emmet.require('textarea').setup({
 
 
 //on page load 
-$(function () {
+$(function() {
     //if there is prior code that was made, import it 
     if (localStorage["page_source"]) {
         $("#HTMLeditor").val(localStorage["page_source"])
@@ -32,6 +28,9 @@ $(function () {
     //open html tab
     $("#defaultOpen").click();
 	
+	// open style
+	$("#theme_ribbon").click();
+
 })
 
 
@@ -46,7 +45,7 @@ var wrapper = new Vue({
     methods: {
 
         //    shift click tab feature  
-        activate: function (event, tab, textArea) {
+        activate: function(event, tab, textArea) {
 
 
             if (event.shiftKey) {
@@ -54,7 +53,8 @@ var wrapper = new Vue({
 
                     var textAreas = document.getElementsByClassName('codeArea');
                     $("#commands").css("display", "none");
-					$("#files").css("display", "none");
+                    $("#files").css("display", "none");
+                    $("#filler").css("display", "none");
 
                     for (i = 0; i < textAreas.length; i++) {
                         if (document.querySelectorAll('.on').length == 3) {
@@ -81,7 +81,7 @@ var wrapper = new Vue({
 
 
         },
-        tab: function (box) {
+        tab: function(box) {
             document.getElementById(box).innerHTML = document.getElementById(box).innerHTML + "    ";
         }
 
@@ -99,8 +99,7 @@ function update(elementID, code) {
 function openMultiTab(evt, name) {
     document.getElementById(name).style.display = "block";
     evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
-    //hide globes
-    $("#globeBox").css("display", "none");
+
 }
 
 //changing active langugae 
@@ -129,9 +128,10 @@ function openTab(evt, name) {
             tabcontent[i].className = tabcontent[i].className.replace(" spanThree", " spanFour");
             tabcontent[i].style.display = "none";
         }
-		
-		$("#commands").css("display", "flex");
-		$("#files").css("display", "flex");
+
+        $("#commands").css("display", "flex");
+        $("#files").css("display", "flex");
+        $("#filler").css("display", "flex");
     }
 
 
@@ -159,9 +159,11 @@ var toggleMode = 0
 var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>'
 
 function fullToggle() {
+	//fullscreen
     if (!toggleMode) {
         $("#commands").css("display", "none");
-		$("#files").css("display", "none");
+        $("#files").css("display", "none");
+        $("#filler").css("display", "none");
 
         var tabcontent = document.getElementsByClassName("tabcontent");
         //pull the 3 textarea's, make the width full, since only one is selected, then hide all
@@ -169,13 +171,12 @@ function fullToggle() {
             tabcontent[i].className = tabcontent[i].className.replace(" spanFour", " spanSix");
         }
 
-        $("#globeBox").css("display", "none")
         $("#section2").css("height", "40px")
-        $("textarea").css("height", parseInt($("textarea").css("height")) + 100)
+		$(".code").css("height", parseInt($(".code").css("height")) + 100)
         toggleMode = 1
-    } else if (toggleMode) {
-        $("#commands").css("display", "flex");
-		$("#files").css("display", "flex");
+    } 
+	//normal 
+	else if (toggleMode) {
 
         var tabcontent = document.getElementsByClassName("tabcontent");
         //pull the 3 textarea's, make the width full, since only one is selected, then hide all
@@ -183,33 +184,60 @@ function fullToggle() {
             tabcontent[i].className = tabcontent[i].className.replace(" spanSix", " spanFour");
         }
 
-        $("#globeBox").css("display", "flex")
         $("#section2").css("height", "120px")
-        $("textarea").css("height", parseInt($("textarea").css("height")) - 100)
+        $(".code").css("height", parseInt($(".code").css("height")) - 100)
         toggleMode = 0
+		
+		//if only one file open 
+		if($(".on").length == 1){
+			$("#commands").css("display", "flex");
+			$("#files").css("display", "flex");
+			$("#filler").css("display", "flex");
+		}
     }
 
 }
 
 //download 
-function download(){
+function download() {
 	
-	var html = $("#htmlName").val()
-	var css = $("#cssName").val()
-	var js = $("#jsName").val()
+	save()
 	
-	var zip = new JSZip();
-	var site = zip.folder("site");
-	site.file(html + ".html", $("#HTMLeditor").val());
-	site.file(css + ".css",$("#CSSeditor").val())
-	site.file(js + ".js",$("#JSeditor").val())
-	zip.generateAsync({type:"blob"})
-	.then(function(content) {
-    // see FileSaver.js
-    saveAs(content, "code.zip");
-});
+    var html = $("#htmlName").val()
+    var css = $("#cssName").val()
+    var js = $("#jsName").val()
 	
-	
+	if(!(html+".html" in allFiles)){
+		allFiles[html+".html"] = $("#HTMLeditor").val()
+	}
+	else if(!(css+".css" in allFiles)){
+		allFiles[css+".css"] = $("#CSSeditor").val()
+	}
+	else if(!(js+".js" in allFiles)){
+		allFiles[js+".js"] = $("#JSeditor").val()
+	}
+
+    var zip = new JSZip();
+    var site = zip.folder("site");
+
+	for(var file in allFiles){
+		//if the file is a image
+		if(images.includes(file.split(".")[1])){
+			site.file(file,allFiles[file],{binary: true})
+		}else{
+			site.file(file,allFiles[file])
+		}
+		
+	}
+    zip.generateAsync({
+            type: "blob"
+        })
+        .then(function(content) {
+            // see FileSaver.js
+            saveAs(content, "code.zip");
+        });
+
+
 }
 
 //live code view function
@@ -234,7 +262,7 @@ function liveCode() {
     myWindow.document.write(doc);
 
     //when the page closes
-    myWindow.onunload = function () {
+    myWindow.onunload = function() {
         live = false;
     }
 
@@ -245,7 +273,7 @@ function liveUpdate() {
 
     while (myWindow.document.firstChild) {
         myWindow.document.removeChild(myWindow.document.firstChild);
-        console.log("done")
+
     }
 
     var html = $("#HTMLeditor").val();
@@ -305,11 +333,11 @@ function getSelectionText() {
 }
 
 //change cursor position
-$.fn.selectRange = function (start, end) {
+$.fn.selectRange = function(start, end) {
     if (end === undefined) {
         end = start;
     }
-    return this.each(function () {
+    return this.each(function() {
         if ('selectionStart' in this) {
             this.selectionStart = start;
             this.selectionEnd = end;
@@ -343,12 +371,12 @@ function quickEdit() {
     } else {
         jump = css.indexOf(elm)
     }
-	
-	$("#CSSeditor").blur();
+
+    $("#CSSeditor").blur();
     $("#styleOpen").click();
     $("#CSSeditor").focus();
     $("#CSSeditor").selectRange(jump)
-	
+
 
 }
 
@@ -402,18 +430,18 @@ function insertAtCaret(areaId, text) {
     txtarea.scrollTop = scrollPos;
 }
 
-function history(){
-	keyCount = 0
-	
-	codeHistory["html"] = $("#HTMLeditor").val();
-	codeHistory["css"] = $("#CSSeditor").val();
-	// codeHistory["js"] = $("#JSeditor").val();
+function history() {
+    keyCount = 0
+
+    codeHistory["html"] = $("#HTMLeditor").val();
+    codeHistory["css"] = $("#CSSeditor").val();
+    // codeHistory["js"] = $("#JSeditor").val();
 }
 
-function getHistory(){
-	$("#HTMLeditor").val(codeHistory["html"])  
-	$("#CSSeditor").val(codeHistory["css"])  
-	// $("#JSeditor").val(codeHistory["js"])  
+function getHistory() {
+    $("#HTMLeditor").val(codeHistory["html"])
+    $("#CSSeditor").val(codeHistory["css"])
+    // $("#JSeditor").val(codeHistory["js"])  
 }
 
 var codeHistory = {}
@@ -423,17 +451,17 @@ var copy = ""
 var keyCount = 0
 
 //keyboard shortcuts 
-$(function () {
+$(function() {
     //keypress event 
-    $("body").keydown(function (event) {
+    $("body").keydown(function(event) {
         // console.log(event.which)
-		
-		//save a copy every 60 keys
-		keyCount += 1 
-		
-		if(keyCount >= 60){
-			history();
-		}
+
+        //save a copy every 60 keys
+        keyCount += 1
+
+        if (keyCount >= 60) {
+            history();
+        }
 
         //cache the code when it is modified
         cache();
@@ -442,16 +470,16 @@ $(function () {
         //        if (live) {
         //            liveUpdate()
         // 		}
-		
-		//code history
-		if(event.ctrlKey && event.shiftKey && event.which == 72){
-			getHistory();
-		}
-		
-		//download 
-		if(event.ctrlKey && event.altKey && event.which == 68){
-			download()
-		}
+
+        //code history
+        if (event.ctrlKey && event.shiftKey && event.which == 72) {
+            getHistory();
+        }
+
+        //download 
+        if (event.ctrlKey && event.altKey && event.which == 68) {
+            download()
+        }
         //quick edit
         if (event.ctrlKey && event.which == 81) {
             quickEdit()
@@ -563,7 +591,6 @@ function import_(library, type) {
         $("#HTMLeditor").val(insert($("#HTMLeditor").val(), index, link))
 
     } else {
-        console.log(link + $("#HTMLeditor").val())
         $("#HTMLeditor").val(link + $("#HTMLeditor").val())
     }
     //make dom look nice 
@@ -586,11 +613,11 @@ function remove_(library, type) {
 
 //icon hover effect 
 
-$("#icon").hover(function () {
+$("#icon").hover(function() {
     $("#icon_ball").css("fill", "orange");
     $("#icon_tail").css("fill", "#ff5353");
 
-}, function () {
+}, function() {
     $("#icon_ball").css("fill", "black");
     $("#icon_tail").css("fill", "black");
 })
@@ -601,7 +628,7 @@ $("#icon").hover(function () {
 //javascript
 
 //jquery
-$("#check_jquery").change(function () {
+$("#check_jquery").change(function() {
     if ($("#check_jquery").is(':checked'))
         import_("jquery", "js")
     else
@@ -610,7 +637,7 @@ $("#check_jquery").change(function () {
 })
 
 //vue
-$("#check_vue").change(function () {
+$("#check_vue").change(function() {
     if ($("#check_vue").is(':checked'))
         import_("vue", "js")
     else
@@ -619,7 +646,7 @@ $("#check_vue").change(function () {
 })
 
 //angular
-$("#check_angular").change(function () {
+$("#check_angular").change(function() {
     if ($("#check_angular").is(':checked'))
         import_("angular", "js")
     else
@@ -628,7 +655,7 @@ $("#check_angular").change(function () {
 })
 
 //react
-$("#check_react").change(function () {
+$("#check_react").change(function() {
     if ($("#check_react").is(':checked'))
         import_("react", "js")
     else
@@ -637,7 +664,7 @@ $("#check_react").change(function () {
 })
 
 //backbone
-$("#check_backbone").change(function () {
+$("#check_backbone").change(function() {
     if ($("#check_backbone").is(':checked'))
         import_("backbone", "js")
     else
@@ -648,7 +675,7 @@ $("#check_backbone").change(function () {
 //css
 
 //w3
-$("#check_w3").change(function () {
+$("#check_w3").change(function() {
     if ($("#check_w3").is(':checked'))
         import_("w3", "css")
     else
@@ -656,7 +683,7 @@ $("#check_w3").change(function () {
 })
 
 //bootstrap
-$("#check_bootstrap").change(function () {
+$("#check_bootstrap").change(function() {
     if ($("#check_bootstrap").is(':checked'))
         import_("bootstrap", "css")
     else
@@ -664,7 +691,7 @@ $("#check_bootstrap").change(function () {
 })
 
 //pure
-$("#check_pure").change(function () {
+$("#check_pure").change(function() {
     if ($("#check_pure").is(':checked'))
         import_("pure", "css")
     else
@@ -672,7 +699,7 @@ $("#check_pure").change(function () {
 })
 
 //skeleton
-$("#check_skeleton").change(function () {
+$("#check_skeleton").change(function() {
     if ($("#check_skeleton").is(':checked'))
         import_("skeleton", "css")
     else
@@ -680,7 +707,7 @@ $("#check_skeleton").change(function () {
 })
 
 //uikit
-$("#check_uikit").change(function () {
+$("#check_uikit").change(function() {
     if ($("#check_uikit").is(':checked'))
         import_("uikit", "css")
     else
@@ -692,178 +719,429 @@ $("#check_uikit").change(function () {
 
 //code styles
 
-$("#theme_nightLight").click(function () {
+$("#theme_nightLight").click(function() {
     $("textarea").css("background", "#001d30");
     $(".commandItem").css("background", "#001d30")
+    $("#files").css("background", "#001d30")
     $("textarea").css("color", "#ecc242");
+	$(".file").css("color", "#ecc242");
     $("body").css("background-color", "#00304c")
 })
 
-$("#theme_dayNight").click(function () {
+$("#theme_dayNight").click(function() {
     $("textarea").css("background", "black");
     $(".commandItem").css("background", "black")
+    $("#files").css("background", "black")
     $("textarea").css("color", "white");
+	$(".file").css("color", "white");
     $("body").css("background-color", "#151718")
 
 })
 
-$("#theme_hacker").click(function () {
+$("#theme_hacker").click(function() {
     $("textarea").css("background", "black");
     $(".commandItem").css("background", "black")
+    $("#files").css("background", "black")
     $("textarea").css("color", "#4dff4a");
+	$(".file").css("color", "#4dff4a");
     $("body").css("background-color", "black")
 })
 
-$("#theme_plum").click(function () {
+$("#theme_plum").click(function() {
     $("textarea").css("background", "#591952");
     $(".commandItem").css("background", "#591952")
+    $("#files").css("background", "#591952")
     $("textarea").css("color", "#9f5596");
+	$(".file").css("color", "#9f5596");
     $("body").css("background-color", "#4d1647")
 })
 
-$("#theme_velvet").click(function () {
+$("#theme_velvet").click(function() {
     $("textarea").css("background", "#fff0db");
     $(".commandItem").css("background", "#fff0db")
+    $("#files").css("background", "#fff0db")
     $("textarea").css("color", "#d4302b");
+	$(".file").css("color", "#d4302b");
     $("body").css("background-color", "#ffe3bb")
 })
 
-$("#theme_mist").click(function () {
+$("#theme_mist").click(function() {
     $("textarea").css("background", "#242424");
     $(".commandItem").css("background", "#242424")
+    $("#files").css("background", "#242424")
     $("textarea").css("color", "#10508c");
+	$(".file").css("color", "#10508c");
     $("body").css("background-color", "#1e1e1e")
 })
 
-$("#theme_loveNote").click(function () {
-    $("textarea").css("background", "#a1c3d1");
-    $(".commandItem").css("background", "#a1c3d1")
-    $("textarea").css("color", "#e64398");
-    $("body").css("background-color", "#b39bc8")
+$("#theme_ribbon").click(function() {
+    $("textarea").css("background", "#801336");
+    $(".commandItem").css("background", "#801336")
+    $("#files").css("background", "#801336")
+    $("textarea").css("color", "#ee4540");
+	$(".file").css("color", "#ee4540");
+    $("body").css("background-color", "#510a32")
+	
+	$(".fileName").css("color","#ee4540")
+	// $(".on").css("color","#ee4640")
+	$("#filesHead").css("color","#ee4540")
+	
 })
 
-$("#theme_ribbon").click(function () {
+$("#theme_grave").click(function() {
     $("textarea").css("background", "#1e1e1e");
     $(".commandItem").css("background", "#1e1e1e")
+    $("#files").css("background", "#1e1e1e")
     $("textarea").css("color", "red");
+	$(".file").css("color", "red");
     $("body").css("background-color", "black")
 })
 
-$("#theme_default").click(function () {
+$("#theme_default").click(function() {
     $("textarea").css("background", "white");
     $(".commandItem").css("background", "#eaeaea")
+    $("#files").css("background", "#eaeaea")
     $("textarea").css("color", "black");
+	$(".file").css("color", "black");
     $("body").css("background-color", "white")
 })
 
 
-var allFiles = {}
 
-function displayFiles(){
-	for(var file in allFiles){
-		$("#files").append(`<div class='file' id='${file}' onclick="display('${file}')">${file}</div>`)
+
+// file handling 
+
+
+var allFiles = {}
+var imageURI = {}
+
+function displayFiles() {
+
+	//add new files
+    for (var file in allFiles) {
+
+        var altFile = file.replace(".", "_")
+		
+		//if file already exists, replace it 
+        if ($(`#${altFile}`).length) {
+            $(`#${altFile}`).remove()
+            $("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+        } else {
+            $("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+        }
+    }
+	
+	//examine old files (for name change)
+	var fileNames = $(".file").map(function(){return this.id.replace("_",".")})
+	for(var file = 0;file < fileNames.length-1;file++){
+		if(!(fileNames[file] in allFiles)){
+			$(`#${fileNames[file].replace(".","_")}`).remove()
+		}
 	}
+	//.file onhover
+	var c = ""
+	$(".file").hover(function() {
+		c = $(this).css("color") 
+		$(this).css("color", "red")
+	}, function() {
+		$(this).css("color", c)
+	})
 }
 
-function display(filename){
-	alert(filename.toString())
+function save() {
+    let hname = $("#htmlName").val() + ".html"
+    let cname = $("#cssName").val() + ".css"
+    let jname = $("#jsName").val() + ".js"
+
+    allFiles[hname] = $("#HTMLeditor").val()
+    allFiles[cname] = $("#CSSeditor").val()
+    allFiles[jname] = $("#JSeditor").val()
+
+    if (miscFile != "") {
+        allFiles[miscFile] = $("#previewText").val()
+    }
+	
+	//displayFiles()
+
+}
+
+var miscFile = ""
+
+
+function display(filename) {
+    //alert(filename.toString())
+    var filetype = filename.split(".")[1]
+    var filename_ = filename.split(".")[0]
+
+    save()
+
+    if (filetype == undefined) {
+        $("#previewText").val(allFiles[filename])
+        $("#popup4").toggle(1000)
+        miscFile = filename
+    } else {
+        switch (filetype.toLowerCase()) {
+            case "html":
+                $("#HTMLeditor").val(allFiles[filename]);
+                $("#htmlName").val(filename_)
+				$("#htmlName").attr("name",filename)
+                $("#defaultOpen").click();
+                miscFile = ""
+                break
+            case "css":
+                $("#CSSeditor").val(allFiles[filename]);
+                $("#cssName").val(filename_)
+				$("#cssName").attr("name",filename)
+                $("#styleOpen").click();
+                miscFile = ""
+                break
+            case "js":
+                $("#JSeditor").val(allFiles[filename]);
+                $("#jsName").val(filename_)
+				$("#jsName").attr("name",filename)
+                $("#scriptOpen").click();
+                miscFile = ""
+                break
+            case "png":
+            case "jpeg":
+            case "svg":
+            case "gif":
+            case "ico":
+            case "jpg":
+                $("#previewImage").attr("src", imageURI[filename])
+                $("#popup3").toggle(1000)
+                miscFile = ""
+                break
+            default:
+                $("#previewText").val(allFiles[filename])
+                $("#popup4").toggle(1000)
+                miscFile = filename
+                break
+
+
+        }
+    }
 }
 
 //file upload 
 function dragOverHandler(ev) {
 
-  // Prevent default behavior (Prevent file from being opened)
-  ev.preventDefault();
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
 }
+
+var images = ["jpg", "png", "svg", "jpeg", "gif", "ico"]
 
 function dropHandler(ev) {
 
-  // Prevent default behavior (Prevent file from being opened)
-  ev.preventDefault();
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
 
-  if (ev.dataTransfer.items) {
-    // Use DataTransferItemList interface to access the file(s)
-    for (var i = 0; i < ev.dataTransfer.items.length; i++) {
-		
-      // If dropped items aren't files, reject them
-      if (ev.dataTransfer.items[i].kind === 'file') {
-		  
-		var reader = new FileReader();  
-		var file = ev.dataTransfer.items[i].getAsFile(); 
-		  
-		if(file.name.endsWith(".html")){
-			let name = file.name.split(".")[0]
-			console.log("html")
-			reader.onload = function(event){
-				$("#HTMLeditor").val(event.target.result)
-				$("#htmlName").val(name)
-			}
-			reader.readAsText(file)
-		}
-		else if(file.name.endsWith(".css")){
-			let name = file.name.split(".")[0]
-			console.log("css")
-			reader.onload = function(event){
-				$("#CSSeditor").val(event.target.result)
-				$("#cssName").val(name)
-			}
-			reader.readAsText(file)
-		}
-		else if(file.name.endsWith(".js")){
-			let name = file.name.split(".")[0]
-			console.log("js")
-			reader.onload = function(event){
-				$("#JSeditor").val(event.target.result)
-				$("#jsName").val(name)
-			}
-			reader.readAsText(file)
-		}
-		
-		allFiles[file.name] = file
-		  
-      }
-    }
-  } else {
-    // Use DataTransfer interface to access the file(s)
-    for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-		if (ev.dataTransfer.items[i].kind === 'file') {
-		  
-			var reader = new FileReader();  
-			var file = ev.dataTransfer.items[i].getAsFile(); 
-			  
-			if(file.name.endsWith(".html")){
-				console.log("html")
-				reader.onload = function(event){
-					$("#HTMLeditor").val(event.target.result)
-					$("#htmlName").val(file.name)
-				}
-				reader.readAsText(file)
-			}
-			else if(file.name.endsWith(".css")){
-				console.log("css")
-				reader.onload = function(event){
-					$("#CSSeditor").val(event.target.result)
-					$("#cssName").val(file.name)
-				}
-				reader.readAsText(file)
-			}
-			else if(file.name.endsWith(".js")){
-				console.log("js")
-				reader.onload = function(event){
-					$("#JSeditor").val(event.target.result)
-					$("#jsName").val(file.name)
-				}
-				reader.readAsText(file)
-			}
+    if (ev.dataTransfer.items) {
+        // Use DataTransferItemList interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+
+            var entry = ev.dataTransfer.items[i].webkitGetAsEntry();
+
+            if (entry.isFile) {
+
+                var reader = new FileReader();
+                var file = ev.dataTransfer.items[i].getAsFile();
+
+                if (file.name.endsWith(".html")) {
+                    let name = file.name.split(".")[0]
+                   
+                    reader.onload = function(event) {
+                        $("#HTMLeditor").val(event.target.result)
+                        $("#htmlName").val(name)
+						$("#htmlName").attr("name",name+".html")
+                        allFiles[name + ".html"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (file.name.endsWith(".css")) {
+                    let name = file.name.split(".")[0]
+                   
+                    reader.onload = function(event) {
+                        $("#CSSeditor").val(event.target.result)
+                        $("#cssName").val(name)
+						$("#cssName").attr("name",name+".css")
+                        allFiles[name + ".css"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file) 
+                } else if (file.name.endsWith(".js")) {
+                    let name = file.name.split(".")[0]
+                   
+                    reader.onload = function(event) {
+                        $("#JSeditor").val(event.target.result)
+                        $("#jsName").val(name)
+						$("#jsName").attr("name",name+".js")
+                        allFiles[name + ".js"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (images.indexOf(file.name.split(".")[1]) > -1) {
+                    let name = file.name
+					let tempFile = file 
+                    reader.onload = function(event) {
+						var reader = new FileReader();
+						
+                        allFiles[name] = event.target.result
+						displayFiles() 
+						
+						reader.onload = function(event){
+							imageURI[name] = event.target.result
+							
+						 }
+						reader.readAsDataURL(tempFile)
+                        
+                    }
+                    reader.readAsBinaryString(file)
+					
+					
+                } else {
+                    let name = file.name
+                    reader.onload = function(event) {
+                        allFiles[name] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+
+                }
+
+            } 
+			//folder reading 
+			else {
+				
+                var dirReader = entry.createReader();
 			
-			allFiles[file.name] = file
-		  
-      }
-      
+                var entries = [];
+
+                function getEntries() {
+                    dirReader.readEntries(function(results) {
+						alert(1)
+                        if (results.length > 0) {
+							
+                            //entries = entries.concat(toArray(results));
+                            getEntries();
+                        }else{"done"}
+                    }, function(error) {
+						console.log(error.code)
+                        /* handle error -- error is a FileError object */
+                    });
+                };
+
+                getEntries();
+                
+
+            }
+        }
+    } else {
+        // Use DataTransfer interface to access the file(s)
+        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+            if (ev.dataTransfer.items[i].kind === 'file') {
+
+                var reader = new FileReader();
+                var file = ev.dataTransfer.items[i].getAsFile();
+
+                if (file.name.endsWith(".html")) {
+                  
+                    reader.onload = function(event) {
+                        $("#HTMLeditor").val(event.target.result)
+                        $("#htmlName").val(file.name)
+                        allFiles[name + ".html"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (file.name.endsWith(".css")) {
+                    
+                    reader.onload = function(event) {
+                        $("#CSSeditor").val(event.target.result)
+                        $("#cssName").val(file.name)
+                        allFiles[name + ".css"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (file.name.endsWith(".js")) {
+                
+                    reader.onload = function(event) {
+                        $("#JSeditor").val(event.target.result)
+                        $("#jsName").val(file.name)
+                        allFiles[name + ".js"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (images.indexOf(file.name.split(".")[1]) > -1) {
+                    reader.onload = function(event) {
+                        allFiles[file.name] = event.target.result
+                       
+                        displayFiles()
+                    }
+                    reader.readAsDataURL(file)
+                } else {
+                    let name = file.name
+                    reader.onload = function(event) {
+                        allFiles[name] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+
+                }
+
+            }
+
+        }
     }
-  }
-  
-  displayFiles()
-  
+
 }
 
+// name change
+
+//when html tab name changes
+$("#htmlName").focusout(function(){
+	if($("#htmlName").val()+".html" != $("#htmlName").attr("name")){
+		// add a new record to allFiles
+		allFiles[$("#htmlName").val()+".html"] = $("#HTMLeditor").val()
+		// delete the old name
+		delete allFiles[$("#htmlName").attr("name")]
+		// change the reference in the name prop
+		$("#htmlName").attr("name",$("#htmlName").val()+".html")
+		// refresh files
+		displayFiles()
+	}else{
+		console.log("no change")
+	}
+}) 
+
+//when css tab name changes
+$("#cssName").focusout(function(){
+	if($("#cssName").val()+".css" != $("#cssName").attr("name")){
+		// add a new record to allFiles
+		allFiles[$("#cssName").val()+".css"] = $("#CSSeditor").val()
+		// delete the old name
+		delete allFiles[$("#cssName").attr("name")]
+		// change the reference in the name prop
+		$("#cssName").attr("name",$("#cssName").val()+".css")
+		// refresh files
+		displayFiles()
+	}else{
+		console.log("no change")
+	}
+}) 
+
+//when js tab name changes
+$("#jsName").focusout(function(){
+	if($("#jsName").val()+".js" != $("#jsName").attr("name")){
+		// add a new record to allFiles
+		allFiles[$("#jsName").val()+".js"] = $("#JSeditor").val()
+		// delete the old name
+		delete allFiles[$("#jsName").attr("name")]
+		// change the reference in the name prop
+		$("#jsName").attr("name",$("#jsName").val()+".js")
+		// refresh files
+		displayFiles()
+	}else{
+		console.log("no change")
+	}
+}) 

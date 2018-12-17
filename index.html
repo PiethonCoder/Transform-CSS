@@ -18,31 +18,38 @@
 
                 <div class="inner">
                   
-                    <div class="w3-col l3 w3-red infoCube">
+                    <div class="w3-col l3 w3-red infoCube" style="border-radius: 25px 0px 0px 0px;">
                         <p>prior copy: ctrl+alt+v</p>
                     </div>
                   
                     <div class="w3-col l3 w3-pink infoCube">
                         <p>fullscreen toggle: ctrl+shift+f</p>
                     </div>
+					
                     <div class="w3-col l3 w3-green infoCube">
                         <p>download code: ctrl+alt+d</p>
                     </div>
-                    <div class="w3-col l3 w3-blue infoCube">
+					
+                    <div class="w3-col l3 w3-blue infoCube" style="border-radius:0px 25px 0px 0px;">
                         <p>code history: ctrl+shift+h</p>
                     </div>
+					
                     <div class="w3-col l3 w3-indigo infoCube">
                         <p>-</p>
                     </div>
+					
                     <div class="w3-col l3 w3-purple infoCube">
                         <p>-</p>
                     </div>
+					
                     <div class="w3-col l3 w3-amber infoCube">
                         <p>-</p>
                     </div>
+					
                     <div class="w3-col l3 w3-teal infoCube">
                         <p>-</p>
                     </div>
+					
                     <a href="#">
                         <div id="save">close</div>
                     </a>
@@ -127,6 +134,19 @@
                 </div>
             </div>
         </section>
+		
+		<section id="popup3" >
+			<div class="outer">
+				<img id="previewImage" src="https://images.pexels.com/photos/1236730/pexels-photo-1236730.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" style="height:68%;width:auto;">
+			</div>
+		</section>
+		
+		<section id="popup4">
+			<div class="outer">
+				<textarea class="customBar" id="previewText" style="height:70%;width:63%;resize:none"></textarea>
+			</div>
+		</section>
+		
         <section id="section1">
             <div id="options"><a href="#popup2"><svg id="icon" xmlns="http://www.w3.org/2000/svg" height="923pt" version="1.1" viewBox="0 0 923 923.75184" width="923pt">
                         <g id="surface1">
@@ -137,35 +157,39 @@
         </section>
         <section id="section2">
             <div @click="activate($event,'defaultOpen','htmlTab')" id="defaultOpen" style="grid-column:3/4" class="languageTab off">
-				<div class="m"><input id="htmlName" class="fileName" type="text" value="index"><span class="fileType">.html</span></div>
+				<div class="m"><input id="htmlName" class="fileName" type="text" value="index" name="index.html"><span class="fileType">.html</span></div>
             </div>
             <div @click="activate($event,'styleOpen','cssTab')" id="styleOpen" style="grid-column:5/6" class="languageTab off">
-                <div class="m"><input id="cssName" class="fileName" type="text" value="style"><span class="fileType">.css</span></div>
+                <div class="m"><input id="cssName" class="fileName" type="text" value="style" name="style.css"><span class="fileType">.css</span></div>
             </div>
             <div @click="activate($event,'scriptOpen','javascriptTab')" id="scriptOpen" style="grid-column:7/8" class="languageTab off">
-                <div class="m"><input id="jsName" class="fileName" type="text" value="script"><span class="fileType">.js</span></div>
+                <div class="m"><input id="jsName" class="fileName" type="text" value="script" name="script.js"><span class="fileType">.js</span></div>
             </div>
         </section>
         <section id="section3">
-		
-			<div id="files" class="customBar">
-				<h4 style="text-align:center;border-bottom:1px solid silver;">Files</h4>
+			
+			<!-- imported files -->
+			<div id="files" class="customBar" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+				<h4 id="filesHead" style="text-align:center;border-bottom:1px solid black;color:#00c2ff;margin:0px;">Files</h4>
 			</div>
+			
+			<!-- blank element -->
+			<div id="filler"></div>
             
             <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
-                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html" spellcheck="false">!</textarea>
+                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html code" spellcheck="false">!</textarea>
             </div>
             <div class="tabcontent spanFour customBar codeArea" id="cssTab">
-                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
+                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css code" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
             </div>
             <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
-                <textarea id="JSeditor" class="spanFour customBar" spellcheck="false">$("")</textarea>
+                <textarea id="JSeditor" class="spanFour customBar code" spellcheck="false">$("")</textarea>
             </div>
 			
 			<div id="commands" class="normalMenu customBar">
                 <h4 class="commandItem w3-text-blue">Command Shortcuts:</h4>
 
-                <span class="hint--left" aria-label="takes the code in the css tab, and converts it to inline styles in your html tab">
+                <span class="hint--top" aria-label="takes the css, and inserts it into your html">
                     <p class="commandItem w3-text-purple">convert css to inline: ctrl+i</p>
                 </span>
 
@@ -181,23 +205,23 @@
                     <p class="commandItem w3-text-cyan">code beautifier: ctrl+b</p>
                 </span>
 
-                <span class="hint--left" aria-label="compress code for smaller file size, code will still work in browser">
+                <span class="hint--top" aria-label="compress code for smaller file size">
                     <p class="commandItem w3-text-light-blue">minify code: ctrl+m</p>
                 </span>
 
-                <span class="hint--left" aria-label="convert most characters to hex code, 10% chance of not being readable by browsers">
+                <span class="hint--top" aria-label="convert most characters to hex code">
                     <p class="commandItem w3-text-green">encrypt code: ctrl+e</p>
                 </span>
 
-                <span class="hint--left" aria-label="change both normal encrypt and mega encrypt back to normal">
+                <span class="hint--top" aria-label="convert encrypt and mega encrypt back to normal">
                     <p class="commandItem w3-text-yellow">decrypt code: ctrl+shift+e</p>
                 </span>
 
-                <span class="hint--left" aria-label="convert all characters to hex code, 20% chance of not being readable by browsers">
+                <span class="hint--top" aria-label="convert all characters to hex code">
                     <p class="commandItem w3-text-pink">mega encrypt: ctrl+alt+shift+e</p>
                 </span>
 
-                <span class="hint--left" aria-label="finds any css element, highlight tag/class/id and press shortcut">
+                <span class="hint--top" aria-label="finds any css element, highlight name first">
                     <p class="commandItem w3-text-light-green">quick edit: ctrl+q</p>
                 </span>
 
@@ -219,8 +243,8 @@
                 <div id="theme_plum" class="globe">҂</div>
                 <div id="theme_velvet" class="globe">҂</div>
                 <div id="theme_mist" class="globe">҂</div>
-                <div id="theme_loveNote" class="globe">҂</div>
                 <div id="theme_ribbon" class="globe">҂</div>
+                <div id="theme_grave" class="globe">҂</div>
 				<div id="theme_default" class="globe">҂</div>
             </div>
         </section>
