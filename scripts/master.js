@@ -24,6 +24,11 @@ $(function() {
     if (localStorage["style_source"]) {
         $("#CSSeditor").val(localStorage["style_source"])
     }
+	if(localStorage["files"]){
+ 
+		//console.log(localStorage["files"].keys)
+		//displayFiles()
+	}
 
     //open html tab
     $("#defaultOpen").click();
@@ -557,6 +562,11 @@ $(function() {
 
 })
 
+//string capitalize
+String.prototype.capitalize = function() {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 //insert function 
 function insert(str, index, value) {
     return str.substr(0, index) + value + str.substr(index);
@@ -719,6 +729,8 @@ $("#check_uikit").change(function() {
 
 //code styles
 
+//flamingo
+
 $("#theme_nightLight").click(function() {
     $("textarea").css("background", "#001d30");
     $(".commandItem").css("background", "#001d30")
@@ -816,28 +828,39 @@ var allFiles = {}
 var imageURI = {}
 
 function displayFiles() {
+	
+	//sorting by file type
+	var sorted = Object.keys(allFiles).sort(function(a,b){return a.split(".")[1] == b.split(".")[1] ? 0 : a.split(".")[1] < b.split(".")[1] ? -1 : 1; })
 
 	//add new files
-    for (var file in allFiles) {
+	try{
+		for (var file in sorted) {
+			file = sorted[file]
 
-        var altFile = file.replace(".", "_")
-		
-		//if file already exists, replace it 
-        if ($(`#${altFile}`).length) {
-            $(`#${altFile}`).remove()
-            $("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
-        } else {
-            $("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
-        }
-    }
+			var altFile = file.replace(".", "_")
+			
+			//if file already exists, replace it 
+			if ($(`#${altFile}`).length) {
+				$(`#${altFile}`).remove()
+				$("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+			} else {
+				$("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+			}
+		}
+	}catch(err){
+		alert("your file name contains invalid symbols" + "\n" + file)
+		delete allFiles[file]
+	}
 	
 	//examine old files (for name change)
-	var fileNames = $(".file").map(function(){return this.id.replace("_",".")})
-	for(var file = 0;file < fileNames.length-1;file++){
-		if(!(fileNames[file] in allFiles)){
-			$(`#${fileNames[file].replace(".","_")}`).remove()
+	
+		var fileNames = $(".file").map(function(){return this.id.replace("_",".")})
+		for(var file = 0;file < fileNames.length-1;file++){
+			if(!(fileNames[file] in allFiles)){
+				$(`#${fileNames[file].replace(".","_")}`).remove()
+			}
 		}
-	}
+
 	//.file onhover
 	var c = ""
 	$(".file").hover(function() {
@@ -947,47 +970,53 @@ function dropHandler(ev) {
 
                 var reader = new FileReader();
                 var file = ev.dataTransfer.items[i].getAsFile();
-
-                if (file.name.endsWith(".html")) {
-                    let name = file.name.split(".")[0]
-                   
-                    reader.onload = function(event) {
-                        $("#HTMLeditor").val(event.target.result)
-                        $("#htmlName").val(name)
+				//fix spaces in file names 
+				var fileName = file.name.split(" ").map(function(x){return x.capitalize()}).join("")
+				//camelCase name 
+				var fileName = file.name.split(" ").slice(1).map(function(x){return x.capitalize()})
+				fileName = file.name.split(" ")[0].concat(fileName.join(""))
+				
+				
+				if (file.name.endsWith(".html")) {
+					let name = fileName.split(".")[0]
+				   
+					reader.onload = function(event) {
+						$("#HTMLeditor").val(event.target.result)
+						$("#htmlName").val(name)
 						$("#htmlName").attr("name",name+".html")
-                        allFiles[name + ".html"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
-                } else if (file.name.endsWith(".css")) {
-                    let name = file.name.split(".")[0]
-                   
-                    reader.onload = function(event) {
-                        $("#CSSeditor").val(event.target.result)
-                        $("#cssName").val(name)
+						allFiles[name + ".html"] = event.target.result
+						displayFiles()
+					}
+					reader.readAsText(file)
+				} else if (file.name.endsWith(".css")) {
+					let name = fileName.split(".")[0]
+				   
+					reader.onload = function(event) {
+						$("#CSSeditor").val(event.target.result)
+						$("#cssName").val(name)
 						$("#cssName").attr("name",name+".css")
-                        allFiles[name + ".css"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file) 
-                } else if (file.name.endsWith(".js")) {
-                    let name = file.name.split(".")[0]
-                   
-                    reader.onload = function(event) {
-                        $("#JSeditor").val(event.target.result)
-                        $("#jsName").val(name)
+						allFiles[name + ".css"] = event.target.result
+						displayFiles()
+					}
+					reader.readAsText(file) 
+				} else if (file.name.endsWith(".js")) {
+					let name = fileName.split(".")[0]
+				   
+					reader.onload = function(event) {
+						$("#JSeditor").val(event.target.result)
+						$("#jsName").val(name)
 						$("#jsName").attr("name",name+".js")
-                        allFiles[name + ".js"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
-                } else if (images.indexOf(file.name.split(".")[1]) > -1) {
-                    let name = file.name
+						allFiles[name + ".js"] = event.target.result
+						displayFiles()
+					}
+					reader.readAsText(file)
+				} else if (images.indexOf(file.name.split(".")[1]) > -1) {
+					let name = fileName
 					let tempFile = file 
-                    reader.onload = function(event) {
+					reader.onload = function(event) {
 						var reader = new FileReader();
 						
-                        allFiles[name] = event.target.result
+						allFiles[name] = event.target.result
 						displayFiles() 
 						
 						reader.onload = function(event){
@@ -995,20 +1024,21 @@ function dropHandler(ev) {
 							
 						 }
 						reader.readAsDataURL(tempFile)
-                        
-                    }
-                    reader.readAsBinaryString(file)
+						
+					}
+					reader.readAsBinaryString(file)
 					
 					
-                } else {
-                    let name = file.name
-                    reader.onload = function(event) {
-                        allFiles[name] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
+				} else {
+					let name = fileName
+					reader.onload = function(event) {
+						allFiles[name] = event.target.result
+						displayFiles()
+					}
+					reader.readAsText(file)
 
-                }
+				}
+			
 
             } 
 			//folder reading 
@@ -1036,6 +1066,7 @@ function dropHandler(ev) {
                 
 
             }
+			//localStorage["files"] = allFiles
         }
     } else {
         // Use DataTransfer interface to access the file(s)
@@ -1044,6 +1075,7 @@ function dropHandler(ev) {
 
                 var reader = new FileReader();
                 var file = ev.dataTransfer.items[i].getAsFile();
+				file.name = file.name.replace(" ","-")
 
                 if (file.name.endsWith(".html")) {
                   
@@ -1101,12 +1133,17 @@ function dropHandler(ev) {
 //when html tab name changes
 $("#htmlName").focusout(function(){
 	if($("#htmlName").val()+".html" != $("#htmlName").attr("name")){
+		//camelCase name 
+		var name = $("#htmlName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
+		name = $("#htmlName").val().split(" ")[0].concat(name.join(""))
+		//name correction
+		$("#htmlName").val(name)
 		// add a new record to allFiles
-		allFiles[$("#htmlName").val()+".html"] = $("#HTMLeditor").val()
+		allFiles[name +".html"] = $("#HTMLeditor").val()
 		// delete the old name
 		delete allFiles[$("#htmlName").attr("name")]
 		// change the reference in the name prop
-		$("#htmlName").attr("name",$("#htmlName").val()+".html")
+		$("#htmlName").attr("name",name+".html")
 		// refresh files
 		displayFiles()
 	}else{
@@ -1117,12 +1154,17 @@ $("#htmlName").focusout(function(){
 //when css tab name changes
 $("#cssName").focusout(function(){
 	if($("#cssName").val()+".css" != $("#cssName").attr("name")){
+		//camelCase name 
+		let name = $("#cssName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
+		name = $("#cssName").val().split(" ")[0].concat(name.join(""))
+		//name correction
+		$("#cssName").val(name)
 		// add a new record to allFiles
-		allFiles[$("#cssName").val()+".css"] = $("#CSSeditor").val()
+		allFiles[name+".css"] = $("#CSSeditor").val()
 		// delete the old name
 		delete allFiles[$("#cssName").attr("name")]
 		// change the reference in the name prop
-		$("#cssName").attr("name",$("#cssName").val()+".css")
+		$("#cssName").attr("name",name+".css")
 		// refresh files
 		displayFiles()
 	}else{
@@ -1133,12 +1175,17 @@ $("#cssName").focusout(function(){
 //when js tab name changes
 $("#jsName").focusout(function(){
 	if($("#jsName").val()+".js" != $("#jsName").attr("name")){
+		//camelCase name 
+		let name = $("#jsName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
+		name = $("#jsName").val().split(" ")[0].concat(name.join(""))
+		//name correction
+		$("#jsName").val(name)
 		// add a new record to allFiles
-		allFiles[$("#jsName").val()+".js"] = $("#JSeditor").val()
+		allFiles[name+".js"] = $("#JSeditor").val()
 		// delete the old name
 		delete allFiles[$("#jsName").attr("name")]
 		// change the reference in the name prop
-		$("#jsName").attr("name",$("#jsName").val()+".js")
+		$("#jsName").attr("name",name+".js")
 		// refresh files
 		displayFiles()
 	}else{

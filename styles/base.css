@@ -445,7 +445,7 @@ textarea::selection {
 
 /*media queries*/
 @media only screen and (max-height: 1200px) {
-    textarea {
+    textarea.code {
         height: 700px;
     }
 	#commands{
@@ -454,7 +454,7 @@ textarea::selection {
 }
 
 @media only screen and (max-height: 1000px) {
-    textarea {
+    textarea.code {
         height: 600px;
     }
 	#commands{
@@ -463,7 +463,7 @@ textarea::selection {
 }
 
 @media only screen and (max-height: 800px) {
-    textarea {
+    textarea.code {
         height: 450px;
     }
 	#commands{
