@@ -20,6 +20,11 @@ a {
     width: 100%;
 }
 
+i{
+	display: inline-block;
+    padding-right: 10px;
+}
+
 /* id selectors */
 #theme_nightLight {
     background-color: #001d30;
@@ -248,12 +253,94 @@ a {
 
 .file{
 	border-bottom:1px solid black;
+	border-left:1px solid black;
 	padding:10px;
 	height:auto;
+	width:80%;
+	position:relative;
 	text-align:left;
+	cursor:pointer;
+	word-break: break-all;
+}
+
+.folder{
+	height:auto;
+}
+
+.folder > input {
+	border-right:none;
+	border-left:none;
+	border-top:none;
+	border-bottom:1px solid black;
+	text-align:left;
+	cursor:pointer;
+	background:transparent;
+	width:100%;
+	height:auto;
+	padding:10px;
+	position:relative;
+
+}
+
+.folder > *{
+	padding-left:20px;
+}
+
+.remove{
+	font-size:large;
+	width:20%;
+	height:100%;
+	position:absolute;
+	right:0px;
+	text-align:center;
+	border-bottom:1px solid black;
+	border-left:1px solid black;
+}
+
+.remove > img{
+	height:100%;
+	width:25%;
 	cursor:pointer;
 }
 
+.add{
+	font-size:large;
+	width:20%;
+	height:100%;
+	position:absolute;
+	right:0px;
+	text-align:center;
+	border-bottom:1px solid black;
+	border-left:1px solid black;
+}
+
+#newFile{
+	border-bottom:1px solid black;
+	border-left:1px solid black;
+	border-top:none;
+	border-right:none;
+	padding:10px;
+	height:auto;
+	width:80%;
+	position:relative;
+	text-align:left;
+	cursor:pointer;
+	background:transparent;
+	
+}
+
+.add > img {
+	height:100%;
+	width:25%;
+	cursor:pointer;
+}
+
+.fileBox{
+	display:flex;
+	position:relative;
+	height:auto;
+	width:100%;
+}
 
 .upload{
     display: inline-block;
@@ -406,6 +493,21 @@ a {
 	justify-content:center;
 }
 
+.displayName{
+	height:50px;
+	width:30%;
+	color:steelblue;
+	font-size:2em;
+	border:none;
+	padding:10px;
+	position:relative;
+	text-align:center;
+	cursor:pointer;
+	background:transparent;
+}
+
+
+
 /* psuedo selectors */
 
 .popup:target {
@@ -440,7 +542,7 @@ textarea::selection {
 .customBar::-webkit-scrollbar-thumb {
     background-color: #ccc;
     /* background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) */
-	background-image:-webkit-linear-gradient(45deg, rgb(150, 150, 150) 25%, #8e0202 25%, #b50000 50%, rgb(160, 160, 160) 50%, rgb(158, 158, 158) 75%, #960000 75%, #dc0000);
+	background-image:-webkit-linear-gradient(45deg, white 25%, #8e0202 25%, #b50000 50%, white 50%, white 75%, #960000 75%, #dc0000);
 }
 
 /*media queries*/

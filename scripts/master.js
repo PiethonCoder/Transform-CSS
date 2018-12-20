@@ -15,19 +15,25 @@ emmet.require('textarea').setup({
 $(function() {
     //if there is prior code that was made, import it 
     if (localStorage["page_source"]) {
-        $("#HTMLeditor").val(localStorage["page_source"])
+		var html = JSON.parse(localStorage["page_source"])
+        $("#HTMLeditor").val(html.code)
+		$("#htmlName").val(escapeName(html.name))
     }
     if (localStorage["script_source"]) {
-        $("#JSeditor").val(localStorage["script_source"])
+        var js = JSON.parse(localStorage["script_source"])
+        $("#JSeditor").val(js.code)
+		$("#jsName").val(escapeName(js.name))
 
     }
     if (localStorage["style_source"]) {
-        $("#CSSeditor").val(localStorage["style_source"])
+        var css = JSON.parse(localStorage["style_source"])
+        $("#CSSeditor").val(css.code)
+		$("#cssName").val(escapeName(css.name))
     }
 	if(localStorage["files"]){
  
-		//console.log(localStorage["files"].keys)
-		//displayFiles()
+		allFiles = JSON.parse(localStorage["files"])
+		displayFiles()
 	}
 
     //open html tab
@@ -35,7 +41,20 @@ $(function() {
 	
 	// open style
 	$("#theme_ribbon").click();
-
+	
+	//add default files 
+	
+	allFiles[escapeName($("#htmlName").val()) + ".html"] = $("#HTMLeditor").val()
+	$("#htmlName").attr("name",$("#htmlName").val() + ".html")
+	
+	allFiles[escapeName($("#cssName").val()) + ".css"] = $("#CSSeditor").val()
+	$("#cssName").attr("name",$("#cssName").val() + ".css")
+	
+	allFiles[escapeName($("#jsName").val()) + ".js"] = $("#JSeditor").val()
+	$("#jsName").attr("name",$("#jsName").val() + ".js")
+	
+	displayFiles()
+	
 })
 
 
@@ -223,7 +242,8 @@ function download() {
 	}
 
     var zip = new JSZip();
-    var site = zip.folder("site");
+	var main_folder = $("#main_folder > input").val()
+    var site = zip.folder(main_folder);
 
 	for(var file in allFiles){
 		//if the file is a image
@@ -389,9 +409,10 @@ function quickEdit() {
 
 //caching
 function cache() {
-    localStorage['page_source'] = $("#HTMLeditor").val()
-    localStorage['script_source'] = $("#JSeditor").val()
-    localStorage['style_source'] = $("#CSSeditor").val()
+	//console.log({code:$("#HTMLeditor").val(),name:$("#htmlName").val()})
+    localStorage['page_source'] = JSON.stringify({code:$("#HTMLeditor").val(),name:$("#htmlName").val()})
+    localStorage['script_source'] = JSON.stringify({code:$("#JSeditor").val(),name:$("#jsName").val()})
+    localStorage['style_source'] = JSON.stringify({code:$("#CSSeditor").val(),name:$("#cssName").val()})
 }
 
 
@@ -459,7 +480,7 @@ var keyCount = 0
 $(function() {
     //keypress event 
     $("body").keydown(function(event) {
-        // console.log(event.which)
+        //console.log(event.which)
 
         //save a copy every 60 keys
         keyCount += 1
@@ -475,6 +496,14 @@ $(function() {
         //        if (live) {
         //            liveUpdate()
         // 		}
+		
+		//clear cache ctrl f5
+		if(event.ctrlKey && event.which == 116){
+			localStorage["files"] = ""
+			localStorage["page_source"] = ""
+			localStorage["script_source"] = ""
+			localStorage["style_source"] = ""
+		}
 
         //code history
         if (event.ctrlKey && event.shiftKey && event.which == 72) {
@@ -482,7 +511,7 @@ $(function() {
         }
 
         //download 
-        if (event.ctrlKey && event.altKey && event.which == 68) {
+        if (event.ctrlKey && event.shiftKey && event.which == 83) {
             download()
         }
         //quick edit
@@ -827,24 +856,63 @@ $("#theme_default").click(function() {
 var allFiles = {}
 var imageURI = {}
 
+function removeFile(fileName){
+	
+	delete allFiles[fileName];
+	$(`#${fileName.replace(".", "_")}`).parent().remove()
+	displayFiles()
+}
+
+function addFile(){
+	let fileName = escapeName($("#newFile").val())
+	if(!fileName.includes(".")){
+		fileName += ".txt"
+	}
+	allFiles[fileName] = ""
+	displayFiles()
+}
+
 function displayFiles() {
+	
+	//cache new files
+	var slim = {}
+	for(var file in allFiles){
+		//dont cache images
+		let fileType = file.split(".")[file.split(".").length - 1]
+		if(!(images.includes(fileType))){
+			slim[file] = allFiles[file]
+		}
+	}
+	
+	try{
+		localStorage["files"] = JSON.stringify(slim)
+	}catch(err){
+		console.log("your file sizes are too large, some files may no be cached.")
+	}
 	
 	//sorting by file type
 	var sorted = Object.keys(allFiles).sort(function(a,b){return a.split(".")[1] == b.split(".")[1] ? 0 : a.split(".")[1] < b.split(".")[1] ? -1 : 1; })
+	
+	//remove add button. so it gets readded to the bottom 
+	$("#addButton").remove()
 
 	//add new files
 	try{
 		for (var file in sorted) {
 			file = sorted[file]
+			
+			//file icon
+			var icons = window.FileIcons;
+			var icon = icons.getClassWithColor(file);
 
 			var altFile = file.replace(".", "_")
-			
+
 			//if file already exists, replace it 
 			if ($(`#${altFile}`).length) {
-				$(`#${altFile}`).remove()
-				$("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+				$(`#${altFile}`).parent().remove()
+				$("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
 			} else {
-				$("#files").append(`<div class='file' id='${altFile}' onclick="display('${file}')">${file}</div>`)
+				$("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
 			}
 		}
 	}catch(err){
@@ -852,12 +920,15 @@ function displayFiles() {
 		delete allFiles[file]
 	}
 	
+	//insert add button 
+	$("#main_folder").append(`<div class="fileBox" id="addButton"><input id="newFile" type="text" ><div onclick="addFile()" class="add"><img src="https://image.flaticon.com/icons/svg/149/149699.svg"></div></div>`)
+	
 	//examine old files (for name change)
 	
 		var fileNames = $(".file").map(function(){return this.id.replace("_",".")})
 		for(var file = 0;file < fileNames.length-1;file++){
 			if(!(fileNames[file] in allFiles)){
-				$(`#${fileNames[file].replace(".","_")}`).remove()
+				$(`#${fileNames[file].replace(".","_")}`).parent().remove()
 			}
 		}
 
@@ -931,11 +1002,15 @@ function display(filename) {
             case "gif":
             case "ico":
             case "jpg":
+				$("#imageName").val(filename)
+				$("#imageName").attr("name",filename)
                 $("#previewImage").attr("src", imageURI[filename])
                 $("#popup3").toggle(1000)
                 miscFile = ""
                 break
             default:
+				$("#textName").val(filename)
+				$("#textName").attr("name",filename)
                 $("#previewText").val(allFiles[filename])
                 $("#popup4").toggle(1000)
                 miscFile = filename
@@ -955,6 +1030,16 @@ function dragOverHandler(ev) {
 
 var images = ["jpg", "png", "svg", "jpeg", "gif", "ico"]
 
+function escapeName(n){
+	//camelCase all words excepts first word
+	let name = n.split("_").join(" ").split(" ").slice(1).map(function(x){return x.capitalize()})
+	//combind the first word with the rest
+	name = n.split("_").join(" ").split(" ")[0].concat(name.join(""))
+	
+	return name 
+}
+
+
 function dropHandler(ev) {
 
     // Prevent default behavior (Prevent file from being opened)
@@ -970,13 +1055,11 @@ function dropHandler(ev) {
 
                 var reader = new FileReader();
                 var file = ev.dataTransfer.items[i].getAsFile();
-				//fix spaces in file names 
-				var fileName = file.name.split(" ").map(function(x){return x.capitalize()}).join("")
-				//camelCase name 
-				var fileName = file.name.split(" ").slice(1).map(function(x){return x.capitalize()})
-				fileName = file.name.split(" ")[0].concat(fileName.join(""))
 				
 				
+				//fix spaces & underscores in file names by making them camelCase  
+				var fileName = escapeName(file.name)
+					
 				if (file.name.endsWith(".html")) {
 					let name = fileName.split(".")[0]
 				   
@@ -1042,88 +1125,143 @@ function dropHandler(ev) {
 
             } 
 			//folder reading 
-			else {
+			else if(entry.isDirectory){
 				
-                var dirReader = entry.createReader();
+				
+				// let directoryReader = entry.createReader();
+				// directoryReader.readEntries(function(entries) {
+					// entries.forEach(function(entry) {
+					  // alert("file")
+				  // });
+				// });
+				
+				// console.log("folder")
+				
+                // var dirReader = entry.createReader();
 			
-                var entries = [];
+                // var entries = [];
 
-                function getEntries() {
-                    dirReader.readEntries(function(results) {
-						alert(1)
-                        if (results.length > 0) {
+                // // function getEntries() {
+                    // // dirReader.readEntries(function(results) {
+						// // alert(1)
+                        // // if (results.length > 0) {
 							
-                            //entries = entries.concat(toArray(results));
-                            getEntries();
-                        }else{"done"}
-                    }, function(error) {
-						console.log(error.code)
-                        /* handle error -- error is a FileError object */
-                    });
-                };
+                            // // //entries = entries.concat(toArray(results));
+                            // // getEntries();
+                        // // }else{"done"}
+                    // // })
+                // // };
 
-                getEntries();
+                // // getEntries();
+				
+				// dirReader.readEntries(function(results) {
+					// alert(1)
+					// if (results.length > 0) {
+						
+						// //entries = entries.concat(toArray(results));
+						// getEntries();
+					// }else{"done"}
+				// })
+				
+				
+				// function traverse_directory(entry) {
+					// let reader = entry.createReader();
+					// // Resolved when the entire directory is traversed
+					// return new Promise((resolve_directory) => {
+						// var iteration_attempts = [];
+						// (function read_entries() {
+							// // According to the FileSystem API spec, readEntries() must be called until
+							// // it calls the callback with an empty array.  Seriously??
+							// reader.readEntries((entries) => {
+								// if (!entries.length) {
+									// // Done iterating this particular directory
+									// resolve_directory(Promise.all(iteration_attempts));
+								// } else {
+									// // Add a list of promises for each directory entry.  If the entry is itself 
+									// // a directory, then that promise won't resolve until it is fully traversed.
+									// iteration_attempts.push(Promise.all(entries.map((entry) => {
+										// if (entry.isFile) {
+											// // DO SOMETHING WITH FILES
+											// return entry;
+										// } else {
+											// // DO SOMETHING WITH DIRECTORIES
+											// return traverse_directory(entry);
+										// }
+									// })));
+									// // Try calling readEntries() again for the same dir, according to spec
+									// read_entries();
+								// }
+							// }, (error)=>{console.log(error.code)} );
+						// })();
+					// });
+				// }
+
+				// traverse_directory(entry).then(()=> {
+					// // AT THIS POINT THE DIRECTORY SHOULD BE FULLY TRAVERSED.
+				// });
                 
 
             }
-			//localStorage["files"] = allFiles
+
         }
-    } else {
-        // Use DataTransfer interface to access the file(s)
-        for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            if (ev.dataTransfer.items[i].kind === 'file') {
+    } 
+	 else {
+		alert("here")
+        // // Use DataTransfer interface to access the file(s)
+        // for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+            // if (ev.dataTransfer.items[i].kind === 'file') {
 
-                var reader = new FileReader();
-                var file = ev.dataTransfer.items[i].getAsFile();
-				file.name = file.name.replace(" ","-")
+                // var reader = new FileReader();
+                // var file = ev.dataTransfer.items[i].getAsFile();
+				// file.name = file.name.replace(" ","-")
 
-                if (file.name.endsWith(".html")) {
+                // if (file.name.endsWith(".html")) {
                   
-                    reader.onload = function(event) {
-                        $("#HTMLeditor").val(event.target.result)
-                        $("#htmlName").val(file.name)
-                        allFiles[name + ".html"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
-                } else if (file.name.endsWith(".css")) {
+                    // reader.onload = function(event) {
+                        // $("#HTMLeditor").val(event.target.result)
+                        // $("#htmlName").val(file.name)
+                        // allFiles[name + ".html"] = event.target.result
+                        // displayFiles()
+                    // }
+                    // reader.readAsText(file)
+                // } else if (file.name.endsWith(".css")) {
                     
-                    reader.onload = function(event) {
-                        $("#CSSeditor").val(event.target.result)
-                        $("#cssName").val(file.name)
-                        allFiles[name + ".css"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
-                } else if (file.name.endsWith(".js")) {
+                    // reader.onload = function(event) {
+                        // $("#CSSeditor").val(event.target.result)
+                        // $("#cssName").val(file.name)
+                        // allFiles[name + ".css"] = event.target.result
+                        // displayFiles()
+                    // }
+                    // reader.readAsText(file)
+                // } else if (file.name.endsWith(".js")) {
                 
-                    reader.onload = function(event) {
-                        $("#JSeditor").val(event.target.result)
-                        $("#jsName").val(file.name)
-                        allFiles[name + ".js"] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
-                } else if (images.indexOf(file.name.split(".")[1]) > -1) {
-                    reader.onload = function(event) {
-                        allFiles[file.name] = event.target.result
+                    // reader.onload = function(event) {
+                        // $("#JSeditor").val(event.target.result)
+                        // $("#jsName").val(file.name)
+                        // allFiles[name + ".js"] = event.target.result
+                        // displayFiles()
+                    // }
+                    // reader.readAsText(file)
+                // } else if (images.indexOf(file.name.split(".")[1]) > -1) {
+                    // reader.onload = function(event) {
+                        // allFiles[file.name] = event.target.result
                        
-                        displayFiles()
-                    }
-                    reader.readAsDataURL(file)
-                } else {
-                    let name = file.name
-                    reader.onload = function(event) {
-                        allFiles[name] = event.target.result
-                        displayFiles()
-                    }
-                    reader.readAsText(file)
+                        // displayFiles()
+                    // }
+                    // reader.readAsDataURL(file)
+                // } else {
+                    // let name = file.name
+                    // reader.onload = function(event) {
+                        // allFiles[name] = event.target.result
+                        // displayFiles()
+                    // }
+                    // reader.readAsText(file)
 
-                }
+                // }
 
-            }
+            // }
 
-        }
+        // }
     }
 
 }
@@ -1131,11 +1269,10 @@ function dropHandler(ev) {
 // name change
 
 //when html tab name changes
-$("#htmlName").focusout(function(){
+$("#htmlName").keyup(function(){
 	if($("#htmlName").val()+".html" != $("#htmlName").attr("name")){
 		//camelCase name 
-		var name = $("#htmlName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
-		name = $("#htmlName").val().split(" ")[0].concat(name.join(""))
+		var name = escapeName($("#htmlName").val())
 		//name correction
 		$("#htmlName").val(name)
 		// add a new record to allFiles
@@ -1152,11 +1289,10 @@ $("#htmlName").focusout(function(){
 }) 
 
 //when css tab name changes
-$("#cssName").focusout(function(){
+$("#cssName").keyup(function(){
 	if($("#cssName").val()+".css" != $("#cssName").attr("name")){
 		//camelCase name 
-		let name = $("#cssName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
-		name = $("#cssName").val().split(" ")[0].concat(name.join(""))
+		var name = escapeName($("#cssName").val())
 		//name correction
 		$("#cssName").val(name)
 		// add a new record to allFiles
@@ -1173,11 +1309,10 @@ $("#cssName").focusout(function(){
 }) 
 
 //when js tab name changes
-$("#jsName").focusout(function(){
+$("#jsName").keyup(function(){
 	if($("#jsName").val()+".js" != $("#jsName").attr("name")){
 		//camelCase name 
-		let name = $("#jsName").val().split(" ").slice(1).map(function(x){return x.capitalize()})
-		name = $("#jsName").val().split(" ")[0].concat(name.join(""))
+		var name = escapeName($("#jsName").val())
 		//name correction
 		$("#jsName").val(name)
 		// add a new record to allFiles
@@ -1192,3 +1327,41 @@ $("#jsName").focusout(function(){
 		console.log("no change")
 	}
 }) 
+
+$("#imageName").keyup(function(){
+	if($("#imageName").val() != $("#imageName").attr("name")){
+		//camelCase name 
+		var name = escapeName($("#imageName").val())
+		//name correction
+		$("#imageName").val(name)
+		// add a new record to allFiles
+		allFiles[name] = $("#imageName").val()
+		// delete the old name
+		delete allFiles[$("#imageName").attr("name")]
+		// change the reference in the name prop
+		$("#imageName").attr("name",name)
+		// refresh files
+		displayFiles()
+	}else{
+		console.log("no change")
+	}
+})
+
+$("#textName").keyup(function(){
+	if($("#textName").val() != $("#textName").attr("name")){
+		//camelCase name 
+		var name = escapeName($("#textName").val())
+		//name correction
+		$("#textName").val(name)
+		// add a new record to allFiles
+		allFiles[name] = $("#textName").val()
+		// delete the old name
+		delete allFiles[$("#textName").attr("name")]
+		// change the reference in the name prop
+		$("#textName").attr("name",name)
+		// refresh files
+		displayFiles()
+	}else{
+		console.log("no change")
+	}
+})
