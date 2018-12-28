@@ -1,5 +1,3 @@
-
-
 * {
     tab-size: 4;
     -tab-size: 4;
@@ -8,11 +6,11 @@
 }
 
 textarea.code {
-    width: 100%;
+    width: 90%;
     height: 700px;
     resize: none;
     font-family: sans-serif;
-	border:1px solid black;
+    border: 1px solid black;
 }
 
 a {
@@ -20,8 +18,8 @@ a {
     width: 100%;
 }
 
-i{
-	display: inline-block;
+i {
+    display: inline-block;
     padding-right: 10px;
 }
 
@@ -66,21 +64,21 @@ i{
     color: red;
 }
 
-#theme_default{
-	background-color: white;
+#theme_default {
+    background-color: white;
     color: black;
 }
 
 #globeBox {
     position: fixed;
     bottom: 5px;
-	display:flex;
-	left: 50%;
-	transform: translateX(-50%);
+    display: flex;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 #htmlTab {
-    display: block;
+    display: flex;
 }
 
 #cssTab {
@@ -144,10 +142,10 @@ i{
     margin-right: 20px;
     align-items: center;
     padding-left: 0px;
-	grid-column:6/7;
-	height:450px;
-	overflow-y:auto;
-	overflow-x:hidden;
+    grid-column: 6/7;
+    height: 450px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 
@@ -175,7 +173,7 @@ i{
     margin: 4%;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 50%;
     width: 25%;
 }
 
@@ -186,173 +184,298 @@ i{
     margin: 4%;
     display: flex;
     flex-direction: column;
-    height: 80%;
+    height: 50%;
     width: 25%;
 }
 
 #optionContainer3 {
-	position: absolute;
+    position: absolute;
     top: 0%;
     left: 60%;
     margin: 4%;
     display: flex;
-    align-items:center;
-	justify-content:center;
-	flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     height: 85%;
     width: 30%;
 }
 
-#importFiles{
+#optionContainer4 {
+    position: absolute;
+    top: 43%;
+    margin: 4%;
+    display: flex;
+    /* align-items:center; */
+    /* justify-content:center; */
+    flex-direction: column;
+    height: 50%;
+    width: 25%;
+}
+
+#optionContainer5{
+    position: absolute;
+    left: 20%;
+    top: 43%;
+    margin: 4%;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 25%;
+}
+
+#importFiles {
     top: 0%;
     left: 60%;
     margin: 4%;
     display: flex;
-    align-items:center;
-	justify-content:center;
+    align-items: center;
+    justify-content: center;
     height: 80%;
     width: 100%;
-	background:#e6e6e6;
-	border: 2px solid #7db1ff;
+    background: #e6e6e6;
+    border: 2px solid #7db1ff;
 }
 
-#files{
-	z-index:3;
-	position:fixed;
-	top:0px;
-	left:0px;
-	height:100%;
-	width:16.6%;
-	overflow:auto;
-	display:flex;
-	flex-direction:column;
-	background-color:#eaeaea;
+#files {
+    z-index: 3;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 16.6%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #eaeaea;
 }
 
-#popup3{
-	z-index:2;
-	display:none;
-	position: fixed;
+#popup3 {
+    z-index: 2;
+    display: none;
+    position: fixed;
     left: 0px;
     right: 0px;
     top: 0px;
     bottom: 0px;
 }
 
-#popup4{
-	z-index:2;
-	display:none;
-	position: fixed;
+#popup4 {
+    z-index: 2;
+    display: none;
+    position: fixed;
     left: 0px;
     right: 0px;
     top: 0px;
     bottom: 0px;
+}
+
+#iframe {
+    display: none;
+    position: fixed;
+    right: 0px;
+    bottom: 0px;
+    height: 400px;
+    max-height: 100%;
+    width: 400px;
+    max-width: 83.4%;
+    overflow: auto;
+    z-index: 2;
+    background: rgba(1, 1, 1, 0.25);
+    border: 20px solid transparent;
+    cursor: nw-resize;
+}
+
+#paintPalette {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    bottom: 10px;
+    right: 11px;
+    height: 90%;
+    width: 20%;
+    display: none;
+}
+
+#paintSettings {
+    height: 40%;
+    width: 100%;
+    background: #E0E0E0;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+#paintColors {
+    height: 60%;
+    width: 100%;
+    background: green;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    background: #82c4dd;
+}
+
+#cssEditor {
+    white-space: nowrap;
+}
+
+
+.colorName {
+    font-size: 12px;
+    width: 100%;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+}
+
+.colorName::selection {
+    color: #0f57ff;
+}
+
+.colorName:focus {
+    outline: none;
+}
+
+#paintIcon {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    height: 30px;
+    width: 30px;
+    margin: 20px;
+    background: url(https://image.flaticon.com/icons/png/512/668/668110.png) 100% / cover;
+        cursor: pointer;
 }
 
 /* class selectors */
 
-.file{
-	border-bottom:1px solid black;
-	border-left:1px solid black;
-	padding:10px;
-	height:auto;
-	width:80%;
-	position:relative;
-	text-align:left;
-	cursor:pointer;
-	word-break: break-all;
+.paint {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    margin: auto;
 }
 
-.folder{
-	height:auto;
+.file {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    padding: 10px;
+    height: auto;
+    width: 80%;
+    position: relative;
+    text-align: left;
+    cursor: pointer;
+    word-break: break-all;
+}
+
+.folder {
+    height: auto;
+
 }
 
 .folder > input {
-	border-right:none;
-	border-left:none;
-	border-top:none;
-	border-bottom:1px solid black;
-	text-align:left;
-	cursor:pointer;
-	background:transparent;
-	width:100%;
-	height:auto;
-	padding:10px;
-	position:relative;
-
+    border-right: none;
+    border-left: none;
+    border-top: none;
+    border-bottom: 1px solid black;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    position: relative;
+    color: rgb(238, 69, 64);
 }
 
-.folder > *{
-	padding-left:20px;
+.folder > * {
+    padding-left: 20px;
 }
 
-.remove{
-	font-size:large;
-	width:20%;
-	height:100%;
-	position:absolute;
-	right:0px;
-	text-align:center;
-	border-bottom:1px solid black;
-	border-left:1px solid black;
+.remove {
+    font-size: large;
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    color: #4682b4;
+    transition: .5s ease;
 }
 
-.remove > img{
-	height:100%;
-	width:25%;
-	cursor:pointer;
+.remove:hover{
+    background-color:currentColor;
 }
 
-.add{
-	font-size:large;
-	width:20%;
-	height:100%;
-	position:absolute;
-	right:0px;
-	text-align:center;
-	border-bottom:1px solid black;
-	border-left:1px solid black;
+.remove > img {
+    height: 100%;
+    width: 25%;
+    cursor: pointer;
 }
 
-#newFile{
-	border-bottom:1px solid black;
-	border-left:1px solid black;
-	border-top:none;
-	border-right:none;
-	padding:10px;
-	height:auto;
-	width:80%;
-	position:relative;
-	text-align:left;
-	cursor:pointer;
-	background:transparent;
-	
+.add {
+    font-size: large;
+    width: 20%;
+    height: 100%;
+    position: absolute;
+    right: 0px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    transition: .5s ease;
 }
+
+.add:hover{
+    background-color:#1bb761;
+}
+
+#newFile {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-top: none;
+    border-right: none;
+    padding: 10px;
+    height: auto;
+    width: 79%;
+    position: relative;
+    text-align: left;
+    cursor: pointer;
+    background: transparent;
+    color: rgba(146, 146, 146, 1);
+}
+
+#newFile:focus {
+    color: black;
+}
+
 
 .add > img {
-	height:100%;
-	width:25%;
-	cursor:pointer;
+    height: 100%;
+    width: 25%;
+    cursor: pointer;
 }
 
-.fileBox{
-	display:flex;
-	position:relative;
-	height:auto;
-	width:100%;
+.fileBox {
+    display: flex;
+    position: relative;
+    height: auto;
+    width: 100%;
 }
 
-.upload{
+.upload {
     display: inline-block;
     cursor: pointer;
-	height:50px;
-	width:40px;
-	margin:5px;
+    height: 50px;
+    width: 40px;
+    margin: 5px;
 
 }
 
-.infoCube{
-    height:15%;
+.infoCube {
+    height: 15%;
     text-align: center;
     display: flex;
     align-content: center;
@@ -442,6 +565,7 @@ i{
 }
 
 .tabcontent {
+    position: relative;
     height: auto;
     width: 100%;
 }
@@ -450,7 +574,7 @@ i{
     font-size: 1.2em;
 }
 
-.spanSix{
+.spanSix {
     grid-column: span 6;
 }
 
@@ -471,41 +595,59 @@ i{
 }
 
 
-.fileName{
-	display:block;
-	border:none;
-	outline:none;
-	width:55%;
-	font-size:2em;
-	text-align:right;
-	background:transparent;
-	color:#00c2ff;
+.fileName {
+    display: block;
+    border: none;
+    outline: none;
+    width: 55%;
+    font-size: 2em;
+    text-align: right;
+    background: transparent;
+    color: #00c2ff;
 }
 
-.fileType{
-	display:block;
-	height:13px;
+.fileType {
+    display: block;
+    height: 13px;
 }
 
-.m{
-	display:flex;
-	align-items:center;
-	justify-content:center;
+.m {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.displayName{
-	height:50px;
-	width:30%;
-	color:steelblue;
-	font-size:2em;
-	border:none;
-	padding:10px;
-	position:relative;
-	text-align:center;
-	cursor:pointer;
-	background:transparent;
+.displayName {
+    height: 50px;
+    width: 30%;
+    color: steelblue;
+    font-size: 2em;
+    border: none;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    cursor: pointer;
+    background: transparent;
 }
 
+.lineCount {
+    width: 10%;
+    background-color: steelblue;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    overflow-y: auto;
+}
+
+.line {
+    text-align: right;
+    padding-right: 20px;
+    display: block;
+    height: auto;
+    width: 100%;
+    color: azure;
+    font-family: serif;
+}
 
 
 /* psuedo selectors */
@@ -531,18 +673,31 @@ textarea::selection {
 /* scrollbar design */
 .customBar::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
     /* background-color: #000e1b; */
 }
 
 .customBar::-webkit-scrollbar-track {
     /* background-color: white; */
-	background-color:transparent;
+    background-color: transparent;
 }
 
 .customBar::-webkit-scrollbar-thumb {
     background-color: #ccc;
     /* background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .2) 50%, rgba(255, 255, 255, .2) 75%, transparent 75%, transparent) */
-	background-image:-webkit-linear-gradient(45deg, white 25%, #8e0202 25%, #b50000 50%, white 50%, white 75%, #960000 75%, #dc0000);
+    background-image: -webkit-linear-gradient(45deg, white 25%, #8e0202 25%, #b50000 50%, white 50%, white 75%, #960000 75%, #dc0000);
+}
+
+.hiddenBar::-webkit-scrollbar {
+    width: 0px;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+
+/* optional: show position indicator in red */
+.hiddenBar::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }
 
 /*media queries*/
@@ -550,27 +705,42 @@ textarea::selection {
     textarea.code {
         height: 700px;
     }
-	#commands{
-		height: 700px;
-	}
+
+    .lineCount {
+        height: 700px;
+    }
+
+    #commands {
+        height: 700px;
+    }
 }
 
 @media only screen and (max-height: 1000px) {
     textarea.code {
         height: 600px;
     }
-	#commands{
-		height: 600px;
-	}
+
+    .lineCount {
+        height: 600px;
+    }
+
+    #commands {
+        height: 600px;
+    }
 }
 
 @media only screen and (max-height: 800px) {
     textarea.code {
         height: 450px;
     }
-	#commands{
-		height: 450px;
-	}
+
+    .lineCount {
+        height: 450px;
+    }
+
+    #commands {
+        height: 450px;
+    }
 }
 
 input[type="file"] {

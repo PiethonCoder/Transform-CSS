@@ -4,7 +4,7 @@
     <link rel="icon" href="./comet.png" type="image/x-icon">
     <link rel="stylesheet" href="styles/w3.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
-	<link rel="stylesheet" href="./styles/icons.css">
+    <link rel="stylesheet" href="./styles/icons.css">
     <link rel="stylesheet" href="styles/tooltip.css">
     <link href="styles/base.css" rel="stylesheet">
 
@@ -18,40 +18,40 @@
             <div class="w3-row outer">
 
                 <div class="inner">
-                  
+
                     <div class="w3-col l3 w3-red infoCube" style="border-radius: 25px 0px 0px 0px;">
                         <p>prior copy: ctrl+alt+v</p>
                     </div>
-                  
+
                     <div class="w3-col l3 w3-pink infoCube">
                         <p>mega encrypt: ctrl+alt+shift+e</p>
-						
+
                     </div>
-					
+
                     <div class="w3-col l3 w3-green infoCube">
                         <p>convert css to inline: ctrl+i</p>
                     </div>
-					
+
                     <div class="w3-col l3 w3-blue infoCube" style="border-radius:0px 25px 0px 0px;">
                         <p>code history: ctrl+shift+h</p>
                     </div>
-					
+
                     <div class="w3-col l3 w3-indigo infoCube">
                         <p>-</p>
                     </div>
-					
+
                     <div class="w3-col l3 w3-purple infoCube">
                         <p>-</p>
                     </div>
-					
+
                     <div class="w3-col l3 w3-amber infoCube">
                         <p>-</p>
                     </div>
-					
+
                     <div class="w3-col l3 w3-teal infoCube">
                         <p>-</p>
                     </div>
-					
+
                     <a href="#">
                         <div id="save">close</div>
                     </a>
@@ -63,6 +63,8 @@
         <section id="popup2" class="popup">
             <div class="outer">
                 <div class="inner">
+
+                    <!--javascript librarys-->
                     <div id="optionContainer1">
                         <div>
                             <h3>javascript libraries</h3>
@@ -93,6 +95,8 @@
                             </div><a href="http://backbonejs.org/" target="_blank"><img style="height:30px" src="https://cdn.worldvectorlogo.com/logos/backbone-icon.svg" alt=""></a>
                         </div>
                     </div>
+
+                    <!--css librarys-->
                     <div id="optionContainer2">
                         <div>
                             <h3>css libraries</h3>
@@ -123,34 +127,87 @@
                             </div><a href="https://getuikit.com/docs/introduction" target="_blank"><img style="height:30px" src="https://getuikit.com./images/favicon.png" alt=""></a>
                         </div>
                     </div>
-					
-					<div id="optionContainer3">
-						<h3>Import Files</h3>
-						<div id="importFiles" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-							<p>drag and drop files</p>
-						</div>
-					</div>
+
+                    <!--import files-->
+                    <div id="optionContainer3">
+                        <h3>Import Files</h3>
+                        <div id="importFiles" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                            <p>drag and drop files</p>
+                        </div>
+                    </div>
+
+                    <!--settings-->
+                    <div id="optionContainer4">
+                        <h3>Settings</h3>
+
+                        <h5>live view:</h5>
+                        <div style="display:flex">
+                            <div class="pretty p-default p-round"><input type="radio" name="radio1" id="window">
+                                <div class="state"><label>new window</label></div>
+                            </div>
+                        </div>
+                        <div style="display:flex">
+                            <div class="pretty p-default p-round"><input type="radio" name="radio1" id="popup">
+                                <div class="state"><label>popup</label></div>
+                            </div>
+                        </div>
+
+                        <div class="pretty p-icon p-smooth">
+                            <input id="includeAll" type="checkbox" />
+                            <div class="state p-success">
+                                <i class="icon material-icons">✓</i>
+                                <label>include all files</label>
+                            </div>
+                        </div>
+                        
+                        <h5>beautifier:</h5>
+                        <div class="pretty p-icon p-smooth">
+                            <input id="abcSort" type="checkbox" />
+                            <div class="state p-success">
+                                <i class="icon material-icons">✓</i>
+                                <label>abc sort CSS</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--tools-->
+                    <div id="optionContainer5">
+                        <h3>Tools</h3>
+                        <h5>wirefame:</h5><span style="display: inline;padding-left:20px;color:steelblue;"><a href="https://wireframe.cc" target="_blank">wireframe.cc</a></span>
+
+
+                        <h5>inspiration:</h5>
+                        <span style="display: inline;padding-left:20px;color:steelblue;"><a target="_blank" href="https://wordpress.com/themes">Wordpress themes</a></span>
+                        <span style="display: inline;padding-left:20px;color:steelblue;"><a target="_blank" href="https://themes.getbootstrap.com/"> Bootstrap themes</a></span>
+
+                    </div>
+
                     <a href="#">
                         <div id="save">close</div>
                     </a>
+
                 </div>
             </div>
         </section>
-		
-		<section id="popup3" >
-			<div class="outer" style="flex-direction:column">
-				<input type="text" class="displayName" id="imageName" name="">
-				<img id="previewImage" src="https://seansi.org/usana/wp-content/themes/Usana/images/no-img.png" style="height:70%;width:auto;">
-			</div>
-		</section>
-		
-		<section id="popup4">
-			<div class="outer" style="flex-direction:column">
-				<input type="text" class="displayName" id="textName" name="">
-				<textarea class="customBar" id="previewText" style="height:70%;width:63%;resize:none"></textarea>
-			</div>
-		</section>
-		
+
+        <section id="popup3">
+            <div class="outer" style="flex-direction:column">
+                <input type="text" class="displayName" id="imageName" name="">
+                <img id="previewImage" src="https://seansi.org/usana/wp-content/themes/Usana/images/no-img.png" style="height:70%;width:auto;">
+            </div>
+        </section>
+
+        <section id="popup4">
+            <div class="outer" style="flex-direction:column">
+                <input type="text" class="displayName" id="textName" name="">
+                <textarea class="customBar" id="previewText" style="height:70%;width:63%;resize:none"></textarea>
+            </div>
+        </section>
+
+        <section id="popup5">
+            <iframe id="iframe" class="resize"></iframe>
+        </section>
+
         <section id="section1">
             <div id="options"><a href="#popup2"><svg id="icon" xmlns="http://www.w3.org/2000/svg" height="923pt" version="1.1" viewBox="0 0 923 923.75184" width="923pt">
                         <g id="surface1">
@@ -161,38 +218,67 @@
         </section>
         <section id="section2">
             <div @click="activate($event,'defaultOpen','htmlTab')" id="defaultOpen" style="grid-column:3/4" class="languageTab off">
-				<div class="m"><input id="htmlName" class="fileName" type="text" value="index" ><span class="fileType">.html</span></div>
+                <div class="m"><input id="htmlName" class="fileName" type="text" value="index"><span class="fileType">.html</span></div>
             </div>
             <div @click="activate($event,'styleOpen','cssTab')" id="styleOpen" style="grid-column:5/6" class="languageTab off">
-                <div class="m"><input id="cssName" class="fileName" type="text" value="style" ><span class="fileType">.css</span></div>
+                <div class="m"><input id="cssName" class="fileName" type="text" value="style"><span class="fileType">.css</span></div>
             </div>
             <div @click="activate($event,'scriptOpen','javascriptTab')" id="scriptOpen" style="grid-column:7/8" class="languageTab off">
-                <div class="m"><input id="jsName" class="fileName" type="text" value="script" ><span class="fileType">.js</span></div>
+                <div class="m"><input id="jsName" class="fileName" type="text" value="script"><span class="fileType">.js</span></div>
             </div>
         </section>
         <section id="section3">
-			
-			<!-- imported files -->
-			<div id="files" class="customBar" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
-				<h4 id="filesHead" style="text-align:center;border-bottom:1px solid black;color:#00c2ff;margin:0px;">Files</h4>
-				<div class="folder" id="main_folder"><input type="text" value="site"></div>
-				<div class="fileBox" id="addButton"><input id="newFile" type="text"><div class="add" onclick="addFile()"><img src="https://image.flaticon.com/icons/svg/149/149699.svg"></div></div>
-			</div>
-			
-			<!-- blank element -->
-			<div id="filler"></div>
-            
+
+            <!-- imported files -->
+            <div id="files" class="customBar" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                <h4 id="filesHead" style="text-align:center;border-bottom:1px solid black;color:#00c2ff;margin:0px;">Files</h4>
+                <div class="folder" id="main_folder"><input type="text" value="site"></div>
+                <div class="fileBox" id="addButton"><input autocorrect="false" spellcheck="false" placeholder="file.txt" id="newFile" type="text">
+                    <div class="add" onclick="addFile()"><img src="https://image.flaticon.com/icons/svg/149/149699.svg"></div>
+                </div>
+            </div>
+
+            <!-- blank element -->
+            <div id="filler"></div>
+
+            <!--TEXT EDITORS-->
+
+            <!--html-->
             <div class="tabcontent spanFour customBar codeArea" id="htmlTab">
-                <textarea id="HTMLeditor" class="spanFour customBar emmet-syntax-html code" spellcheck="false">!</textarea>
+                <div class="lineCount hiddenBar" id="htmlLines"></div>
+                <textarea @keyup="update" id="HTMLeditor" class="spanFour customBar emmet-syntax-html code" spellcheck="false">!</textarea>
             </div>
+
+            <!--css-->
             <div class="tabcontent spanFour customBar codeArea" id="cssTab">
-                <textarea id="CSSeditor" class="spanFour customBar emmet-syntax-css code" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
+                <div class="lineCount hiddenBar" id="cssLines"></div>
+                <textarea @keyup="update" id="CSSeditor" class="spanFour customBar emmet-syntax-css code" spellcheck="false">body,html{height:100%;width:100%;overflow:hidden;}</textarea>
+
+                <span id="paintIcon"></span>
+                <div id="paintPalette">
+                    <div id="paintSettings">
+                        <span style="text-align: center;font-family: serif;">luminosity</span>
+                        <select id="luminosity" id="" style="width:60%;height: 40px;margin: auto;font-family: serif;">
+                            <option value="">random</option>
+                            <option value="dark">dark</option>
+                            <option value="light">light</option>
+                        </select>
+                        <span style="text-align: center;font-family: serif;">main color</span>
+                        <input id="hue" type="text" style="width:60%;height: 40px;margin: auto;border:none;">
+                        <input type="button" style="width:50%;height: 40px;margin: auto;background: #82c4dd;border:none;color:#E0E0E0;font-family: serif;" value="Randomize" onclick="randomPalette()">
+                        <p id="saved" style="text-align: center;padding-top: 10px;padding-bottom: 10px;margin: 0px;"></p>
+                    </div>
+                    <div id="paintColors"></div>
+                </div>
             </div>
+
+            <!--javascript-->
             <div class="tabcontent spanFour customBar codeArea" id="javascriptTab">
-                <textarea id="JSeditor" class="spanFour customBar code" spellcheck="false">$("")</textarea>
+                <div class="lineCount hiddenBar" id="jsLines"></div>
+                <textarea @keyup="update" id="JSeditor" class="spanFour customBar emmet-syntax-javascript code" spellcheck="false">$("")</textarea>
             </div>
-			
-			<div id="commands" class="normalMenu customBar">
+
+            <div id="commands" class="normalMenu customBar">
                 <h4 class="commandItem w3-text-blue">Command Shortcuts:</h4>
 
                 <span class="hint--top" aria-label="download all your work">
@@ -251,12 +337,12 @@
                 <div id="theme_mist" class="globe">҂</div>
                 <div id="theme_ribbon" class="globe">҂</div>
                 <div id="theme_grave" class="globe">҂</div>
-				<div id="theme_default" class="globe">҂</div>
+                <div id="theme_default" class="globe">҂</div>
             </div>
         </section>
     </main>
-	
-	<script src="./plugins/jquery.min.js"></script>
+
+    <script src="./plugins/jquery.min.js"></script>
     <script src="./plugins/encode.js"></script>
     <script src="./plugins/jquery-fieldselection.min.js"></script>
     <script src="./plugins/htmlminifier.min.js"></script>
@@ -266,11 +352,13 @@
     <script src="./plugins/inline.js"></script>
     <script src="./plugins/vue.js"></script>
     <script src="./plugins/emmet.min.js"></script>
-	<script src="./plugins/jszip.min.js"></script>
-	<script src="./plugins/FileSaver.js"></script>
-	<script src="./plugins/icons.js"></script>
+    <script src="./plugins/jszip.min.js"></script>
+    <script src="./plugins/FileSaver.js"></script>
+    <script src="./plugins/icons.js"></script>
+    <script src="./plugins/jquery-resizable.js"></script>
+    <script src="./plugins/randomColor.min.js"></script>
     <script src="./scripts/master.js"></script>
-	
+
 
 </body>
 

@@ -1,3 +1,38 @@
+//generate random colors 
+function randomPalette() {
+
+    var luminosity = $("#luminosity").val()
+    var hue = $("#hue").val()
+
+    var colors = randomColor({
+        count: 15,
+        "luminosity": luminosity,
+        "hue": hue
+    })
+
+    var colorIndex = 1
+
+    $("#paintColors").html("")
+    for (var color in colors) {
+        color = colors[color]
+        $("#paintColors").append(`<div><div onclick="copy_('${colorIndex}','${color}')" class="paint" style="background:${color}"></div><input id="color${colorIndex}" class="colorName" value="${color}" readonly="readonly"></div>`)
+        colorIndex++;
+    }
+}
+
+//copy color on click 
+function copy_(id, color) {
+    id = "color" + id
+    var c = $(`#${id}`).select()
+    document.execCommand("copy");
+    $("#saved").css("color", color)
+    $("#saved").html("copied!")
+
+}
+//call random color function
+randomPalette()
+
+
 
 //emmet start
 emmet.require('textarea').setup({
@@ -12,64 +47,154 @@ emmet.require('textarea').setup({
 
 
 //on page load 
-$(function() {
+$(function () {
     //if there is prior code that was made, import it 
     if (localStorage["page_source"]) {
-		var html = JSON.parse(localStorage["page_source"])
+        var html = JSON.parse(localStorage["page_source"])
         $("#HTMLeditor").val(html.code)
-		$("#htmlName").val(escapeName(html.name))
+        $("#htmlName").val(escapeName(html.name))
     }
     if (localStorage["script_source"]) {
         var js = JSON.parse(localStorage["script_source"])
         $("#JSeditor").val(js.code)
-		$("#jsName").val(escapeName(js.name))
+        $("#jsName").val(escapeName(js.name))
 
     }
     if (localStorage["style_source"]) {
         var css = JSON.parse(localStorage["style_source"])
         $("#CSSeditor").val(css.code)
-		$("#cssName").val(escapeName(css.name))
+        $("#cssName").val(escapeName(css.name))
     }
-	if(localStorage["files"]){
- 
-		allFiles = JSON.parse(localStorage["files"])
-		displayFiles()
-	}
+    if (localStorage["files"]) {
+
+        allFiles = JSON.parse(localStorage["files"])
+        displayFiles()
+    }
 
     //open html tab
     $("#defaultOpen").click();
-	
-	// open style
-	$("#theme_ribbon").click();
-	
-	//add default files 
-	
-	allFiles[escapeName($("#htmlName").val()) + ".html"] = $("#HTMLeditor").val()
-	$("#htmlName").attr("name",$("#htmlName").val() + ".html")
-	
-	allFiles[escapeName($("#cssName").val()) + ".css"] = $("#CSSeditor").val()
-	$("#cssName").attr("name",$("#cssName").val() + ".css")
-	
-	allFiles[escapeName($("#jsName").val()) + ".js"] = $("#JSeditor").val()
-	$("#jsName").attr("name",$("#jsName").val() + ".js")
-	
-	displayFiles()
-	
+
+    // open style
+    //	$("#theme_ribbon").click();
+
+    //default live preview mode 
+    $("#popup").click()
+
+    //add default files 
+
+    allFiles[escapeName($("#htmlName").val()) + ".html"] = $("#HTMLeditor").val()
+    $("#htmlName").attr("name", $("#htmlName").val() + ".html")
+
+    allFiles[escapeName($("#cssName").val()) + ".css"] = $("#CSSeditor").val()
+    $("#cssName").attr("name", $("#cssName").val() + ".css")
+
+    allFiles[escapeName($("#jsName").val()) + ".js"] = $("#JSeditor").val()
+    $("#jsName").attr("name", $("#jsName").val() + ".js")
+
+    displayFiles()
+
+    //iframe resizeable
+    $(".resize").resizable({
+        handleSelector: null,
+        resizeWidth: true,
+        resizeHeight: true,
+        touchActionNone: true,
+        resizeWidthFrom: 'left',
+        resizeHeightFrom: 'top'
+    });
+
+    //paint brush icon
+    $("#paintIcon").click(function () {
+        $("#paintPalette").slideToggle()
+    })
+
 })
 
 
 var reader = new FileReader();
 var xmlhttp = new XMLHttpRequest();
 
+$(function () {
+
+    $('#HTMLeditor').scroll(function () {
+        $('#htmlLines').scrollTop($(this).scrollTop())
+    })
+
+    $('#CSSeditor').scroll(function () {
+        $('#cssLines').scrollTop($(this).scrollTop())
+    })
+
+    $('#JSeditor').scroll(function () {
+        $('#jsLines').scrollTop($(this).scrollTop())
+    })
+
+})
+
+var cssBlock = ""
+
+function findColor(indx) {
+    var css = cssBlock[indx - 1]
+
+    if (css == "" || css == undefined) {
+        return ""
+    }
+
+    if (css.indexOf("color") != -1) {
+        return css.split(":")[1]
+    } else {
+        return ""
+    }
+}
+
+
+function pasteLines() {
+    //html line count 
+    var lht = parseInt($('#HTMLeditor').css('lineHeight'), 10);
+    var html_lines = Math.floor($('#HTMLeditor')[0].scrollHeight / lht)
+
+    //clear line numbers
+    $("#htmlLines").html("")
+    for (var i = 1; i <= html_lines; i++) {
+        $("#htmlLines").append(`<span class="line">${i}</span>`)
+    }
+
+    //css line count 
+    var lht = parseInt($('#CSSeditor').css('lineHeight'), 10);
+    var css_lines = Math.floor($('#CSSeditor')[0].scrollHeight / lht)
+
+    //all css rules, for pigment display 
+    cssBlock = $("#CSSeditor").val().split("\n").map(function (x) {
+        return x.trim()
+    })
+
+
+    //clear line numbers
+    $("#cssLines").html("")
+    for (var i = 1; i <= css_lines; i++) {
+        var c = findColor(i)
+        $("#cssLines").append(`<span class="line" style="background:${c}">${i}</span>`)
+    }
+
+    //js line count 
+    var lht = parseInt($('#JSeditor').css('lineHeight'), 10);
+    var js_lines = Math.floor($('#JSeditor')[0].scrollHeight / lht)
+
+    //clear line numbers
+    $("#jsLines").html("")
+    for (var i = 1; i <= js_lines; i++) {
+        $("#jsLines").append(`<span class="line">${i}</span>`)
+    }
+}
+
 var wrapper = new Vue({
     el: "#container",
     data: {
-
+        code: ""
     },
     methods: {
 
         //    shift click tab feature  
-        activate: function(event, tab, textArea) {
+        activate: function (event, tab, textArea) {
 
 
             if (event.shiftKey) {
@@ -105,8 +230,35 @@ var wrapper = new Vue({
 
 
         },
-        tab: function(box) {
+        tab: function (box) {
             document.getElementById(box).innerHTML = document.getElementById(box).innerHTML + "    ";
+        },
+        update: function () {
+
+            //line number update 
+            pasteLines()
+
+            if (live) {
+                //update code
+                this.code = $("#HTMLeditor").val()
+
+                var styles = ""
+                var scripts = ""
+
+                if ($("#includeAll").is(':checked')) {
+                    save()
+                    var obj = allCode();
+                    styles = obj["styles"]
+                    scripts = obj["scripts"]
+
+                    $('#iframe').contents().find('head').html(`${styles}`)
+                    $('#iframe').contents().find('body').html(this.code + `${scripts}`)
+                } else {
+                    $('#iframe').contents().find('head').html(`<style>${$("#CSSeditor").val()}</style>`)
+                    $('#iframe').contents().find('body').html(this.code + `\n<script>${$("#JSeditor").val()}</script>`)
+                }
+            }
+
         }
 
 
@@ -121,8 +273,13 @@ function update(elementID, code) {
 }
 
 function openMultiTab(evt, name) {
-    document.getElementById(name).style.display = "block";
+
+
+    document.getElementById(name).style.display = "flex";
     evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
+
+    //show line numbers
+    pasteLines()
 
 }
 
@@ -131,7 +288,6 @@ function openTab(evt, name) {
 
     //show globes
     $("#globeBox").css("display", "flex");
-
 
 
     document.getElementById('commands').className = "normalMenu customBar";
@@ -166,10 +322,13 @@ function openTab(evt, name) {
         tablinks[i].className = tablinks[i].className.replace(" on", " off");
     }
     //show the active code area
-    document.getElementById(name).style.display = "block";
+    document.getElementById(name).style.display = "flex";
 
     //change the current tabs style
     evt.currentTarget.className = evt.currentTarget.className.replace(" off", " on");
+
+    //show line numbers
+    pasteLines()
 
 }
 
@@ -183,7 +342,7 @@ var toggleMode = 0
 var jquery = '<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>'
 
 function fullToggle() {
-	//fullscreen
+    //fullscreen
     if (!toggleMode) {
         $("#commands").css("display", "none");
         $("#files").css("display", "none");
@@ -196,11 +355,12 @@ function fullToggle() {
         }
 
         $("#section2").css("height", "40px")
-		$(".code").css("height", parseInt($(".code").css("height")) + 100)
+        $(".lineCount").css("height", parseInt($(".lineCount").css("height")) + 100)
+        $(".code").css("height", parseInt($(".code").css("height")) + 100)
         toggleMode = 1
-    } 
-	//normal 
-	else if (toggleMode) {
+    }
+    //normal 
+    else if (toggleMode) {
 
         var tabcontent = document.getElementsByClassName("tabcontent");
         //pull the 3 textarea's, make the width full, since only one is selected, then hide all
@@ -209,55 +369,56 @@ function fullToggle() {
         }
 
         $("#section2").css("height", "120px")
+        $(".lineCount").css("height", parseInt($(".lineCount").css("height")) - 100)
         $(".code").css("height", parseInt($(".code").css("height")) - 100)
         toggleMode = 0
-		
-		//if only one file open 
-		if($(".on").length == 1){
-			$("#commands").css("display", "flex");
-			$("#files").css("display", "flex");
-			$("#filler").css("display", "flex");
-		}
+
+        //if only one file open 
+        if ($(".on").length == 1) {
+            $("#commands").css("display", "flex");
+            $("#files").css("display", "flex");
+            $("#filler").css("display", "flex");
+        }
     }
 
 }
 
 //download 
 function download() {
-	
-	save()
-	
+
+    save()
+
     var html = $("#htmlName").val()
     var css = $("#cssName").val()
     var js = $("#jsName").val()
-	
-	if(!(html+".html" in allFiles)){
-		allFiles[html+".html"] = $("#HTMLeditor").val()
-	}
-	else if(!(css+".css" in allFiles)){
-		allFiles[css+".css"] = $("#CSSeditor").val()
-	}
-	else if(!(js+".js" in allFiles)){
-		allFiles[js+".js"] = $("#JSeditor").val()
-	}
+
+    if (!(html + ".html" in allFiles)) {
+        allFiles[html + ".html"] = $("#HTMLeditor").val()
+    } else if (!(css + ".css" in allFiles)) {
+        allFiles[css + ".css"] = $("#CSSeditor").val()
+    } else if (!(js + ".js" in allFiles)) {
+        allFiles[js + ".js"] = $("#JSeditor").val()
+    }
 
     var zip = new JSZip();
-	var main_folder = $("#main_folder > input").val()
+    var main_folder = $("#main_folder > input").val()
     var site = zip.folder(main_folder);
 
-	for(var file in allFiles){
-		//if the file is a image
-		if(images.includes(file.split(".")[1])){
-			site.file(file,allFiles[file],{binary: true})
-		}else{
-			site.file(file,allFiles[file])
-		}
-		
-	}
+    for (var file in allFiles) {
+        //if the file is a image
+        if (images.includes(file.split(".")[1])) {
+            site.file(file, allFiles[file], {
+                binary: true
+            })
+        } else {
+            site.file(file, allFiles[file])
+        }
+
+    }
     zip.generateAsync({
             type: "blob"
         })
-        .then(function(content) {
+        .then(function (content) {
             // see FileSaver.js
             saveAs(content, "code.zip");
         });
@@ -265,50 +426,82 @@ function download() {
 
 }
 
+
+function allCode() {
+
+    let style = ""
+    let script = ""
+
+    for (var file in allFiles) {
+        if (file.endsWith(".css")) {
+            style += `\n <style>${allFiles[file]}</style>`
+        } else if (file.endsWith(".js")) {
+            script += `\n <script>${allFiles[file]}</script>`
+        }
+    }
+
+    return {
+        "styles": style,
+        "scripts": script
+    }
+
+}
+
 //live code view function
 function liveCode() {
 
-    live = true;
+    var mode = $('input[name=radio1]:checked').attr("id");
 
-    var html = $("#HTMLeditor").val();
-    var css = $("#CSSeditor").val();
-    var js = $("#JSeditor").val();
+    var importAll = $("#includeAll").is(':checked')
 
-    try {
-        myWindow.close();
-    } catch (e) {
+    if (mode == "window") {
 
+        live = true;
+
+        var html = $("#HTMLeditor").val();
+        var css = $("#CSSeditor").val();
+        var js = $("#JSeditor").val();
+
+        try {
+            myWindow.close();
+        } catch (e) {
+
+        }
+
+        myWindow = window.open("", "_blank", "", true);
+
+        if (importAll) {
+            save()
+            var obj = allCode();
+            styles = obj["styles"]
+            scripts = obj["scripts"]
+
+            var doc = `${jquery} ${styles} \n ${html} ${scripts}`
+        } else {
+            var doc = `${jquery}\n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`
+        }
+
+        myWindow.document.write(doc);
+
+        //when the page closes
+        myWindow.onunload = function () {
+            live = false;
+        }
+
+        return doc;
+    } else if (mode == "popup") {
+
+        if (live) {
+            live = false
+        } else {
+            live = true
+        }
+
+        wrapper.update()
+        $("#iframe").toggle()
     }
-
-    myWindow = window.open("", "_blank", "", true);
-
-    var doc = `${jquery}\n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`
-
-    myWindow.document.write(doc);
-
-    //when the page closes
-    myWindow.onunload = function() {
-        live = false;
-    }
-
-    return doc;
 }
 
-function liveUpdate() {
-
-    while (myWindow.document.firstChild) {
-        myWindow.document.removeChild(myWindow.document.firstChild);
-
-    }
-
-    var html = $("#HTMLeditor").val();
-    var css = $("#CSSeditor").val();
-    var js = $("#JSeditor").val();
-
-    var doc = `${jquery}\n <style> ${css} </style> \n ${html} \n <script> ${js} </script>`
-
-    myWindow.document.write(doc)
-}
 
 //prep inline css call 
 function prepLine() {
@@ -358,11 +551,11 @@ function getSelectionText() {
 }
 
 //change cursor position
-$.fn.selectRange = function(start, end) {
+$.fn.selectRange = function (start, end) {
     if (end === undefined) {
         end = start;
     }
-    return this.each(function() {
+    return this.each(function () {
         if ('selectionStart' in this) {
             this.selectionStart = start;
             this.selectionEnd = end;
@@ -409,10 +602,19 @@ function quickEdit() {
 
 //caching
 function cache() {
-	//console.log({code:$("#HTMLeditor").val(),name:$("#htmlName").val()})
-    localStorage['page_source'] = JSON.stringify({code:$("#HTMLeditor").val(),name:$("#htmlName").val()})
-    localStorage['script_source'] = JSON.stringify({code:$("#JSeditor").val(),name:$("#jsName").val()})
-    localStorage['style_source'] = JSON.stringify({code:$("#CSSeditor").val(),name:$("#cssName").val()})
+    //console.log({code:$("#HTMLeditor").val(),name:$("#htmlName").val()})
+    localStorage['page_source'] = JSON.stringify({
+        code: $("#HTMLeditor").val(),
+        name: $("#htmlName").val()
+    })
+    localStorage['script_source'] = JSON.stringify({
+        code: $("#JSeditor").val(),
+        name: $("#jsName").val()
+    })
+    localStorage['style_source'] = JSON.stringify({
+        code: $("#CSSeditor").val(),
+        name: $("#cssName").val()
+    })
 }
 
 
@@ -470,6 +672,152 @@ function getHistory() {
     // $("#JSeditor").val(codeHistory["js"])  
 }
 
+function cleanCss(css) {
+
+    if ($("#abcSort").is(":checked")) {
+
+        //seperate into lists 
+        var blank_list = []
+        var id_list = []
+        var class_list = []
+        var code_list = []
+        var media_list = []
+        var keyframes = []
+
+        //if css has media queries 
+        if (css.split("@media").length >= 2) {
+            var newCss = css.split("@media")
+
+            for (var style in newCss) {
+                style = newCss[style]
+
+                var i = (style.indexOf("}}") != -1) ? style.indexOf("}}") : style.indexOf("} }")
+                var media = style.slice(0, i)
+                var other = style.slice(i + 3)
+
+                if (i != -1) {
+                    if (media != "") {
+                        media_list.push("@media" + media + "} }")
+                    }
+                    if (other != "") {
+                        code_list.push(other)
+                    }
+                } else {
+                    code_list.push(style)
+                }
+
+
+            }
+
+            var temp_media = []
+            var temp_code = []
+
+            for (var x in media_list) {
+                if (media_list[x] != "") {
+                    temp_media.push(media_list[x])
+                }
+            }
+
+            media_list = temp_media
+
+            for (var i in code_list) {
+                if (code_list[i] != "") {
+                    temp_code.push(code_list[i])
+                }
+            }
+
+            code_list = temp_code
+
+        }
+
+        //if there arnt any media queries, leave css as default parameter value 
+        css = (code_list.length != 0) ? code_list.join("") : css
+
+        //parse styles 
+        var rules = css.split("}").map(function (x) {
+            return x = x.trim() + "}"
+        })
+        rules = rules.slice(0, rules.length - 1)
+
+
+        //loop thorugh all css styles 
+        for (rule in rules) {
+
+            //find comments 
+            if (rules[rule].startsWith("/*")) {
+                let start = rules[rule].indexOf("*/")
+                var temp = rules[rule].slice(start + 2).trim()
+
+                if (temp.startsWith(".")) {
+                    class_list.push(rules[rule])
+                } else if (temp.startsWith("#")) {
+                    id_list.push(rules[rule])
+                } else {
+                    blank_list.push(rules[rule])
+                }
+            }
+            //no comments
+            else {
+                if (rules[rule].startsWith(".")) {
+                    class_list.push(rules[rule])
+                } else if (rules[rule].startsWith("#")) {
+                    id_list.push(rules[rule])
+                } else {
+                    blank_list.push(rules[rule])
+                }
+            }
+
+        }
+
+        //sort lists
+        blank_list.sort()
+
+        id_list.sort(function (a, b) {
+
+            //if a or b has a comment 
+            if (a.startsWith("/*")) {
+                a = a.slice(a.indexOf("*/") + 2).trim()
+            }
+            if (b.startsWith("/*")) {
+                b = b.slice(b.indexOf("*/") + 2).trim()
+            }
+
+            if (a.slice(1) < b.slice(1)) {
+                return -1;
+            }
+            if (a.slice(1) > b.slice(1)) {
+                return 1;
+            }
+            return 0;
+        })
+
+        class_list.sort(function (a, b) {
+
+            //if a or b has a comment 
+            if (a.startsWith("/*")) {
+                a = a.slice(a.indexOf("*/") + 2).trim()
+            }
+            if (b.startsWith("/*")) {
+                b = b.slice(b.indexOf("*/") + 2).trim()
+            }
+
+            if (a.slice(1) < b.slice(1)) {
+                return -1;
+            }
+            if (a.slice(1) > b.slice(1)) {
+                return 1;
+            }
+            return 0;
+        })
+
+        //join and return 
+        return blank_list.concat(id_list, class_list, media_list).join(" ")
+    }else{
+        return css;
+    }
+
+}
+
 var codeHistory = {}
 
 var priorCopy = ""
@@ -477,9 +825,18 @@ var copy = ""
 var keyCount = 0
 
 //keyboard shortcuts 
-$(function() {
+$(function () {
+
+    $("#newFile").keydown(function (event) {
+        // on enter
+        if (event.which == 13) {
+            addFile()
+        }
+    })
+
+
     //keypress event 
-    $("body").keydown(function(event) {
+    $("body").keydown(function (event) {
         //console.log(event.which)
 
         //save a copy every 60 keys
@@ -492,18 +849,14 @@ $(function() {
         //cache the code when it is modified
         cache();
 
-        //live code update 
-        //        if (live) {
-        //            liveUpdate()
-        // 		}
-		
-		//clear cache ctrl f5
-		if(event.ctrlKey && event.which == 116){
-			localStorage["files"] = ""
-			localStorage["page_source"] = ""
-			localStorage["script_source"] = ""
-			localStorage["style_source"] = ""
-		}
+        //clear cache ctrl f5
+        if (event.ctrlKey && event.which == 116) {
+            localStorage["files"] = ""
+            localStorage["page_source"] = ""
+            localStorage["script_source"] = ""
+            localStorage["style_source"] = ""
+            localStorage["currentStyle"] = "default"
+        }
 
         //code history
         if (event.ctrlKey && event.shiftKey && event.which == 72) {
@@ -544,7 +897,7 @@ $(function() {
             //html
             $("#HTMLeditor").val(html_beautify($("#HTMLeditor").val()))
             //css
-            $("#CSSeditor").val(css_beautify($("#CSSeditor").val()))
+            $("#CSSeditor").val(css_beautify(cleanCss(minify($("#CSSeditor").val(), options))))
             //js
             $("#JSeditor").val(js_beautify($("#JSeditor").val()))
         }
@@ -592,7 +945,7 @@ $(function() {
 })
 
 //string capitalize
-String.prototype.capitalize = function() {
+String.prototype.capitalize = function () {
     return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
@@ -652,11 +1005,11 @@ function remove_(library, type) {
 
 //icon hover effect 
 
-$("#icon").hover(function() {
+$("#icon").hover(function () {
     $("#icon_ball").css("fill", "orange");
     $("#icon_tail").css("fill", "#ff5353");
 
-}, function() {
+}, function () {
     $("#icon_ball").css("fill", "black");
     $("#icon_tail").css("fill", "black");
 })
@@ -667,7 +1020,7 @@ $("#icon").hover(function() {
 //javascript
 
 //jquery
-$("#check_jquery").change(function() {
+$("#check_jquery").change(function () {
     if ($("#check_jquery").is(':checked'))
         import_("jquery", "js")
     else
@@ -676,7 +1029,7 @@ $("#check_jquery").change(function() {
 })
 
 //vue
-$("#check_vue").change(function() {
+$("#check_vue").change(function () {
     if ($("#check_vue").is(':checked'))
         import_("vue", "js")
     else
@@ -685,7 +1038,7 @@ $("#check_vue").change(function() {
 })
 
 //angular
-$("#check_angular").change(function() {
+$("#check_angular").change(function () {
     if ($("#check_angular").is(':checked'))
         import_("angular", "js")
     else
@@ -694,7 +1047,7 @@ $("#check_angular").change(function() {
 })
 
 //react
-$("#check_react").change(function() {
+$("#check_react").change(function () {
     if ($("#check_react").is(':checked'))
         import_("react", "js")
     else
@@ -703,7 +1056,7 @@ $("#check_react").change(function() {
 })
 
 //backbone
-$("#check_backbone").change(function() {
+$("#check_backbone").change(function () {
     if ($("#check_backbone").is(':checked'))
         import_("backbone", "js")
     else
@@ -714,7 +1067,7 @@ $("#check_backbone").change(function() {
 //css
 
 //w3
-$("#check_w3").change(function() {
+$("#check_w3").change(function () {
     if ($("#check_w3").is(':checked'))
         import_("w3", "css")
     else
@@ -722,7 +1075,7 @@ $("#check_w3").change(function() {
 })
 
 //bootstrap
-$("#check_bootstrap").change(function() {
+$("#check_bootstrap").change(function () {
     if ($("#check_bootstrap").is(':checked'))
         import_("bootstrap", "css")
     else
@@ -730,7 +1083,7 @@ $("#check_bootstrap").change(function() {
 })
 
 //pure
-$("#check_pure").change(function() {
+$("#check_pure").change(function () {
     if ($("#check_pure").is(':checked'))
         import_("pure", "css")
     else
@@ -738,7 +1091,7 @@ $("#check_pure").change(function() {
 })
 
 //skeleton
-$("#check_skeleton").change(function() {
+$("#check_skeleton").change(function () {
     if ($("#check_skeleton").is(':checked'))
         import_("skeleton", "css")
     else
@@ -746,7 +1099,7 @@ $("#check_skeleton").change(function() {
 })
 
 //uikit
-$("#check_uikit").change(function() {
+$("#check_uikit").change(function () {
     if ($("#check_uikit").is(':checked'))
         import_("uikit", "css")
     else
@@ -758,93 +1111,160 @@ $("#check_uikit").change(function() {
 
 //code styles
 
-//flamingo
+var styles = {
+    nightLight:{
+        "textarea bg": "#001d30",
+        commandItem:"#001d30",
+        files:"#001d30",
+        "textarea c":"#ecc242",
+        file:"#ecc242",
+        body:"#00304c",
+        lineCount:"#fcce02",
+        remove:"#fcce02"
+    },
+    dayNight:{
+        "textarea bg": "black",
+        commandItem:"black",
+        files:"black",
+        "textarea c":"white",
+        file:"white",
+        body:"#151718",
+        lineCount:"#cc0a34",
+        remove:"#cc0a34"
+    },
+    hacker:{
+        "textarea bg": "black",
+        commandItem:"black",
+        files:"black",
+        "textarea c":"#4dff4a",
+        file:"#4dff4a",
+        body:"black",
+        lineCount:"#2b2b2b",
+        remove:"#2b2b2b"
+    },
+    plum:{
+        "textarea bg": "#591952",
+        commandItem:"#591952",
+        files:"#591952",
+        "textarea c":"#9f5596",
+        file:"#9f5596",
+        body:"#4d1647",
+        lineCount:"#570b89",
+        remove:"#570b89"
+    },
+    velvet:{
+        "textarea bg": "#fff0db",
+        commandItem:"#fff0db",
+        files:"#fff0db",
+        "textarea c":"#d4302b",
+        file:"#d4302b",
+        body:"#ffe3bb",
+        lineCount:"#ea726e",
+        remove:"#ea726e"
+    },
+    mist:{
+        "textarea bg": "#242424",
+        commandItem:"#242424",
+        files:"#242424",
+        "textarea c":"#10508c",
+        file:"#10508c",
+        body:"#1e1e1e",
+        lineCount:"#043468",
+        remove:"#043468"
+    },
+    ribbon:{
+        "textarea bg": "#801336",
+        commandItem:"#801336",
+        files:"#801336",
+        "textarea c":"#ee4540",
+        file:"#ee4540",
+        body:"#510a32",
+        lineCount:"#e25c02",
+        remove:"#e25c02"
+    },
+    grave:{
+        "textarea bg": "#1e1e1e",
+        commandItem:"#1e1e1e",
+        files:"#1e1e1e",
+        "textarea c":"red",
+        file:"red",
+        body:"black",
+        lineCount:"#292c2f",
+        remove:"#292c2f"
+    },
+    default:{
+        "textarea bg": "white",
+        commandItem:"#eaeaea",
+        files:"#eaeaea",
+        "textarea c":"black",
+        file:"black",
+        body:"white",
+        lineCount:"steelblue",
+        remove:"steelblue"
+    },
+    
+    
+}
 
-$("#theme_nightLight").click(function() {
-    $("textarea").css("background", "#001d30");
-    $(".commandItem").css("background", "#001d30")
-    $("#files").css("background", "#001d30")
-    $("textarea").css("color", "#ecc242");
-	$(".file").css("color", "#ecc242");
-    $("body").css("background-color", "#00304c")
+function changeStyle(style){
+    $("textarea").css("background", styles[style]["textarea bg"]);
+    $(".commandItem").css("background-color", styles[style]["commandItem"])
+    $("#files").css("background", styles[style]["files"])
+    $("textarea").css("color", styles[style]["textarea c"]);
+    $(".file").css("color", styles[style]["file"]);
+    $("body").css("background-color", styles[style]["body"])
+    $(".lineCount").css("background-color", styles[style]["lineCount"])
+    $(".remove").css("color",styles[style]["remove"])
+    
+    $(".file").hover(function () {$(this).css("color", styles[style]["lineCount"]) }, function () { $(this).css("color", styles[style]["textarea c"]) })
+    
+    $("#newFile").css("color",styles[style]["textarea c"])
+}
+
+
+$("#theme_nightLight").click(function () {
+    localStorage["currentStyle"] = "nightLight"
+    changeStyle("nightLight")
 })
 
-$("#theme_dayNight").click(function() {
-    $("textarea").css("background", "black");
-    $(".commandItem").css("background", "black")
-    $("#files").css("background", "black")
-    $("textarea").css("color", "white");
-	$(".file").css("color", "white");
-    $("body").css("background-color", "#151718")
-
+$("#theme_dayNight").click(function () {
+    localStorage["currentStyle"] = "dayNight"
+    changeStyle("dayNight")
 })
 
-$("#theme_hacker").click(function() {
-    $("textarea").css("background", "black");
-    $(".commandItem").css("background", "black")
-    $("#files").css("background", "black")
-    $("textarea").css("color", "#4dff4a");
-	$(".file").css("color", "#4dff4a");
-    $("body").css("background-color", "black")
+$("#theme_hacker").click(function () {
+    localStorage["currentStyle"] = "hacker"
+    changeStyle("hacker")
 })
 
-$("#theme_plum").click(function() {
-    $("textarea").css("background", "#591952");
-    $(".commandItem").css("background", "#591952")
-    $("#files").css("background", "#591952")
-    $("textarea").css("color", "#9f5596");
-	$(".file").css("color", "#9f5596");
-    $("body").css("background-color", "#4d1647")
+$("#theme_plum").click(function () {
+    localStorage["currentStyle"] = "plum"
+    changeStyle("plum")
 })
 
-$("#theme_velvet").click(function() {
-    $("textarea").css("background", "#fff0db");
-    $(".commandItem").css("background", "#fff0db")
-    $("#files").css("background", "#fff0db")
-    $("textarea").css("color", "#d4302b");
-	$(".file").css("color", "#d4302b");
-    $("body").css("background-color", "#ffe3bb")
+$("#theme_velvet").click(function () {
+    localStorage["currentStyle"] = "velvet"
+    changeStyle("velvet")
 })
 
-$("#theme_mist").click(function() {
-    $("textarea").css("background", "#242424");
-    $(".commandItem").css("background", "#242424")
-    $("#files").css("background", "#242424")
-    $("textarea").css("color", "#10508c");
-	$(".file").css("color", "#10508c");
-    $("body").css("background-color", "#1e1e1e")
+$("#theme_mist").click(function () {
+    localStorage["currentStyle"] = "mist"
+    changeStyle("mist")
 })
 
-$("#theme_ribbon").click(function() {
-    $("textarea").css("background", "#801336");
-    $(".commandItem").css("background", "#801336")
-    $("#files").css("background", "#801336")
-    $("textarea").css("color", "#ee4540");
-	$(".file").css("color", "#ee4540");
-    $("body").css("background-color", "#510a32")
-	
-	$(".fileName").css("color","#ee4540")
-	// $(".on").css("color","#ee4640")
-	$("#filesHead").css("color","#ee4540")
-	
+$("#theme_ribbon").click(function () {
+    localStorage["currentStyle"] = "ribbon"
+    changeStyle("ribbon")
 })
 
-$("#theme_grave").click(function() {
-    $("textarea").css("background", "#1e1e1e");
-    $(".commandItem").css("background", "#1e1e1e")
-    $("#files").css("background", "#1e1e1e")
-    $("textarea").css("color", "red");
-	$(".file").css("color", "red");
-    $("body").css("background-color", "black")
+$("#theme_grave").click(function () {
+    localStorage["currentStyle"] = "grave"
+    changeStyle("grave")
 })
 
-$("#theme_default").click(function() {
-    $("textarea").css("background", "white");
-    $(".commandItem").css("background", "#eaeaea")
-    $("#files").css("background", "#eaeaea")
-    $("textarea").css("color", "black");
-	$(".file").css("color", "black");
-    $("body").css("background-color", "white")
+$("#theme_default").click(function () {
+    localStorage["currentStyle"] = "default"
+    changeStyle("default")
 })
 
 
@@ -856,90 +1276,91 @@ $("#theme_default").click(function() {
 var allFiles = {}
 var imageURI = {}
 
-function removeFile(fileName){
-	
-	delete allFiles[fileName];
-	$(`#${fileName.replace(".", "_")}`).parent().remove()
-	displayFiles()
+function removeFile(fileName) {
+
+    delete allFiles[fileName];
+    $(`#${fileName.replace(".", "_")}`).parent().remove()
+    displayFiles()
 }
 
-function addFile(){
-	let fileName = escapeName($("#newFile").val())
-	if(!fileName.includes(".")){
-		fileName += ".txt"
-	}
-	allFiles[fileName] = ""
-	displayFiles()
+function addFile() {
+    let fileName = escapeName($("#newFile").val())
+    if (fileName == "") {
+        fileName = "file.txt"
+    }
+    if (!fileName.includes(".")) {
+        fileName += ".txt"
+    }
+
+    allFiles[fileName] = ""
+    displayFiles()
 }
 
 function displayFiles() {
-	
-	//cache new files
-	var slim = {}
-	for(var file in allFiles){
-		//dont cache images
-		let fileType = file.split(".")[file.split(".").length - 1]
-		if(!(images.includes(fileType))){
-			slim[file] = allFiles[file]
-		}
-	}
-	
-	try{
-		localStorage["files"] = JSON.stringify(slim)
-	}catch(err){
-		console.log("your file sizes are too large, some files may no be cached.")
-	}
-	
-	//sorting by file type
-	var sorted = Object.keys(allFiles).sort(function(a,b){return a.split(".")[1] == b.split(".")[1] ? 0 : a.split(".")[1] < b.split(".")[1] ? -1 : 1; })
-	
-	//remove add button. so it gets readded to the bottom 
-	$("#addButton").remove()
 
-	//add new files
-	try{
-		for (var file in sorted) {
-			file = sorted[file]
-			
-			//file icon
-			var icons = window.FileIcons;
-			var icon = icons.getClassWithColor(file);
+    //cache new files
+    var slim = {}
+    for (var file in allFiles) {
+        //dont cache images
+        let fileType = file.split(".")[file.split(".").length - 1]
+        if (!(images.includes(fileType))) {
+            slim[file] = allFiles[file]
+        }
+    }
 
-			var altFile = file.replace(".", "_")
+    try {
+        localStorage["files"] = JSON.stringify(slim)
+    } catch (err) {
+        console.log("your file sizes are too large, some files may no be cached.")
+    }
 
-			//if file already exists, replace it 
-			if ($(`#${altFile}`).length) {
-				$(`#${altFile}`).parent().remove()
-				$("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
-			} else {
-				$("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
-			}
-		}
-	}catch(err){
-		alert("your file name contains invalid symbols" + "\n" + file)
-		delete allFiles[file]
-	}
-	
-	//insert add button 
-	$("#main_folder").append(`<div class="fileBox" id="addButton"><input id="newFile" type="text" ><div onclick="addFile()" class="add"><img src="https://image.flaticon.com/icons/svg/149/149699.svg"></div></div>`)
-	
-	//examine old files (for name change)
-	
-		var fileNames = $(".file").map(function(){return this.id.replace("_",".")})
-		for(var file = 0;file < fileNames.length-1;file++){
-			if(!(fileNames[file] in allFiles)){
-				$(`#${fileNames[file].replace(".","_")}`).parent().remove()
-			}
-		}
+    //sorting by file type
+    var sorted = Object.keys(allFiles).sort(function (a, b) {
+        return a.split(".")[1] == b.split(".")[1] ? 0 : a.split(".")[1] < b.split(".")[1] ? -1 : 1;
+    })
 
-	//.file onhover
-	var c = ""
-	$(".file").hover(function() {
-		c = $(this).css("color") 
-		$(this).css("color", "red")
-	}, function() {
-		$(this).css("color", c)
-	})
+    //remove add button. so it gets readded to the bottom 
+    $("#addButton").remove()
+
+    //add new files
+    try {
+        for (var file in sorted) {
+            file = sorted[file]
+
+            //file icon
+            var icons = window.FileIcons;
+            var icon = icons.getClassWithColor(file);
+
+            var altFile = file.replace(".", "_")
+
+            //if file already exists, replace it 
+            if ($(`#${altFile}`).length) {
+                $(`#${altFile}`).parent().remove()
+                $("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
+            } else {
+                $("#main_folder").append(`<div class="fileBox"><div class='file' id='${altFile}' onclick="display('${file}')"><i class="${icon}"></i>${file}</div><div class="remove" onclick="removeFile('${file}')"><img src="https://image.flaticon.com/icons/svg/149/149700.svg"></div></div>`)
+            }
+        }
+    } catch (err) {
+        alert("your file name contains invalid symbols" + "\n" + file)
+        delete allFiles[file]
+    }
+
+    //insert add button 
+    $("#main_folder").append(`<div class="fileBox" id="addButton"><input autocorrect="false" spellcheck="false" placeholder="file.txt" id="newFile" type="text" ><div onclick="addFile()" class="add"><img src="https://image.flaticon.com/icons/svg/149/149699.svg"></div></div>`)
+
+    //examine old files (for name change)
+
+    var fileNames = $(".file").map(function () {
+        return this.id.replace("_", ".")
+    })
+    for (var file = 0; file < fileNames.length - 1; file++) {
+        if (!(fileNames[file] in allFiles)) {
+            $(`#${fileNames[file].replace(".","_")}`).parent().remove()
+        }
+    }
+ 
+    changeStyle(localStorage["currentStyle"])
 }
 
 function save() {
@@ -954,8 +1375,8 @@ function save() {
     if (miscFile != "") {
         allFiles[miscFile] = $("#previewText").val()
     }
-	
-	//displayFiles()
+
+    //displayFiles()
 
 }
 
@@ -978,21 +1399,21 @@ function display(filename) {
             case "html":
                 $("#HTMLeditor").val(allFiles[filename]);
                 $("#htmlName").val(filename_)
-				$("#htmlName").attr("name",filename)
+                $("#htmlName").attr("name", filename)
                 $("#defaultOpen").click();
                 miscFile = ""
                 break
             case "css":
                 $("#CSSeditor").val(allFiles[filename]);
                 $("#cssName").val(filename_)
-				$("#cssName").attr("name",filename)
+                $("#cssName").attr("name", filename)
                 $("#styleOpen").click();
                 miscFile = ""
                 break
             case "js":
                 $("#JSeditor").val(allFiles[filename]);
                 $("#jsName").val(filename_)
-				$("#jsName").attr("name",filename)
+                $("#jsName").attr("name", filename)
                 $("#scriptOpen").click();
                 miscFile = ""
                 break
@@ -1002,15 +1423,15 @@ function display(filename) {
             case "gif":
             case "ico":
             case "jpg":
-				$("#imageName").val(filename)
-				$("#imageName").attr("name",filename)
+                $("#imageName").val(filename)
+                $("#imageName").attr("name", filename)
                 $("#previewImage").attr("src", imageURI[filename])
                 $("#popup3").toggle(1000)
                 miscFile = ""
                 break
             default:
-				$("#textName").val(filename)
-				$("#textName").attr("name",filename)
+                $("#textName").val(filename)
+                $("#textName").attr("name", filename)
                 $("#previewText").val(allFiles[filename])
                 $("#popup4").toggle(1000)
                 miscFile = filename
@@ -1030,13 +1451,15 @@ function dragOverHandler(ev) {
 
 var images = ["jpg", "png", "svg", "jpeg", "gif", "ico"]
 
-function escapeName(n){
-	//camelCase all words excepts first word
-	let name = n.split("_").join(" ").split(" ").slice(1).map(function(x){return x.capitalize()})
-	//combind the first word with the rest
-	name = n.split("_").join(" ").split(" ")[0].concat(name.join(""))
-	
-	return name 
+function escapeName(n) {
+    //camelCase all words excepts first word
+    let name = n.split("_").join(" ").split(" ").slice(1).map(function (x) {
+        return x.capitalize()
+    })
+    //combind the first word with the rest
+    name = n.split("_").join(" ").split(" ")[0].concat(name.join(""))
+
+    return name
 }
 
 
@@ -1055,313 +1478,255 @@ function dropHandler(ev) {
 
                 var reader = new FileReader();
                 var file = ev.dataTransfer.items[i].getAsFile();
-				
-				
-				//fix spaces & underscores in file names by making them camelCase  
-				var fileName = escapeName(file.name)
-					
-				if (file.name.endsWith(".html")) {
-					let name = fileName.split(".")[0]
-				   
-					reader.onload = function(event) {
-						$("#HTMLeditor").val(event.target.result)
-						$("#htmlName").val(name)
-						$("#htmlName").attr("name",name+".html")
-						allFiles[name + ".html"] = event.target.result
-						displayFiles()
-					}
-					reader.readAsText(file)
-				} else if (file.name.endsWith(".css")) {
-					let name = fileName.split(".")[0]
-				   
-					reader.onload = function(event) {
-						$("#CSSeditor").val(event.target.result)
-						$("#cssName").val(name)
-						$("#cssName").attr("name",name+".css")
-						allFiles[name + ".css"] = event.target.result
-						displayFiles()
-					}
-					reader.readAsText(file) 
-				} else if (file.name.endsWith(".js")) {
-					let name = fileName.split(".")[0]
-				   
-					reader.onload = function(event) {
-						$("#JSeditor").val(event.target.result)
-						$("#jsName").val(name)
-						$("#jsName").attr("name",name+".js")
-						allFiles[name + ".js"] = event.target.result
-						displayFiles()
-					}
-					reader.readAsText(file)
-				} else if (images.indexOf(file.name.split(".")[1]) > -1) {
-					let name = fileName
-					let tempFile = file 
-					reader.onload = function(event) {
-						var reader = new FileReader();
-						
-						allFiles[name] = event.target.result
-						displayFiles() 
-						
-						reader.onload = function(event){
-							imageURI[name] = event.target.result
-							
-						 }
-						reader.readAsDataURL(tempFile)
-						
-					}
-					reader.readAsBinaryString(file)
-					
-					
-				} else {
-					let name = fileName
-					reader.onload = function(event) {
-						allFiles[name] = event.target.result
-						displayFiles()
-					}
-					reader.readAsText(file)
 
-				}
-			
 
-            } 
-			//folder reading 
-			else if(entry.isDirectory){
-				
-				
-				// let directoryReader = entry.createReader();
-				// directoryReader.readEntries(function(entries) {
-					// entries.forEach(function(entry) {
-					  // alert("file")
-				  // });
-				// });
-				
-				// console.log("folder")
-				
+                //fix spaces & underscores in file names by making them camelCase  
+                var fileName = escapeName(file.name)
+
+                if (file.name.endsWith(".html")) {
+                    let name = fileName.split(".")[0]
+
+                    reader.onload = function (event) {
+                        $("#HTMLeditor").val(event.target.result)
+                        $("#htmlName").val(name)
+                        $("#htmlName").attr("name", name + ".html")
+                        allFiles[name + ".html"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (file.name.endsWith(".css")) {
+                    let name = fileName.split(".")[0]
+
+                    reader.onload = function (event) {
+                        $("#CSSeditor").val(event.target.result)
+                        $("#cssName").val(name)
+                        $("#cssName").attr("name", name + ".css")
+                        allFiles[name + ".css"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (file.name.endsWith(".js")) {
+                    let name = fileName.split(".")[0]
+
+                    reader.onload = function (event) {
+                        $("#JSeditor").val(event.target.result)
+                        $("#jsName").val(name)
+                        $("#jsName").attr("name", name + ".js")
+                        allFiles[name + ".js"] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+                } else if (images.indexOf(file.name.split(".")[1]) > -1) {
+                    let name = fileName
+                    let tempFile = file
+                    reader.onload = function (event) {
+                        var reader = new FileReader();
+
+                        allFiles[name] = event.target.result
+                        displayFiles()
+
+                        reader.onload = function (event) {
+                            imageURI[name] = event.target.result
+
+                        }
+                        reader.readAsDataURL(tempFile)
+
+                    }
+                    reader.readAsBinaryString(file)
+
+
+                } else {
+                    let name = fileName
+                    reader.onload = function (event) {
+                        allFiles[name] = event.target.result
+                        displayFiles()
+                    }
+                    reader.readAsText(file)
+
+                }
+
+
+            }
+            //folder reading 
+            else if (entry.isDirectory) {
+
+
+                // let directoryReader = entry.createReader();
+                // directoryReader.readEntries(function(entries) {
+                // entries.forEach(function(entry) {
+                // alert("file")
+                // });
+                // });
+
+                // console.log("folder")
+
                 // var dirReader = entry.createReader();
-			
+
                 // var entries = [];
 
                 // // function getEntries() {
-                    // // dirReader.readEntries(function(results) {
-						// // alert(1)
-                        // // if (results.length > 0) {
-							
-                            // // //entries = entries.concat(toArray(results));
-                            // // getEntries();
-                        // // }else{"done"}
-                    // // })
+                // // dirReader.readEntries(function(results) {
+                // // alert(1)
+                // // if (results.length > 0) {
+
+                // // //entries = entries.concat(toArray(results));
+                // // getEntries();
+                // // }else{"done"}
+                // // })
                 // // };
 
                 // // getEntries();
-				
-				// dirReader.readEntries(function(results) {
-					// alert(1)
-					// if (results.length > 0) {
-						
-						// //entries = entries.concat(toArray(results));
-						// getEntries();
-					// }else{"done"}
-				// })
-				
-				
-				// function traverse_directory(entry) {
-					// let reader = entry.createReader();
-					// // Resolved when the entire directory is traversed
-					// return new Promise((resolve_directory) => {
-						// var iteration_attempts = [];
-						// (function read_entries() {
-							// // According to the FileSystem API spec, readEntries() must be called until
-							// // it calls the callback with an empty array.  Seriously??
-							// reader.readEntries((entries) => {
-								// if (!entries.length) {
-									// // Done iterating this particular directory
-									// resolve_directory(Promise.all(iteration_attempts));
-								// } else {
-									// // Add a list of promises for each directory entry.  If the entry is itself 
-									// // a directory, then that promise won't resolve until it is fully traversed.
-									// iteration_attempts.push(Promise.all(entries.map((entry) => {
-										// if (entry.isFile) {
-											// // DO SOMETHING WITH FILES
-											// return entry;
-										// } else {
-											// // DO SOMETHING WITH DIRECTORIES
-											// return traverse_directory(entry);
-										// }
-									// })));
-									// // Try calling readEntries() again for the same dir, according to spec
-									// read_entries();
-								// }
-							// }, (error)=>{console.log(error.code)} );
-						// })();
-					// });
-				// }
 
-				// traverse_directory(entry).then(()=> {
-					// // AT THIS POINT THE DIRECTORY SHOULD BE FULLY TRAVERSED.
-				// });
-                
+                // dirReader.readEntries(function(results) {
+                // alert(1)
+                // if (results.length > 0) {
+
+                // //entries = entries.concat(toArray(results));
+                // getEntries();
+                // }else{"done"}
+                // })
+
+
+                // function traverse_directory(entry) {
+                // let reader = entry.createReader();
+                // // Resolved when the entire directory is traversed
+                // return new Promise((resolve_directory) => {
+                // var iteration_attempts = [];
+                // (function read_entries() {
+                // // According to the FileSystem API spec, readEntries() must be called until
+                // // it calls the callback with an empty array.  Seriously??
+                // reader.readEntries((entries) => {
+                // if (!entries.length) {
+                // // Done iterating this particular directory
+                // resolve_directory(Promise.all(iteration_attempts));
+                // } else {
+                // // Add a list of promises for each directory entry.  If the entry is itself 
+                // // a directory, then that promise won't resolve until it is fully traversed.
+                // iteration_attempts.push(Promise.all(entries.map((entry) => {
+                // if (entry.isFile) {
+                // // DO SOMETHING WITH FILES
+                // return entry;
+                // } else {
+                // // DO SOMETHING WITH DIRECTORIES
+                // return traverse_directory(entry);
+                // }
+                // })));
+                // // Try calling readEntries() again for the same dir, according to spec
+                // read_entries();
+                // }
+                // }, (error)=>{console.log(error.code)} );
+                // })();
+                // });
+                // }
+
+                // traverse_directory(entry).then(()=> {
+                // // AT THIS POINT THE DIRECTORY SHOULD BE FULLY TRAVERSED.
+                // });
+
 
             }
 
         }
     } 
-	 else {
-		alert("here")
-        // // Use DataTransfer interface to access the file(s)
-        // for (var i = 0; i < ev.dataTransfer.files.length; i++) {
-            // if (ev.dataTransfer.items[i].kind === 'file') {
-
-                // var reader = new FileReader();
-                // var file = ev.dataTransfer.items[i].getAsFile();
-				// file.name = file.name.replace(" ","-")
-
-                // if (file.name.endsWith(".html")) {
-                  
-                    // reader.onload = function(event) {
-                        // $("#HTMLeditor").val(event.target.result)
-                        // $("#htmlName").val(file.name)
-                        // allFiles[name + ".html"] = event.target.result
-                        // displayFiles()
-                    // }
-                    // reader.readAsText(file)
-                // } else if (file.name.endsWith(".css")) {
-                    
-                    // reader.onload = function(event) {
-                        // $("#CSSeditor").val(event.target.result)
-                        // $("#cssName").val(file.name)
-                        // allFiles[name + ".css"] = event.target.result
-                        // displayFiles()
-                    // }
-                    // reader.readAsText(file)
-                // } else if (file.name.endsWith(".js")) {
-                
-                    // reader.onload = function(event) {
-                        // $("#JSeditor").val(event.target.result)
-                        // $("#jsName").val(file.name)
-                        // allFiles[name + ".js"] = event.target.result
-                        // displayFiles()
-                    // }
-                    // reader.readAsText(file)
-                // } else if (images.indexOf(file.name.split(".")[1]) > -1) {
-                    // reader.onload = function(event) {
-                        // allFiles[file.name] = event.target.result
-                       
-                        // displayFiles()
-                    // }
-                    // reader.readAsDataURL(file)
-                // } else {
-                    // let name = file.name
-                    // reader.onload = function(event) {
-                        // allFiles[name] = event.target.result
-                        // displayFiles()
-                    // }
-                    // reader.readAsText(file)
-
-                // }
-
-            // }
-
-        // }
-    }
 
 }
 
 // name change
 
 //when html tab name changes
-$("#htmlName").keyup(function(){
-	if($("#htmlName").val()+".html" != $("#htmlName").attr("name")){
-		//camelCase name 
-		var name = escapeName($("#htmlName").val())
-		//name correction
-		$("#htmlName").val(name)
-		// add a new record to allFiles
-		allFiles[name +".html"] = $("#HTMLeditor").val()
-		// delete the old name
-		delete allFiles[$("#htmlName").attr("name")]
-		// change the reference in the name prop
-		$("#htmlName").attr("name",name+".html")
-		// refresh files
-		displayFiles()
-	}else{
-		console.log("no change")
-	}
-}) 
-
-//when css tab name changes
-$("#cssName").keyup(function(){
-	if($("#cssName").val()+".css" != $("#cssName").attr("name")){
-		//camelCase name 
-		var name = escapeName($("#cssName").val())
-		//name correction
-		$("#cssName").val(name)
-		// add a new record to allFiles
-		allFiles[name+".css"] = $("#CSSeditor").val()
-		// delete the old name
-		delete allFiles[$("#cssName").attr("name")]
-		// change the reference in the name prop
-		$("#cssName").attr("name",name+".css")
-		// refresh files
-		displayFiles()
-	}else{
-		console.log("no change")
-	}
-}) 
-
-//when js tab name changes
-$("#jsName").keyup(function(){
-	if($("#jsName").val()+".js" != $("#jsName").attr("name")){
-		//camelCase name 
-		var name = escapeName($("#jsName").val())
-		//name correction
-		$("#jsName").val(name)
-		// add a new record to allFiles
-		allFiles[name+".js"] = $("#JSeditor").val()
-		// delete the old name
-		delete allFiles[$("#jsName").attr("name")]
-		// change the reference in the name prop
-		$("#jsName").attr("name",name+".js")
-		// refresh files
-		displayFiles()
-	}else{
-		console.log("no change")
-	}
-}) 
-
-$("#imageName").keyup(function(){
-	if($("#imageName").val() != $("#imageName").attr("name")){
-		//camelCase name 
-		var name = escapeName($("#imageName").val())
-		//name correction
-		$("#imageName").val(name)
-		// add a new record to allFiles
-		allFiles[name] = $("#imageName").val()
-		// delete the old name
-		delete allFiles[$("#imageName").attr("name")]
-		// change the reference in the name prop
-		$("#imageName").attr("name",name)
-		// refresh files
-		displayFiles()
-	}else{
-		console.log("no change")
-	}
+$("#htmlName").keyup(function () {
+    if ($("#htmlName").val() + ".html" != $("#htmlName").attr("name")) {
+        //camelCase name 
+        var name = escapeName($("#htmlName").val())
+        //name correction
+        $("#htmlName").val(name)
+        // add a new record to allFiles
+        allFiles[name + ".html"] = $("#HTMLeditor").val()
+        // delete the old name
+        delete allFiles[$("#htmlName").attr("name")]
+        // change the reference in the name prop
+        $("#htmlName").attr("name", name + ".html")
+        // refresh files
+        displayFiles()
+    } else {
+        console.log("no change")
+    }
 })
 
-$("#textName").keyup(function(){
-	if($("#textName").val() != $("#textName").attr("name")){
-		//camelCase name 
-		var name = escapeName($("#textName").val())
-		//name correction
-		$("#textName").val(name)
-		// add a new record to allFiles
-		allFiles[name] = $("#textName").val()
-		// delete the old name
-		delete allFiles[$("#textName").attr("name")]
-		// change the reference in the name prop
-		$("#textName").attr("name",name)
-		// refresh files
-		displayFiles()
-	}else{
-		console.log("no change")
-	}
+//when css tab name changes
+$("#cssName").keyup(function () {
+    if ($("#cssName").val() + ".css" != $("#cssName").attr("name")) {
+        //camelCase name 
+        var name = escapeName($("#cssName").val())
+        //name correction
+        $("#cssName").val(name)
+        // add a new record to allFiles
+        allFiles[name + ".css"] = $("#CSSeditor").val()
+        // delete the old name
+        delete allFiles[$("#cssName").attr("name")]
+        // change the reference in the name prop
+        $("#cssName").attr("name", name + ".css")
+        // refresh files
+        displayFiles()
+    } else {
+        console.log("no change")
+    }
+})
+
+//when js tab name changes
+$("#jsName").keyup(function () {
+    if ($("#jsName").val() + ".js" != $("#jsName").attr("name")) {
+        //camelCase name 
+        var name = escapeName($("#jsName").val())
+        //name correction
+        $("#jsName").val(name)
+        // add a new record to allFiles
+        allFiles[name + ".js"] = $("#JSeditor").val()
+        // delete the old name
+        delete allFiles[$("#jsName").attr("name")]
+        // change the reference in the name prop
+        $("#jsName").attr("name", name + ".js")
+        // refresh files
+        displayFiles()
+    } else {
+        console.log("no change")
+    }
+})
+
+$("#imageName").keyup(function () {
+    if ($("#imageName").val() != $("#imageName").attr("name")) {
+        //camelCase name 
+        var name = escapeName($("#imageName").val())
+        //name correction
+        $("#imageName").val(name)
+        // add a new record to allFiles
+        allFiles[name] = $("#imageName").val()
+        // delete the old name
+        delete allFiles[$("#imageName").attr("name")]
+        // change the reference in the name prop
+        $("#imageName").attr("name", name)
+        // refresh files
+        displayFiles()
+    } else {
+        console.log("no change")
+    }
+})
+
+$("#textName").keyup(function () {
+    if ($("#textName").val() != $("#textName").attr("name")) {
+        //camelCase name 
+        var name = escapeName($("#textName").val())
+        //name correction
+        $("#textName").val(name)
+        // add a new record to allFiles
+        allFiles[name] = $("#textName").val()
+        // delete the old name
+        delete allFiles[$("#textName").attr("name")]
+        // change the reference in the name prop
+        $("#textName").attr("name", name)
+        // refresh files
+        displayFiles()
+    } else {
+        console.log("no change")
+    }
 })
