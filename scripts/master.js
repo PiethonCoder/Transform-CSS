@@ -49,23 +49,23 @@ emmet.require('textarea').setup({
 //on page load 
 $(function () {
     //if there is prior code that was made, import it 
-    if (localStorage["page_source"]) {
-        var html = JSON.parse(localStorage["page_source"])
+    if (localStorage["page_source"] != undefined) {
+        var html = JSON.parse(localStorage["page_source"]) || ""
         $("#HTMLeditor").val(html.code)
         $("#htmlName").val(escapeName(html.name))
     }
-    if (localStorage["script_source"]) {
-        var js = JSON.parse(localStorage["script_source"])
+    if (localStorage["script_source"] != undefined) {
+        var js = JSON.parse(localStorage["script_source"]) || "" 
         $("#JSeditor").val(js.code)
         $("#jsName").val(escapeName(js.name))
 
     }
-    if (localStorage["style_source"]) {
-        var css = JSON.parse(localStorage["style_source"])
+    if (localStorage["style_source"] != undefined) {
+        var css = JSON.parse(localStorage["style_source"]) || "" 
         $("#CSSeditor").val(css.code)
         $("#cssName").val(escapeName(css.name))
     }
-    if (localStorage["files"]) {
+    if (localStorage["files"] != undefined) {
 
         allFiles = JSON.parse(localStorage["files"])
         displayFiles()
@@ -73,9 +73,6 @@ $(function () {
 
     //open html tab
     $("#defaultOpen").click();
-
-    // open style
-    //	$("#theme_ribbon").click();
 
     //default live preview mode 
     $("#popup").click()
@@ -244,6 +241,11 @@ var wrapper = new Vue({
 
                 var styles = ""
                 var scripts = ""
+                
+                //parse head from html 
+                var parser = new DOMParser();
+                var doc = parser.parseFromString($("#HTMLeditor").val(), "text/html");
+                var head = (doc.getElementsByTagName("head").length >= 1) ? doc.getElementsByTagName("head")[0].innerHTML : ""  
 
                 if ($("#includeAll").is(':checked')) {
                     save()
@@ -251,10 +253,10 @@ var wrapper = new Vue({
                     styles = obj["styles"]
                     scripts = obj["scripts"]
 
-                    $('#iframe').contents().find('head').html(`${styles}`)
+                    $('#iframe').contents().find('head').html(`${head} \n ${styles}`)
                     $('#iframe').contents().find('body').html(this.code + `${scripts}`)
                 } else {
-                    $('#iframe').contents().find('head').html(`<style>${$("#CSSeditor").val()}</style>`)
+                    $('#iframe').contents().find('head').html(`${head} \n <style>${$("#CSSeditor").val()}</style>`)
                     $('#iframe').contents().find('body').html(this.code + `\n<script>${$("#JSeditor").val()}</script>`)
                 }
             }
@@ -1360,7 +1362,7 @@ function displayFiles() {
         }
     }
  
-    changeStyle(localStorage["currentStyle"])
+    changeStyle(localStorage["currentStyle"] || "default")
 }
 
 function save() {
