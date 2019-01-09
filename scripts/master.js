@@ -3,9 +3,13 @@ function randomPalette() {
 
     var luminosity = $("#luminosity").val()
     var hue = $("#hue").val()
-
+	
+	var maxHeight = parseInt($("#CSSeditor").css("height")) * .955 * .60
+	console.log(maxHeight)
+	var maxItems = Math.floor(maxHeight / 64) * 3
+	
     var colors = randomColor({
-        count: 15,
+        count: maxItems,
         "luminosity": luminosity,
         "hue": hue
     })
@@ -102,7 +106,7 @@ $(function () {
 
     //paint brush icon
     $("#paintIcon").click(function () {
-        $("#paintPalette").slideToggle()
+        $("#paintPalette").slideToggle();
     })
 
 })

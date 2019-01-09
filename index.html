@@ -192,14 +192,14 @@
 
         <section id="popup3">
             <div class="outer" style="flex-direction:column">
-                <input type="text" class="displayName" id="imageName" name="">
+                <input spellcheck="false" type="text" class="displayName" id="imageName" name="">
                 <img id="previewImage" src="https://seansi.org/usana/wp-content/themes/Usana/images/no-img.png" style="height:70%;width:auto;">
             </div>
         </section>
 
         <section id="popup4">
             <div class="outer" style="flex-direction:column">
-                <input type="text" class="displayName" id="textName" name="">
+                <input spellcheck="false" type="text" class="displayName" id="textName" name="">
                 <textarea class="customBar" id="previewText" style="height:70%;width:63%;resize:none"></textarea>
             </div>
         </section>
@@ -264,9 +264,9 @@
                             <option value="light">light</option>
                         </select>
                         <span style="text-align: center;font-family: serif;">main color</span>
-                        <input id="hue" type="text" style="width:60%;height: 40px;margin: auto;border:none;">
-                        <input type="button" style="width:50%;height: 40px;margin: auto;background: #82c4dd;border:none;color:#E0E0E0;font-family: serif;" value="Randomize" onclick="randomPalette()">
-                        <p id="saved" style="text-align: center;padding-top: 10px;padding-bottom: 10px;margin: 0px;"></p>
+                        <input id="hue" type="text" style="width:60%;height: 40px;margin: auto;border:none;font-family:none;">
+                        <input type="button" style="width:50%;height:40px;margin: auto;background: #82c4dd;border:none;color:#E0E0E0;font-family: serif;" value="Randomize" onclick="randomPalette()">
+                        <p id="saved" style="text-align: center;padding-top: 5px;padding-bottom:0px;margin: 0px;"></p>
                     </div>
                     <div id="paintColors"></div>
                 </div>
@@ -289,7 +289,7 @@
                     <p class="commandItem w3-text-orange">open multi tabs: shift click</p>
                 </span>
 
-                <span class="hint--top" aria-label="opens your current page design in a new tab">
+                <span class="hint--top" aria-label="live display of your current code">
                     <p class="commandItem w3-text-teal">open live preview: crtl+L</p>
                 </span>
 
@@ -305,7 +305,7 @@
                     <p class="commandItem w3-text-green">encrypt code: ctrl+E</p>
                 </span>
 
-                <span class="hint--top" aria-label="convert encrypt and mega encrypt back to normal">
+                <span class="hint--top" aria-label="convert encrypted code back to normal">
                     <p class="commandItem w3-text-yellow">decrypt code: ctrl+shift+E</p>
                 </span>
 

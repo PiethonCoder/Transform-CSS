@@ -291,8 +291,8 @@ i {
     display: flex;
     flex-direction: column;
     bottom: 10px;
-    right: 11px;
-    height: 90%;
+    right: 60px;
+    height: 95.5%;
     width: 20%;
     display: none;
 }
@@ -494,7 +494,7 @@ i {
 
 .inner {
     position: relative;
-    height: 60%;
+    height: 70%;
     width: 60%;
     background-color: white;
     border-radius: 25px;
@@ -627,7 +627,9 @@ i {
     position: relative;
     text-align: center;
     cursor: pointer;
-    background: transparent;
+    background: white;
+	clip-path: polygon(9% 0, 100% 0%, 91% 100%, 0% 100%);
+
 }
 
 .lineCount {
