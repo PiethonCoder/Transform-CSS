@@ -5,12 +5,15 @@
     -moz-tab-size: 4;
 }
 
+textarea{
+	border: 1px solid black;
+}
+
 textarea.code {
     width: 90%;
     height: 700px;
     resize: none;
     font-family: sans-serif;
-    border: 1px solid black;
 }
 
 a {
@@ -627,7 +630,7 @@ i {
     position: relative;
     text-align: center;
     cursor: pointer;
-    background: white;
+    /* background: white; */
 	clip-path: polygon(9% 0, 100% 0%, 91% 100%, 0% 100%);
 
 }

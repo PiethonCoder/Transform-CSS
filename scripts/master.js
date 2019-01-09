@@ -1214,6 +1214,9 @@ var styles = {
 
 function changeStyle(style){
     $("textarea").css("background", styles[style]["textarea bg"]);
+	$("#textName").css("background", styles[style]["textarea bg"])
+	$("#imageName").css("background", styles[style]["textarea bg"])
+	
     $(".commandItem").css("background-color", styles[style]["commandItem"])
     $("#files").css("background", styles[style]["files"])
     $("textarea").css("color", styles[style]["textarea c"]);
