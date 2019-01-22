@@ -5,7 +5,6 @@ function randomPalette() {
     var hue = $("#hue").val()
 	
 	var maxHeight = parseInt($("#CSSeditor").css("height")) * .955 * .60
-	console.log(maxHeight)
 	var maxItems = Math.floor(maxHeight / 64) * 3
 	
     var colors = randomColor({
@@ -155,7 +154,7 @@ function pasteLines() {
 
     //clear line numbers
     $("#htmlLines").html("")
-    for (var i = 1; i <= html_lines; i++) {
+    for (var i = 1; i <= html_lines + 10; i++) {
         $("#htmlLines").append(`<span class="line">${i}</span>`)
     }
 
@@ -171,7 +170,7 @@ function pasteLines() {
 
     //clear line numbers
     $("#cssLines").html("")
-    for (var i = 1; i <= css_lines; i++) {
+    for (var i = 1; i <= css_lines + 10; i++) {
         var c = findColor(i)
         $("#cssLines").append(`<span class="line" style="background:${c}">${i}</span>`)
     }
@@ -182,7 +181,7 @@ function pasteLines() {
 
     //clear line numbers
     $("#jsLines").html("")
-    for (var i = 1; i <= js_lines; i++) {
+    for (var i = 1; i <= js_lines + 10; i++) {
         $("#jsLines").append(`<span class="line">${i}</span>`)
     }
 }

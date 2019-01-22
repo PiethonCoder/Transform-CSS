@@ -497,8 +497,8 @@ i {
 
 .inner {
     position: relative;
-    height: 70%;
-    width: 60%;
+    height: 80%;
+    width: 70%;
     background-color: white;
     border-radius: 25px;
 }
@@ -722,15 +722,15 @@ textarea::selection {
 
 @media only screen and (max-height: 1000px) {
     textarea.code {
-        height: 600px;
+        height: 550px;
     }
 
     .lineCount {
-        height: 600px;
+        height: 550px;
     }
 
     #commands {
-        height: 600px;
+        height: 550px;
     }
 }
 
