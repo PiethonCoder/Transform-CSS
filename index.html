@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="./favicon.png" type="image/x-icon">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/PiethonCoder/clean.css/versions/clean@latest.css">
+    <link rel="stylesheet" href="styles/w3.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css">
+    <link rel="stylesheet" href="./styles/icons.css">
+    <link rel="stylesheet" href="./styles/index.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.6/themes/cupertino/jquery-ui.css">
+    <title>comet text editor</title>
+</head>
+
+<body>
+
+    <section id="popup2" class="popup">
+        <div class="outer flex">
+            <div class="inner">
+
+                <!--javascript librarys-->
+                <div id="optionContainer1" class="flex-column flex-start margin60 w25 h50" style="align-items: self-start;">
+                    <div>
+                        <h3 class="text-left">javascript libraries</h3>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_jquery" type="checkbox">
+                            <div class="state p-success"><label>jquery.js</label></div>
+                        </div><a class="w20" href="https://api.jquery.com/" target="_blank"><img style="height:30px" src="https://dev.w3.org/SVG/tools/svgweb/samples/svg-files/jquery.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_vue" type="checkbox">
+                            <div class="state p-success"><label>vue.js</label></div>
+                        </div><a class="w20" href="https://vuejs.org/v2/guide/" target="_blank"><img style="height:41px;margin-left:-12px" src="https://upload.wikimedia.org/wikipedia/commons/5/53/Vue.js_Logo.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_angular" type="checkbox">
+                            <div class="state p-success"><label>angular.js</label></div>
+                        </div><a class="w20" href="https://docs.angularjs.org/tutorial" target="_blank"><img style="height:32px" src="https://cdn.worldvectorlogo.com/logos/angular-icon.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_react" type="checkbox">
+                            <div class="state p-success"><label>react.js</label></div>
+                        </div><a class="w20" href="https://reactjs.org/tutorial/tutorial.html#overview" target="_blank"><img style="height:38px;margin-left:-13px" src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_backbone" type="checkbox">
+                            <div class="state p-success"><label>backbone.js</label></div>
+                        </div><a class="w20" href="http://backbonejs.org/" target="_blank"><img style="height:30px" src="https://cdn.worldvectorlogo.com/logos/backbone-icon.svg" alt=""></a>
+                    </div>
+                </div>
+
+                <!--css librarys-->
+
+                <div id="optionContainer2" class="flex-column flex-start margin60 h50 w25 text-left" style="align-items: self-start;">
+                    <div>
+                        <h3 class="text-left">css libraries</h3>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_w3" type="checkbox">
+                            <div class="state p-success"><label>w3.css</label></div>
+                        </div><a class="w10" href="https://www.w3schools.com/w3css/" target="_blank"><img style="height:30px" src="https://upload.wikimedia.org/wikipedia/commons/e/ed/W3C%C2%AE_Icon.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_bootstrap" type="checkbox">
+                            <div class="state p-success"><label>bootstrap.css</label></div>
+                        </div><a class="w10" href="https://getbootstrap.com/docs/4.1/layout/overview/" target="_blank"><img style="height:30px" src="https://upload.wikimedia.org/wikipedia/commons/e/ea/Boostrap_logo.svg" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_pure" type="checkbox">
+                            <div class="state p-success"><label>pure.css</label></div>
+                        </div><a class="w10" href="https://purecss.io/start/" target="_blank"><img style="height:30px" src="https://api.compargram.com/media/__sized__/images/2018/8/5/dc5886e5977540e9ae098607128c5b36-crop-c0-5__0-5-400x400.png" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_skeleton" type="checkbox">
+                            <div class="state p-success"><label>skeleton.css</label></div>
+                        </div><a class="w10" href="http://getskeleton.com/#intro" target="_blank"><img style="height:30px" src="https://cdn.tutsplus.com/webdesign/uploads/2013/10/skeleton-retina.png" alt=""></a>
+                    </div>
+                    <div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_uikit" type="checkbox">
+                            <div class="state p-success"><label>UIkit.css</label></div>
+                        </div><a class="w10" href="https://getuikit.com/docs/introduction" target="_blank"><img style="height:30px" src="https://getuikit.com./images/favicon.png" alt=""></a>
+                    </div>
+					
+					<div class="flex margin5 flex-start">
+                        <div class="pretty p-switch p-fill"><input id="check_clean" type="checkbox">
+                            <div class="state p-success"><label>clean.css</label></div>
+                        </div><a class="w10" href="https://piethoncoder.github.io/clean.css/" target="_blank"><img style="height:30px" src="https://svgshare.com/i/AvP.svg" alt=""></a>
+                    </div>
+					
+                </div>
+
+                <!--import files-->
+                <div id="optionContainer3">
+                    <h3>Import Files</h3>
+                    <div id="importFiles" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" class="flex h80 w100 margin10">
+                        <p>drag and drop files</p>
+                    </div>
+                </div>
+
+                <!--settings-->
+                <div id="optionContainer4" class="flex-column flex-start margin60 h50 w25 text-left" style="align-items: self-start;">
+                    <h3>Settings</h3>
+
+                    <h5>live view:</h5>
+                    <div style="display:flex">
+                        <div class="pretty p-default p-round"><input type="radio" name="radio1" id="window">
+                            <div class="state"><label>new window</label></div>
+                        </div>
+                    </div>
+                    <div style="display:flex">
+                        <div class="pretty p-default p-round"><input type="radio" name="radio1" id="popup">
+                            <div class="state"><label>popup</label></div>
+                        </div>
+                    </div>
+
+                    <h5>beautifier:</h5>
+                    <div class="pretty p-icon p-smooth">
+                        <input id="abcSort" type="checkbox" />
+                        <div class="state p-success">
+                            <i class="icon material-icons">✓</i>
+                            <label>abc sort CSS</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!--tools-->
+                <div id="optionContainer5" class="flex-column flex-start margin60 h50 w25 text-left" style="align-items: self-start;">
+                    <h3>Tools</h3>
+                    <h5>wirefame:</h5><span style="display: inline;padding-left:20px;color:steelblue;"><a href="https://wireframe.cc" target="_blank">wireframe.cc</a></span>
+
+
+                    <h5>inspiration:</h5>
+                    <span style="display: inline;padding-left:20px;color:steelblue;"><a target="_blank" href="https://wordpress.com/themes">Wordpress themes</a></span>
+                    <span style="display: inline;padding-left:20px;color:steelblue;"><a target="_blank" href="https://themes.getbootstrap.com/"> Bootstrap themes</a></span>
+
+                </div>
+
+                <a href="#" class="bottom margin20-bottom">
+                    <div id="save">close</div>
+                </a>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="popup3" class="flex w85 h95">
+        <div class="flex-column w100 h100 black">
+            <input spellcheck="false" type="text" class="displayName margin50-bottom" id="imageName" name="" style="color:#ccc">
+            <img id="previewImage" src="https://seansi.org/usana/wp-content/themes/Usana/images/no-img.png" class="w70 h60" style="object-fit:contain">
+        </div>
+    </section>
+
+    <section id="popup5">
+		<div id="iframe" class="resizable draggable glass customBar">
+			<div class="ui-resizable-handle ui-resizable-nw handle" id="nwgrip"></div>
+			<div class="ui-resizable-handle ui-resizable-ne handle" id="negrip"></div>
+			<div class="ui-resizable-handle ui-resizable-sw handle" id="swgrip"></div>
+			<div class="ui-resizable-handle ui-resizable-se handle" id="segrip"></div>
+			<div class="ui-resizable-handle ui-resizable-n handle" id="ngrip"></div>
+			<div class="ui-resizable-handle ui-resizable-s handle" id="sgrip"></div>
+			<div class="ui-resizable-handle ui-resizable-e handle" id="egrip"></div>
+			<div class="ui-resizable-handle ui-resizable-w handle" id="wgrip"></div>
+			
+			<div id="dragHandle" class="w90 h90 top-left"></div>
+			<iframe class="w100 h100 customBar" sandbox="allow-same-origin"></iframe>
+		</div>
+    </section>
+
+    <!--navbar-->
+    <header class="navbar h5">
+
+        <div class="tab left w10">
+            <?xml version="1.0" encoding="UTF-8"?>
+            <a href="#popup2" class="w100 h100 flex">
+                <svg id="icon" class="w100 h100" version="1.1" viewBox="0 0 923 923.75184" xmlns="http://www.w3.org/2000/svg">
+
+                    <g>
+                        <path id="icon_ball" d="m280.81 750.54c0 59.215-48.008 107.22-107.22 107.22-59.219 0-107.22-48.008-107.22-107.22 0-59.215 48.004-107.21 107.22-107.21 59.211 0 107.22 48 107.22 107.21z" />
+                        <path id="icon_tail" d="m918.71 48.066c3.4766-3.4648 5.418-8.168 5.4141-13.074v-4.8242c0-16.66-13.508-30.168-30.172-30.168-7.9922 0-15.66 3.1719-21.309 8.8242l-192.53 192.54c-20.371 19.465-52.449 19.465-72.82 0-12.086-12.055-17.41-29.316-14.215-46.074 2.2344-10.699 7.6602-20.48 15.57-28.047l95.668-95.668c5.3008-5.3008 6.8906-13.27 4.0156-20.184-2.8906-6.918-9.6562-11.418-17.141-11.391-4.9023-0.0039062-9.6211 1.9414-13.082 5.4141l-624.18 624.18c-30.375 29.438-49.191 68.77-53.055 110.9-3.8164 49.535 14.199 98.27 49.328 133.41 35.137 35.141 83.875 53.164 133.41 49.348 42.125-3.8594 81.473-22.68 110.91-53.055l624.18-624.18c3.4648-3.4648 5.418-8.1719 5.4141-13.074 0.003906-7.4805-4.5078-14.238-11.414-17.105-6.918-2.8633-14.871-1.2695-20.16 4.0195l-292.93 292.92c-20.102 20.109-52.703 20.109-72.805 0-20.113-20.102-20.113-52.707 0-72.809zm-745.12 842.68c-77.441 0-140.21-62.77-140.21-140.21 0-77.434 62.773-140.21 140.21-140.21 77.422 0 140.2 62.777 140.2 140.21-0.085937 77.395-62.812 140.12-140.2 140.21zm156.7-280.42c-6.668 0-12.684-4.0195-15.234-10.176-2.5586-6.168-1.1367-13.266 3.5742-17.98l82.477-82.477c6.4727-6.25 16.754-6.1562 23.125 0.19922 6.3594 6.3672 6.4453 16.652 0.20312 23.125l-82.484 82.477c-3.0898 3.0898-7.2812 4.832-11.66 4.832zm110.63 28.164l-65.977 65.973c-6.4727 6.2539-16.758 6.1641-23.129-0.19531-6.3555-6.3711-6.4492-16.652-0.19922-23.125l65.984-65.984c6.4766-6.25 16.762-6.1602 23.121 0.20312 6.3672 6.3633 6.4492 16.645 0.19922 23.129zm16.496-296.92l-230.93 230.94c-6.4805 6.2461-16.762 6.1562-23.129-0.19922-6.3555-6.3672-6.4492-16.652-0.19922-23.125l230.94-230.94c6.4727-6.25 16.754-6.1562 23.125 0.19922 6.3594 6.3711 6.4492 16.648 0.19531 23.125zm49.488-49.492c-6.4766 6.2617-16.762 6.168-23.125-0.1875-6.3594-6.3711-6.4453-16.656-0.20312-23.129l32.992-32.996c6.4766-6.2461 16.762-6.1562 23.129 0.20312 6.3555 6.3633 6.4492 16.652 0.20312 23.125z" />
+                    </g>
+                </svg>
+            </a>
+        </div>
+
+        <div class="center flex h100 w70">
+            <div class="tab flex h100 w50">
+                <div class="w15 h50 flex theme" id="theme_nightLight">
+
+                </div>
+                <div class="w15 h50 flex theme" id="theme_dayNight">
+
+                </div>
+                <div class="w15 h50 flex theme" id="theme_velvet">
+
+                </div>
+                <div class="w15 h50 flex theme" id="theme_mist">
+
+                </div>
+                <div class="w15 h50 flex theme" id="theme_grave">
+
+                </div>
+                <div class="w15 h50 flex theme" id="theme_default">
+
+                </div>
+            </div>
+
+            <div class="tab flex h100 w50 margin50-left">
+                <div class="w15 h50 flex" onclick="liveCode()">
+                    <img src="./media/live.svg" alt="Live Preview">
+                </div>
+                <div class="w15 h50 flex" onclick="beautify()">
+                    <img src="./media/clean.svg" alt="Beautify">
+                </div>
+                <div class="w15 h50 flex" onclick="miny()">
+                    <img src="./media/small.svg" alt="Minifty">
+                </div>
+                <div class="w15 h50 flex" onclick="getHistory()">
+                    <img src="./media/back.svg" alt="Code History">
+                </div>
+            </div>
+        </div>
+
+        <div class="right button-white text-sub margin30-right fcolor1" onclick="download()">
+            <p>Save</p>
+        </div>
+
+    </header>
+
+    <!--editor area-->
+    <main class="h95 w100 flex" id="container">
+        <!--file selection-->
+        <section class="h100 w15 grey customBar" id="files" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+            <div class="customBar" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);" class="w100 h100 flex-column grey">
+
+                <h4 id="filesHead">Files</h4>
+                <div class="folder" id="main_folder">
+                    <input type="text" value="site">
+
+                    <div class="fileBox" id="addButton" class="w100">
+                        <input autocorrect="false" spellcheck="false" placeholder="file.txt" id="newFile" type="text">
+                        <div class="add" onclick="addFile()">
+                            <img src="https://image.flaticon.com/icons/svg/149/149699.svg">
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+
+        <section class="h100 w85 white flex" id="text-area">
+            <!--text area-->
+            <div class="w90 h100 flex-column">
+                <!--file name-->
+                <div class="w100 h5" id="fileName">
+
+                    <div id="defaultOpen" class="h100 w100">
+                        <input id="htmlName" class="fileName font-montserrat2" type="text" value="index.html">
+                    </div>
+                    <div id="styleOpen" class="h100 w100">
+                        <input id="cssName" class="fileName font-montserrat" type="text">
+                    </div>
+                    <div id="scriptOpen" class="h100 w100">
+                        <input id="jsName" class="fileName font-montserrat" type="text">
+                    </div>
+					<div id="textOpen" class="h100 w100">
+						<input type="text" class="fileName font-montserrat" id="textName" >
+					</div>
+
+                </div>
+
+                <!--html-->
+                <div class="flex w100 h95 tabcontent customBar codeArea" id="htmlTab">
+                    <div class="lineCount hiddenBar" id="htmlLines"></div>
+                    <textarea @keyup="update" id="HTMLeditor" class="w90 h100 customBar emmet-syntax-html code" spellcheck="false">!</textarea>
+                </div>
+
+                <!--css-->
+                <div class="w100 h95 tabcontent customBar codeArea" id="cssTab">
+                    <div class="lineCount hiddenBar" id="cssLines"></div>
+                    <textarea @keyup="update" id="CSSeditor" class="w90 h100 customBar emmet-syntax-css code" spellcheck="false"></textarea>
+
+                    <span id="paintIcon"></span>
+                    <div id="paintPalette">
+                        <div id="paintSettings">
+                            <span style="text-align: center;font-family: serif;">luminosity</span>
+                            <select id="luminosity" id="" style="width:60%;height: 40px;margin: auto;font-family: serif;">
+                                <option value="">random</option>
+                                <option value="dark">dark</option>
+                                <option value="light">light</option>
+                            </select>
+                            <span style="text-align: center;font-family: serif;">main color</span>
+                            <input id="hue" type="text" style="width:60%;height: 40px;margin: auto;border:none;">
+                            <input type="button" style="width:50%;height:40px;margin: auto;background: #82c4dd;border:none;color:#E0E0E0;" value="Randomize" onclick="randomPalette()">
+                            <p id="saved" class="margin10 padding10" style="font-size:1.5em;"></p>
+                        </div>
+                        <div id="paintColors" class="customBar"></div>
+                    </div>
+                </div>
+
+                <!--javascript-->
+                <div class="w100 h95 tabcontent customBar codeArea" id="javascriptTab">
+                    <div class="lineCount hiddenBar" id="jsLines"></div>
+                    <textarea @keyup="update" id="JSeditor" class="w90 h100 customBar emmet-syntax-javascript code" spellcheck="false"></textarea>
+                </div>
+				
+				<!--default text-->
+				<div class="w100 h95 tabcontent customBar codeArea" id="textTab">
+					<div class="lineCount hiddenBar" id="textLines"></div>
+					<textarea @keyup="update" class="customBar w90 h100 code" id="previewText"></textarea>
+                </div>
+
+            </div>
+
+            <!--extra block-->
+            <div class="w10 h100 hiddenBar" id="extra">
+                
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!--plugins-->
+    <script src="./plugins/jquery.min.js"></script>
+	<script src="./plugins/jquery-ui.min.js"></script>
+    <script src="./plugins/encode.js"></script>
+    <script src="./plugins/jquery-fieldselection.min.js"></script>
+    <script src="./plugins/htmlminifier.min.js"></script>
+    <script src="./plugins/beautify.js"></script>
+    <script src="./plugins/beautify-css.min.js"></script>
+    <script src="./plugins/beautify-html.min.js"></script>
+    <script src="./plugins/inline.js"></script>
+    <script src="./plugins/vue.js"></script>
+    <script src="./plugins/emmet.min.js"></script>
+    <script src="./plugins/jszip.min.js"></script>
+    <script src="./plugins/FileSaver.js"></script>
+    <script src="./plugins/icons.js"></script>
+    <script src="./plugins/randomColor.min.js"></script>
+
+    <!--main-->
+    <script src="./scripts/0-misc.js"></script>
+    <script src="./scripts/1-paintBrush.js"></script>
+    <script src="./scripts/2-loadEmmet.js"></script>
+    <script src="./scripts/3-pageLoad.js"></script>
+    <script src="./scripts/4-lineCount.js"></script>
+    <script src="./scripts/5-tabs.js"></script>
+    <script src="./scripts/6-vue.js"></script>
+    <script src="./scripts/7-live.js"></script>
+    <script src="./scripts/8-download.js"></script>
+    <script src="./scripts/9-selection.js"></script>
+    <script src="./scripts/10-cleanCss.js"></script>
+    <script src="./scripts/11-shortcuts.js"></script>
+    <script src="./scripts/12-libraryImports.js"></script>
+    <script src="./scripts/13-styles.js"></script>
+    <script src="./scripts/14-fileHandle.js"></script>
+    <script src="./scripts/15-nameChange.js"></script>
+    <script src="./scripts/16-draggable.js"></script>
+    <script src="./scripts/17-minimap.js"></script>
+
+</body>
+
+</html>
