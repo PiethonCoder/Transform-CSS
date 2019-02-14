@@ -4,21 +4,21 @@ $(function () {
     if (localStorage.getItem("page_source") != "" && localStorage.getItem("page_source") != null) {
         var html = JSON.parse(localStorage["page_source"]) || ""
         $("#HTMLeditor").val(html.code)
-        $("#htmlName").val(escapeName(html.name))
-        $("#htmlName").attr("name", escapeName(html.name))
+        $("#htmlName").val(html.name)
+        $("#htmlName").attr("name", html.name)
     }
     if (localStorage.getItem("script_source") != "" && localStorage.getItem("script_source") != null) {
         var js = JSON.parse(localStorage["script_source"]) || ""
         $("#JSeditor").val(js.code)
-        $("#jsName").val(escapeName(js.name))
-        $("#jsName").attr("name", escapeName(js.name))
+        $("#jsName").val(js.name)
+        $("#jsName").attr("name", js.name)
 
     }
     if (localStorage.getItem("style_source") != "" && localStorage.getItem("style_source") != null) {
         var css = JSON.parse(localStorage["style_source"]) || ""
         $("#CSSeditor").val(css.code)
-        $("#cssName").val(escapeName(css.name))
-        $("#cssName").attr("name", escapeName(css.name))
+        $("#cssName").val(css.name)
+        $("#cssName").attr("name", css.name)
 
     }
     if (localStorage.getItem("files") != "" && localStorage.getItem("files") != null) {
@@ -28,7 +28,7 @@ $(function () {
 
 
     //    deafult html
-    allFiles[escapeName($("#htmlName").val())] = $("#HTMLeditor").val()
+    allFiles[$("#htmlName").val()] = $("#HTMLeditor").val()
 
     displayFiles()
 

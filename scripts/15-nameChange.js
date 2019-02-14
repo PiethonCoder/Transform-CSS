@@ -4,7 +4,7 @@
 $("#htmlName").keyup(function () {
     if ($("#htmlName").val() != $("#htmlName").attr("name")) {
         //camelCase name 
-        var name = escapeName($("#htmlName").val())
+        var name = $("#htmlName").val()
         //name correction
         $("#htmlName").val(name)
         // add a new record to allFiles
@@ -24,7 +24,7 @@ $("#htmlName").keyup(function () {
 $("#cssName").keyup(function () {
     if ($("#cssName").val() != $("#cssName").attr("name")) {
         //camelCase name 
-        var name = escapeName($("#cssName").val())
+        var name = $("#cssName").val()
         //name correction
         $("#cssName").val(name)
         // add a new record to allFiles
@@ -44,7 +44,7 @@ $("#cssName").keyup(function () {
 $("#jsName").keyup(function () {
     if ($("#jsName").val() != $("#jsName").attr("name")) {
         //camelCase name 
-        var name = escapeName($("#jsName").val())
+        var name = $("#jsName").val()
         //name correction
         $("#jsName").val(name)
         // add a new record to allFiles
@@ -63,7 +63,7 @@ $("#jsName").keyup(function () {
 $("#imageName").keyup(function () {
     if ($("#imageName").val() != $("#imageName").attr("name")) {
         //camelCase name 
-        var name = escapeName($("#imageName").val())
+        var name = $("#imageName").val()
         //name correction
         $("#imageName").val(name)
         // add a new record to allFiles
@@ -82,7 +82,7 @@ $("#imageName").keyup(function () {
 $("#textName").keyup(function () {
     if ($("#textName").val() != $("#textName").attr("name")) {
         //camelCase name 
-        var name = escapeName($("#textName").val())
+        var name = $("#textName").val()
         //name correction
         $("#textName").val(name)
         // add a new record to allFiles
