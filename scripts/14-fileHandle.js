@@ -5,55 +5,65 @@ var reader = new FileReader();
 
 var allFiles = {}
 var imageURI = {}
+minimap = true;
 
-function printMaps(){
-	
-	save()
-	var id = 0;
-	var maps = [];
-	for(var file in allFiles){
-		if(file != "" && !(file in imageURI)){
-			maps.push(`<div id="${id}-map" class="map" onclick="display('${file}')">${escapeHtml(allFiles[file])}</div>`)
-		}
-	}
-	
-	$("#extra").html(maps.join(" "))
-	changeStyle(localStorage["currentStyle"] || "default")
-	
+
+function printMaps() {
+
+    save()
+
+    var nameMatch = {
+        "HTMLeditor": "htmlName",
+        "CSSeditor": "cssName",
+        "JSeditor": "jsName",
+        "previewText": "textName"
+    }
+
+    var file = $(`#${nameMatch[document.activeElement.id]}`).val();
+
+    if (file != "" && !(file in imageURI)) {
+        if ($(`*[id='${file}-map']`).length) {
+            $(`*[id='${file}-map']`).html(escapeHtml(allFiles[file]))
+        } else {
+            $("#extra").append(`<div id="${file}-map" class="map" onclick="display('${file}')">${escapeHtml(allFiles[file])}</div>`)
+        }
+    }
+
+    changeStyle(localStorage["currentStyle"] || "default")
+
 }
 
 function removeFile(file) {
-	
 
     delete allFiles[file];
     $(`*[id='${file}']`).parent().remove()
-	
-	//if the file is the current open file 
-	if(file == $("#htmlName").attr("name")){
-		$("#htmlName").attr("name","")
-		$("#htmlName").val("")
-		$("#HTMLeditor").val("")
-	}
-	else if(file == $("#cssName").attr("name")){
-		$("#cssName").attr("name","")
-		$("#cssName").val("")
-		$("#CSSeditor").val("")
-	}
-	else if(file == $("#jsName").attr("name")){
-		$("#jsName").attr("name","")
-		$("#jsName").val("")
-		$("#JSeditor").val("")
-	}	
-	else if(file == $("#textName").attr("name")){
-		$("#textName").attr("name","")
-		$("#textName").val("")
-		$("#previewText").val("")
-	}
-	
+    //remove map
+    $(`*[id='${file}-map']`).remove()
+
+    //if the file is the current open file 
+    if (file == $("#htmlName").attr("name")) {
+        $("#htmlName").attr("name", "")
+        $("#htmlName").val("")
+        $("#HTMLeditor").val("")
+    } else if (file == $("#cssName").attr("name")) {
+        $("#cssName").attr("name", "")
+        $("#cssName").val("")
+        $("#CSSeditor").val("")
+    } else if (file == $("#jsName").attr("name")) {
+        $("#jsName").attr("name", "")
+        $("#jsName").val("")
+        $("#JSeditor").val("")
+    } else if (file == $("#textName").attr("name")) {
+        $("#textName").attr("name", "")
+        $("#textName").val("")
+        $("#previewText").val("")
+    }
+
     displayFiles()
 }
 
 var blank_file_count = 0
+
 function addFile() {
     let fileName = $("#newFile").val()
     if (fileName == "") {
@@ -66,7 +76,7 @@ function addFile() {
 
     allFiles[fileName] = ""
     displayFiles()
-	printMaps()
+    printMaps()
 }
 
 function displayFiles() {
@@ -89,12 +99,12 @@ function displayFiles() {
     }
 
     //sorting by file type
-    var sorted = Object.keys(allFiles).sort(function (a, b) {
+    var sorted = Object.keys(allFiles).sort(function(a, b) {
         return a.split(".")[1] == b.split(".")[1] ? 0 : a.split(".")[1] < b.split(".")[1] ? -1 : 1;
     })
-	
-	//remove random blank file 
-	delete sorted[sorted.indexOf("")]
+
+    //remove random blank file 
+    delete sorted[sorted.indexOf("")]
 
     //remove add button. so it gets readded to the bottom 
     $("#addButton").remove()
@@ -120,7 +130,7 @@ function displayFiles() {
         }
     } catch (err) {
         alert("your file name contains invalid symbols" + "\n" + file)
-		console.log(err)
+        console.log(err)
         delete allFiles[file]
     }
 
@@ -129,7 +139,7 @@ function displayFiles() {
 
     //examine old files (for name change)
 
-    var fileNames = $(".file").map(function () {
+    var fileNames = $(".file").map(function() {
         return this.id.replace("_", ".")
     })
     for (var file = 0; file < fileNames.length - 1; file++) {
@@ -142,9 +152,9 @@ function displayFiles() {
 }
 
 function save() {
-    let hname = $("#htmlName").val() 
-    let cname = $("#cssName").val() 
-    let jname = $("#jsName").val() 
+    let hname = $("#htmlName").val()
+    let cname = $("#cssName").val()
+    let jname = $("#jsName").val()
 
     allFiles[hname] = $("#HTMLeditor").val()
     allFiles[cname] = $("#CSSeditor").val()
@@ -182,12 +192,12 @@ function display(filename) {
                 $("#scriptOpen").hide()
                 $("#styleOpen").hide()
                 $("#defaultOpen").show()
-				$("#textOpen").hide()
+                $("#textOpen").hide()
 
                 $("#javascriptTab").removeClass("flex")
                 $("#htmlTab").addClass("flex")
                 $("#cssTab").removeClass("flex")
-				$("#textTab").removeClass("flex")
+                $("#textTab").removeClass("flex")
 
                 miscFile = ""
                 break
@@ -199,12 +209,12 @@ function display(filename) {
                 $("#scriptOpen").hide()
                 $("#styleOpen").show()
                 $("#defaultOpen").hide()
-				$("#textOpen").hide()
+                $("#textOpen").hide()
 
                 $("#javascriptTab").removeClass("flex")
                 $("#htmlTab").removeClass("flex")
                 $("#cssTab").addClass("flex")
-				$("#textTab").removeClass("flex")
+                $("#textTab").removeClass("flex")
 
                 miscFile = ""
                 break
@@ -216,12 +226,12 @@ function display(filename) {
                 $("#scriptOpen").show()
                 $("#styleOpen").hide()
                 $("#defaultOpen").hide()
-				$("#textOpen").hide()
+                $("#textOpen").hide()
 
                 $("#javascriptTab").addClass("flex")
                 $("#htmlTab").removeClass("flex")
                 $("#cssTab").removeClass("flex")
-				$("#textTab").removeClass("flex")
+                $("#textTab").removeClass("flex")
 
                 miscFile = ""
                 break
@@ -234,30 +244,30 @@ function display(filename) {
                 $("#imageName").val(filename)
                 $("#imageName").attr("name", filename)
                 $("#previewImage").attr("src", imageURI[filename])
-				
-                if ( $('#popup3').css('visibility') == 'hidden' ){
-					$('#popup3').css('visibility','visible');
-				} else
-					$('#popup3').css('visibility','hidden');
-				
+
+                if ($('#popup3').css('visibility') == 'hidden') {
+                    $('#popup3').css('visibility', 'visible');
+                } else
+                    $('#popup3').css('visibility', 'hidden');
+
                 miscFile = ""
                 break
             default:
                 $("#textName").val(filename)
                 $("#textName").attr("name", filename)
                 $("#previewText").val(allFiles[filename])
-				
-				$("#scriptOpen").hide()
+
+                $("#scriptOpen").hide()
                 $("#styleOpen").hide()
                 $("#defaultOpen").hide()
-				$("#textOpen").show()
-				
-				$("#javascriptTab").removeClass("flex")
+                $("#textOpen").show()
+
+                $("#javascriptTab").removeClass("flex")
                 $("#htmlTab").removeClass("flex")
                 $("#cssTab").removeClass("flex")
-				$("#textTab").addClass("flex")
-                
-                
+                $("#textTab").addClass("flex")
+
+
                 miscFile = filename
                 break
 
@@ -298,7 +308,7 @@ function dropHandler(ev) {
                 if (file.name.endsWith(".html")) {
                     let name = fileName
 
-                    reader.onload = function (event) {
+                    reader.onload = function(event) {
                         $("#HTMLeditor").val(event.target.result)
                         $("#htmlName").val(name)
                         $("#htmlName").attr("name", name)
@@ -309,35 +319,35 @@ function dropHandler(ev) {
                 } else if (file.name.endsWith(".css")) {
                     let name = fileName
 
-                    reader.onload = function (event) {
+                    reader.onload = function(event) {
                         $("#CSSeditor").val(event.target.result)
                         $("#cssName").val(name)
-                        $("#cssName").attr("name", name )
-                        allFiles[name ] = event.target.result
+                        $("#cssName").attr("name", name)
+                        allFiles[name] = event.target.result
                         displayFiles()
                     }
                     reader.readAsText(file)
                 } else if (file.name.endsWith(".js")) {
                     let name = fileName
 
-                    reader.onload = function (event) {
+                    reader.onload = function(event) {
                         $("#JSeditor").val(event.target.result)
                         $("#jsName").val(name)
-                        $("#jsName").attr("name", name )
-                        allFiles[name ] = event.target.result
+                        $("#jsName").attr("name", name)
+                        allFiles[name] = event.target.result
                         displayFiles()
                     }
                     reader.readAsText(file)
                 } else if (images.indexOf(file.name.split(".")[file.name.split(".").length - 1]) > -1) {
                     let name = fileName
                     let tempFile = file
-                    reader.onload = function (event) {
+                    reader.onload = function(event) {
                         var reader = new FileReader();
 
                         allFiles[name] = event.target.result
                         displayFiles()
 
-                        reader.onload = function (event) {
+                        reader.onload = function(event) {
                             imageURI[name] = event.target.result
 
                         }
@@ -349,7 +359,7 @@ function dropHandler(ev) {
 
                 } else {
                     let name = fileName
-                    reader.onload = function (event) {
+                    reader.onload = function(event) {
                         allFiles[name] = event.target.result
                         displayFiles()
                     }

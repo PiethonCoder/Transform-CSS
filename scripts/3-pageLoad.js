@@ -32,14 +32,6 @@ $(function () {
 
     displayFiles()
 
-    //paint brush icon
-    $("#paintIcon").click(function () {
-        $("#paintPalette").slideToggle();
-    })
-
-    //show line count 
-    pasteLines()
-
     //default live preview mode 
     $("#popup").click()
 

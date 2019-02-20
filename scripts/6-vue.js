@@ -65,8 +65,9 @@ var wrapper = new Vue({
         update: function () {
 
             //line number update 
+		
             pasteLines()
-
+			
             if (live) {
 				
 				save()
