@@ -65,12 +65,11 @@ var wrapper = new Vue({
         update: function () {
 
             //line number update 
+			save()
 		
             pasteLines()
 			
             if (live) {
-				
-				save()
 				
                 //update code
                 this.code = formatHtml($("#HTMLeditor").val())
